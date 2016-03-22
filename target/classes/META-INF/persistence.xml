@@ -23,8 +23,8 @@
    <persistence-unit name="primary" transaction-type="JTA">
       <!-- If you are running in a production environment, add a managed 
          data source, this example data source is just for development and testing! -->
-      <!-- The datasource is deployed as WEB-INF/Infra-Web2-ds.xml, you
-         can find it in the source at src/main/webapp/WEB-INF/Infra-Web2-ds.xml -->
+      <!-- The datasource is deployed as WEB-INF/Infra-Web-ds.xml, you
+         can find it in the source at src/main/webapp/WEB-INF/Infra-Web-ds.xml -->
       <jta-data-source>java:jboss/datasources/infra-webDS</jta-data-source>
       <class>es.uvigo.esei.infraestructura.entities.User</class>
       <properties>
