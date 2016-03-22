@@ -1,0 +1,71 @@
+package es.uvigo.esei.infraestructura.ejb;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import es.uvigo.esei.infraestructura.entities.User;
+import es.uvigo.esei.infraestructura.exception.RegisterException;
+import es.uvigo.esei.infraestructura.exception.RemoveUserException;
+
+@Stateless
+public class UserEJB {
+	 
+	@PersistenceContext
+	private EntityManager em;
+	
+	public void registerUser(User user) throws RegisterException{
+		//search users in db for avoid duplicates
+		String login = generateLogin(user.getName(), user.getFirstSurname(), user.getSecondSurname());
+		user.setLogin(login);
+		if(findUserByLogin(login) != null){
+			throw new RegisterException("Duplicated login");
+		}
+		user.setLogin(login);
+		user.setEmail(generateEmail(login));
+		
+		em.persist(user);
+	}
+	
+	public void removeUser(User user) throws RemoveUserException{
+		//search users in db for avoid
+		if(findUserByLogin(user.getLogin()) == null){
+			throw new RemoveUserException("User doesn't exist in the database");
+		}
+		em.remove(user);
+	}
+	
+	public User findUserByLogin(String login) {
+		return em.find(User.class, login);
+	}
+	
+	//Generates the login for the user automatically
+	public String generateLogin(String name, String firstSurname, String secondSurname) {
+		String toRet;
+		toRet = name.substring(0, 1);
+		toRet += firstSurname.substring(0, 1);
+		toRet += secondSurname;
+
+		int i = 2;
+		User previous = findUserByLogin(toRet);
+		if(previous != null){
+			toRet += i;
+			i++;
+		} else {
+			return toRet;
+		}
+			
+		previous = findUserByLogin(toRet);
+		while(previous != null){
+			toRet = toRet.substring(0, toRet.length()-1);
+			toRet += i;
+			i++;
+			previous = findUserByLogin(toRet);
+		}
+		return toRet;
+	}
+	
+	public String generateEmail(String login){
+		return login + "@esei.uvigo.es";
+	}
+}

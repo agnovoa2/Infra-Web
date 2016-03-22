@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+	<h2>Registro</h2>
+	<h:form>
+		<h:outputLabel value="Enter your name: " />
+		<h:inputText value="#{signUpController.name}" />
+		<br/>
+		<h:outputLabel value="Enter your first surname: " />
+		<h:inputText value="#{signUpController.firstSurname}" />
+		<br/>
+		<h:outputLabel value="Enter your second surname: " />
+		<h:inputText value="#{signUpController.secondSurname}" />
+		<br/>
+		<h:outputLabel value="Enter your password: " />
+		<h:inputText value="#{signUpController.password}" />
+		<br/>
+		<h:outputLabel value="Repeat your password: " />
+		<h:inputText/>
+		<br/>
+		<h:commandButton action="#{signUpController.doRegister()}" value="Submit" />
+	</h:form>
+</h:body>
+</html>
