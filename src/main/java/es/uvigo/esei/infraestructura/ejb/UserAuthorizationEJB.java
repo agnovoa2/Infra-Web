@@ -21,7 +21,7 @@ public class UserAuthorizationEJB {
     @Inject
     private Principal principal;
 
-    @RolesAllowed({ "ALUMNO", "BECARIO", "PROFESOR" })
+    @RolesAllowed({ "STUDENT", "INTERN", "PROFESSOR" })
     public User getCurrentUser() throws SecurityException {
         return ofNullable(em.find(User.class, principal.getName()))
               .orElseThrow(SecurityException::new);

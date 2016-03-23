@@ -1,57 +1,68 @@
 package es.uvigo.esei.infraestructura.entities;
 
+import java.util.List;
+
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 @SessionScoped
 public class User {
-	
-	//Regex for the validation of md5 passwords
-	
-	
+
+	// Regex for the validation of md5 passwords
+
 	@Id
-	@Column(length = 45)
+	@JoinColumn
+	@Column(name="login", length = 45)
 	private String login;
 
 	@Column(length = 32, nullable = false)
 	private String password;
-	
+
 	@Column(length = 45, nullable = false)
 	private String name;
-	
+
 	@Column(length = 45, nullable = false)
 	private String firstSurname;
-	
+
 	@Column(length = 45, nullable = true)
 	private String secondSurname;
-	
+
 	@Column(length = 8, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
-	@Column(length = 60, nullable = false, unique=true)
+
+	@Column(length = 60, nullable = false, unique = true)
 	private String email;
-	
+
 	@Column
 	private boolean authorized;
-	
-	//Constructor required for JPA framework
-	User() {}
-	
-	//Constructor required for user registration
+
+	@ManyToMany
+	@JoinTable(name = "PROF_SUB", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
+		inverseJoinColumns = @JoinColumn(name = "subjectName", referencedColumnName = "subjectName"))
+	private List<Subject> subjects;
+
+	// Constructor required for JPA framework
+	User() {
+	}
+
+	// Constructor required for user registration
 	public User(String password, String name, String firstSurname, String secondSurname) {
 		this.password = password;
 		this.name = name;
 		this.firstSurname = firstSurname;
 		this.secondSurname = secondSurname;
-		this.role = Role.ALUMNO;
+		this.role = Role.STUDENT;
 	}
-	
+
 	public String getLogin() {
 		return login;
 	}
@@ -91,7 +102,7 @@ public class User {
 	public void setSecondSurname(String secondSurname) {
 		this.secondSurname = secondSurname;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -105,17 +116,18 @@ public class User {
 	}
 
 	public void setRole(String role) {
-		switch (role){
-			case "Becario": 
-				this.role = Role.BECARIO;
-				break;
-			case "Profesor": 
-				this.role = Role.PROFESOR;
-				break;
-			case "Alumno": 
-				this.role = Role.ALUMNO;
-				break;
-			default : break;
+		switch (role) {
+		case "Becario":
+			this.role = Role.INTERN;
+			break;
+		case "Profesor":
+			this.role = Role.PROFESSOR;
+			break;
+		case "Alumno":
+			this.role = Role.STUDENT;
+			break;
+		default:
+			break;
 		}
 	}
 

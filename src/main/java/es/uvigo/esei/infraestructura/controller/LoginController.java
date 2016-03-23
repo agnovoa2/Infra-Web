@@ -70,7 +70,7 @@ public class LoginController {
 			request.login(this.getLogin(), this.getPassword());
 			this.error = false;
 
-			if (auth.getCurrentUser().getRole().equals(Role.BECARIO))
+			if (auth.getCurrentUser().getRole().equals(Role.INTERN))
 			    context.redirect("zonaBecario.xhtml");
 			else
 			    context.redirect("index.xhtml?login=true");
@@ -91,12 +91,16 @@ public class LoginController {
 		return this.currentUser;
 	}
 	
-	public boolean isBecario() {
-	    return auth.getCurrentUser().getRole().equals(Role.BECARIO);
+	public boolean isIntern() {
+	    return auth.getCurrentUser().getRole().equals(Role.INTERN);
 	}
 	
-	public boolean isProfesor() {
-	    return auth.getCurrentUser().getRole().equals(Role.PROFESOR);
+	public boolean isProfessor() {
+	    return auth.getCurrentUser().getRole().equals(Role.PROFESSOR);
+	}
+	
+	public boolean isStudent() {
+	    return auth.getCurrentUser().getRole().equals(Role.STUDENT);
 	}
 	
 	public boolean isAnonymous() {

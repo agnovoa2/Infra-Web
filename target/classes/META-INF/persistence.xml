@@ -27,6 +27,8 @@
          can find it in the source at src/main/webapp/WEB-INF/Infra-Web-ds.xml -->
       <jta-data-source>java:jboss/datasources/infra-webDS</jta-data-source>
       <class>es.uvigo.esei.infraestructura.entities.User</class>
+      <class>es.uvigo.esei.infraestructura.entities.Software</class>
+      <class>es.uvigo.esei.infraestructura.entities.Subject</class>
       <properties>
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
