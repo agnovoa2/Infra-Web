@@ -10,9 +10,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
-@RequestScoped
+@Table(name = "Software")
 public class Software {
 	
 	@Id

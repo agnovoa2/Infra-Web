@@ -2,7 +2,6 @@ package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
@@ -11,6 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import es.uvigo.esei.infraestructura.ejb.SubjectEJB;
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
 
@@ -109,6 +109,11 @@ public class LoginController {
 	
 	public void redirectIfAnonymous() throws IOException {
 		if (this.isAnonymous())
+            redirectToIndex();
+	}
+	
+	public void redirectIfStudent() throws IOException {
+		if (this.isStudent())
             redirectToIndex();
 	}
 	

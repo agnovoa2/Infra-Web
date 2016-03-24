@@ -1,9 +1,16 @@
 package es.uvigo.esei.infraestructura.ejb;
 
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uvigo.esei.infraestructura.entities.Subject;
 import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.exception.RegisterException;
 import es.uvigo.esei.infraestructura.exception.RemoveUserException;
@@ -14,6 +21,7 @@ public class UserEJB {
 	@PersistenceContext
 	private EntityManager em;
 	
+	@PermitAll
 	public void registerUser(User user) throws RegisterException{
 		//search users in db for avoid duplicates
 		String login = generateLogin(user.getName(), user.getFirstSurname(), user.getSecondSurname());
@@ -27,6 +35,7 @@ public class UserEJB {
 		em.persist(user);
 	}
 	
+	@RolesAllowed("INTERN")
 	public void removeUser(User user) throws RemoveUserException{
 		//search users in db for avoid
 		if(findUserByLogin(user.getLogin()) == null){
@@ -35,11 +44,13 @@ public class UserEJB {
 		em.remove(user);
 	}
 	
+	@PermitAll
 	public User findUserByLogin(String login) {
 		return em.find(User.class, login);
 	}
 	
 	//Generates the login for the user automatically
+	@PermitAll
 	public String generateLogin(String name, String firstSurname, String secondSurname) {
 		String toRet;
 		toRet = name.substring(0, 1);
@@ -65,7 +76,22 @@ public class UserEJB {
 		return toRet;
 	}
 	
+	@PermitAll
 	public String generateEmail(String login){
 		return login + "@esei.uvigo.es";
+	}
+	
+
+    @RolesAllowed({ "INTERN", "PROFESSOR"})
+	public void assignSubjectToProfessor(String login, String subjectName) throws IOException {
+    	Subject subject = em.find(Subject.class, subjectName);
+    	User user = em.find(User.class, login);
+    	List<Subject> subjectList = new LinkedList<Subject>();
+    	subjectList.add(subject);
+    	if(user.getSubjects().isEmpty())
+    		user.setSubjects(subjectList);
+    	else
+    		user.getSubjects().add(subject);
+    	em.merge(user);
 	}
 }

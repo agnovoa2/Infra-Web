@@ -11,9 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
-@SessionScoped
+@Table(name = "User")
 public class User {
 
 	// Regex for the validation of md5 passwords
@@ -35,7 +36,7 @@ public class User {
 	@Column(length = 45, nullable = true)
 	private String secondSurname;
 
-	@Column(length = 8, nullable = false)
+	@Column(length = 9, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
@@ -137,5 +138,13 @@ public class User {
 
 	public void setAuthorized(boolean authorized) {
 		this.authorized = authorized;
+	}
+
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
 	}
 }

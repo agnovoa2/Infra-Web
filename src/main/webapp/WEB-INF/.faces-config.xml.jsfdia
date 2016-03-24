@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="188,173,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#index.xhtml:0" NAME="item"
+   PATH="/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="softwarePetition::#softwarePetition.xhtml"
+    NAME="output" PATH="/softwarePetition.xhtml"
+    TARGET="rules:#softwarePetition.xhtml" TITLE="softwarePetition" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#softwarePetition.xhtml"
+  PATH="/softwarePetition.xhtml" SHAPE="503,196,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+</PROCESS>

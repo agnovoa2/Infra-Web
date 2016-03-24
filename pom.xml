@@ -20,10 +20,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jboss.tools.examples</groupId>
-    <artifactId>Infra-Web2</artifactId>
+    <artifactId>Infra-Web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: Infra-Web2</name>
+    <name>WildFly Quickstarts: Infra-Web</name>
     <description>A starter Java EE 7 webapp project for use on JBoss WildFly / WildFly, generated from the jboss-javaee6-webapp archetype</description>
 
     <url>http://wildfly.org</url>

@@ -2,7 +2,6 @@ package es.uvigo.esei.infraestructura.entities;
 
 import java.util.List;
 
-import javax.faces.bean.RequestScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,9 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
-@RequestScoped
+@Table(name = "Subject")
+@NamedQuery(name = "findAll", query="select s from Subject s")
 public class Subject {
 	
 	@Id
@@ -21,10 +23,10 @@ public class Subject {
 	@Column(name="subjectName", length = 80)
 	private String subjectName;
 
-	@Column(length = 13, nullable = false)
-	private SoftwareType code;
+	@Column(name="code", length = 13, nullable = false)
+	private String code;
 	
-	@Column(length = 6, nullable = false)
+	@Column(name="degree", length = 6, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private SubjectDegree degree;
 	
@@ -38,7 +40,7 @@ public class Subject {
 	
 	Subject() {}
 
-	public Subject(String subjectName, SoftwareType code, SubjectDegree degree) {
+	public Subject(String subjectName, String code, SubjectDegree degree) {
 		super();
 		this.subjectName = subjectName;
 		this.code = code;
@@ -53,11 +55,11 @@ public class Subject {
 		this.subjectName = subjectName;
 	}
 
-	public SoftwareType getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(SoftwareType code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
@@ -67,6 +69,22 @@ public class Subject {
 
 	public void setDegree(SubjectDegree degree) {
 		this.degree = degree;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public List<Software> getSoftwares() {
+		return softwares;
+	}
+
+	public void setSoftwares(List<Software> softwares) {
+		this.softwares = softwares;
 	}
 	
 	
