@@ -1,7 +1,5 @@
 package es.uvigo.esei.infraestructura.ejb;
 
-import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
@@ -12,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.entities.Subject;
-import es.uvigo.esei.infraestructura.entities.User;
 
 @Stateless
 public class SubjectEJB {
@@ -42,4 +39,12 @@ public class SubjectEJB {
 	public List<Subject> getSubjects(){
 		return em.createNamedQuery("findAll").getResultList();
 	}
+    
+    @RolesAllowed({ "INTERN", "PROFESSOR" })
+    public boolean isProfessorSubject(String code, String login){
+    	List<Subject> subjects = getProfessorSubjects(login);
+    	Query query = em.createQuery("SELECT s FROM Subject s WHERE s.code = :code");
+    	query.setParameter("code", code);
+    	return subjects.contains(query.getSingleResult());
+    }
 }

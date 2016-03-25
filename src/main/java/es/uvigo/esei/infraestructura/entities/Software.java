@@ -2,7 +2,6 @@ package es.uvigo.esei.infraestructura.entities;
 
 import java.util.List;
 
-import javax.faces.bean.RequestScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,7 +17,7 @@ public class Software {
 	
 	@Id
 	@JoinColumn
-	@Column(name="softwareName", length = 45)
+	@Column(name="softwareName", length = 255)
 	private String softwareName;
 
 	@Column(length = 16, nullable = false)
@@ -28,7 +27,7 @@ public class Software {
 	@Column(length = 255)
 	private String downloadURL;
 	
-	@Column(length = 255)
+	@Column(length = 1000)
 	private String description;
 	
 	@ManyToMany(mappedBy="softwares")

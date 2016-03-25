@@ -15,16 +15,20 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Lista de asignaturas</h2>
-	<h3>Lista de asignaturas</h3>
+	<h2>Petición de software</h2>
+	<h:outputLabel value="#{proffessorSubjects.currentUserName}" />
+	<br />
+	<h3>Asignaturas de las que soy responsable</h3>
 	<h:form>
 		<ui:repeat var="subject"
-			value="#{assignSubject.remainingSubjects}">
-			<h:commandLink action="#{assignSubject.assignSubjectToProfessor(subject.subjectName)}" value="#{subject.subjectName}" />
-			<br/>
+			value="#{proffessorSubjects.professorSubjects}">
+			<h:outputLabel value="#{subject.subjectName}" />
+			<h:commandLink action="#{proffessorSubjects.removeSubjectFromProfessor(subject.subjectName)}" value="Ya no imparto esta asignatura" />
+			<br />
+			<h:link value="Petición de software" outcome="softwarePetition?code=#{subject.code}"/>
 		</ui:repeat>
 	</h:form>
-	<h:link value="Volver atrás" outcome="professorSubjects"/>
 	<br />
+	<h:link outcome="assignSubject" value="Lista de asignaturas" />
 </h:body>
 </html>

@@ -5,7 +5,7 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import es.uvigo.esei.infraestructura.ejb.SubjectEJB;
 import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.Subject;
 
-@ViewScoped
+@RequestScoped
 @ManagedBean(name = "assignSubject")
 public class AssignSubjectController {
 
@@ -22,16 +22,19 @@ public class AssignSubjectController {
 	private Principal currentUser;
 	
 	@Inject
-	private SubjectEJB subjectEJB;
+	private UserEJB userEJB;
 	
 	@Inject
-	private UserEJB userEJB;
+	private SubjectEJB subjectEJB;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
 	public void assignSubjectToProfessor(String subject) throws IOException{
-		//throw new IOException("testing");
 		userEJB.assignSubjectToProfessor(currentUser.getName(),subject);
 		context.redirect("assignSubject.xhtml");
+	}
+	
+	public List<Subject> getRemainingSubjects(){
+		return subjectEJB.getRemainingSubjects(currentUser.getName());
 	}
 }

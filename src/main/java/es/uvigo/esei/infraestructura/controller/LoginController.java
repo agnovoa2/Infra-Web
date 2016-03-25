@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import es.uvigo.esei.infraestructura.ejb.SubjectEJB;
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
 

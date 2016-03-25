@@ -22,7 +22,7 @@
   <from-view-id>/index.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>softwarePetition</from-outcome>
-   <to-view-id>/softwarePetition.xhtml</to-view-id>
+   <to-view-id>/professorSubjects.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
  <application/>

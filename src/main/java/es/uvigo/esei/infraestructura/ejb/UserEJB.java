@@ -94,4 +94,13 @@ public class UserEJB {
     		user.getSubjects().add(subject);
     	em.merge(user);
 	}
+    
+    @RolesAllowed({ "INTERN", "PROFESSOR"})
+	public void removeSubjectFromProfessor(String login, String subjectName) throws IOException {
+    	Subject subject = em.find(Subject.class, subjectName);
+    	User user = em.find(User.class, login);
+    	if(!user.getSubjects().isEmpty())
+    		user.getSubjects().remove(subject);
+       	em.merge(user);
+	}
 }
