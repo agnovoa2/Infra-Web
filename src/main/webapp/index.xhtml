@@ -21,7 +21,10 @@
 	<h:link value="Zona becarios" outcome="zonaBecario"
 		rendered="#{!loginController.anonymous and loginController.intern}" />
 	<br />
-	<h:link value="Zona profesores" outcome="professorSubjects"
+	<h:link value="Petición de software" outcome="professorSubjects"
+		rendered="#{!loginController.anonymous and loginController.professor}" />
+	<br />
+	<h:link value="Petición de toner" outcome="printerList"
 		rendered="#{!loginController.anonymous and loginController.professor}" />
 	<br />
 	<h:form>

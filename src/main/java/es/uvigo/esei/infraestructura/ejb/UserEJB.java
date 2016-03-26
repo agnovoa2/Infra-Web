@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import es.uvigo.esei.infraestructura.entities.Printer;
 import es.uvigo.esei.infraestructura.entities.Subject;
 import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.exception.RegisterException;
@@ -103,4 +104,18 @@ public class UserEJB {
     		user.getSubjects().remove(subject);
        	em.merge(user);
 	}
+    
+    @RolesAllowed({ "INTERN", "PROFESSOR"})
+	public void assignPrinterToProfessor(String login, Printer printer) throws IOException {
+    	User user = findUserByLogin(login);
+    	user.getPrinters().add(printer);
+    	em.merge(user);
+    }
+    
+    @RolesAllowed({ "INTERN", "PROFESSOR"})
+	public void removePrinterFromProfessor(String login, Printer printer) throws IOException {
+    	User user = findUserByLogin(login);
+    	user.getPrinters().remove(printer);
+    	em.merge(user);
+    }
 }

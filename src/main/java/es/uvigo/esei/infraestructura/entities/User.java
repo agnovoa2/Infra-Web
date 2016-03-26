@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "User")
+@NamedQuery(name = "findAllUsers", query="select u from User u")
 public class User {
 
 	// Regex for the validation of md5 passwords
@@ -49,6 +51,11 @@ public class User {
 	@JoinTable(name = "PROF_SUB", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
 		inverseJoinColumns = @JoinColumn(name = "subjectName", referencedColumnName = "subjectName"))
 	private List<Subject> subjects;
+	
+	@ManyToMany
+	@JoinTable(name = "PROF_PRIN", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
+		inverseJoinColumns = @JoinColumn(name = "inventoryNumber", referencedColumnName = "inventoryNumber"))
+	private List<Printer> printers;
 
 	// Constructor required for JPA framework
 	User() {
@@ -145,5 +152,13 @@ public class User {
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	public List<Printer> getPrinters() {
+		return printers;
+	}
+
+	public void setPrinters(List<Printer> printers) {
+		this.printers = printers;
 	}
 }

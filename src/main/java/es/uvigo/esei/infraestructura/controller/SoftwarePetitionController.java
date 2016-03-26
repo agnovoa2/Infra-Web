@@ -5,11 +5,7 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -30,7 +26,6 @@ public class SoftwarePetitionController {
 	@Inject
 	private SubjectEJB subjectEJB;
 
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	private String software;
 	private int softwareType;
 	private String dowloadURL;
