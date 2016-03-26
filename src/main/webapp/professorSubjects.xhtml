@@ -24,8 +24,9 @@
 			value="#{proffessorSubjects.professorSubjects}">
 			<h:outputLabel value="#{subject.subjectName}" />
 			<h:commandLink action="#{proffessorSubjects.removeSubjectFromProfessor(subject.subjectName)}" value="Ya no imparto esta asignatura" />
-			<br />
-			<h:link value="Petición de software" outcome="softwarePetition?code=#{subject.code}"/>
+			<h:link value="Petición de software" outcome="softwarePetition?code=#{subject.code}" rendered="#{!proffessorSubjects.isPetitionDone(subject.code)}"/>
+			<h:link value="Editar petición de software" outcome="softwarePetition?code=#{subject.code}" rendered="#{proffessorSubjects.isPetitionDone(subject.code)}"/>
+			<br/>
 		</ui:repeat>
 	</h:form>
 	<br />

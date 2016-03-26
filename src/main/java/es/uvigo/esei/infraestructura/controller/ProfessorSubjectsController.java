@@ -45,4 +45,8 @@ public class ProfessorSubjectsController {
 		userEJB.removeSubjectFromProfessor(currentUser.getName(),subject);
 		context.redirect("professorSubjects.xhtml");
 	}
+	
+	public boolean isPetitionDone(String code){
+		return subjectEJB.isPetitionDone(code);
+	}
 }

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Subject")
-@NamedQuery(name = "findAll", query="select s from Subject s")
+@NamedQuery(name = "findAllSubjects", query="select s from Subject s")
 public class Subject {
 	
 	@Id
@@ -29,6 +29,13 @@ public class Subject {
 	@Column(name="degree", length = 6, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private SubjectDegree degree;
+	
+	//0 for no petition, 1 for petition done and 2 for petition solved
+	@Column(name="petitionState", nullable = false)
+	private int petitionState;
+	
+	@Column(name="description", length = 1000)
+	private String description;
 	
 	@ManyToMany(mappedBy="subjects")
 	private List<User> users;
@@ -45,6 +52,7 @@ public class Subject {
 		this.subjectName = subjectName;
 		this.code = code;
 		this.degree = degree;
+		this.petitionState = 0;
 	}
 
 	public String getSubjectName() {
@@ -86,6 +94,20 @@ public class Subject {
 	public void setSoftwares(List<Software> softwares) {
 		this.softwares = softwares;
 	}
-	
-	
+
+	public int getPetitionState() {
+		return petitionState;
+	}
+
+	public void setPetitionState(int petitionState) {
+		this.petitionState = petitionState;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
