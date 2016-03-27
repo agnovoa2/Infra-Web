@@ -42,12 +42,14 @@
 				<br />
 			</ui:repeat>
 			<h3>Realizar petición</h3>
-			<h4>La petición se realizará con el software añadido anteriormente</h4>
+			<h4>La petición se realizará con el software añadido
+				anteriormente</h4>
 			<h:outputLabel value="Descripción: " />
-			<h:inputTextarea value="#{softwarePetition.description}"/>
+			<h:inputTextarea value="#{softwarePetition.description}"
 				a:placeholder="Descripción opcional de la petición" />
 			<br />
-			<h:commandButton action="#{softwarePetition.doPetition()}" value="Realizar petición" />
+			<h:commandButton action="#{softwarePetition.doPetition()}"
+				value="Realizar petición" />
 			<h3>Dar de alta software</h3>
 			<h:outputLabel value="Nombre del Software: " />
 			<h:inputText id="name" value="#{softwarePetition.software}"

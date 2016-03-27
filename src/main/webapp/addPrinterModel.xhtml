@@ -10,14 +10,167 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Mis impresoras</h2>
-	<ui:repeat var="printer" value="#{printerList.allPrinters}">
-		<h:outputLabel value="#{printer.model.modelName}" />
-		&nbsp;
-		<h:outputLabel value="#{printer.ubication}" />
-		<br/>
-	</ui:repeat>
-	<h2>Añadir nueva impresora</h2>
-	<h:link value="Añadir impresora" outcome="addPrinter"/>
+	<h2>Nuevo consumible</h2>
+	<h:panelGroup id="consumables">
+		<h:form>
+			<h:outputLabel value="Nombre del consumible" />
+			<h:inputText value="#{addPrinterModel.consumableName}"
+				id="consumableName" />
+			<br />
+			<h:outputLabel value="Descripción" />
+			<h:inputTextarea value="#{addPrinterModel.consumableDescription}"
+				id="description" />
+			<br />
+			<h:outputLabel value="Tipo" />
+			<h:selectOneMenu value="#{addPrinterModel.consumableType}" id="type">
+				<f:selectItem itemLabel="Cartucho" itemValue="Cartucho" />
+				<f:selectItem itemLabel="Toner" itemValue="Toner" />
+				<f:selectItem itemLabel="Tambor" itemValue="Tambor" />
+				<f:selectItem itemLabel="Kit de transferencia"
+					itemValue="Kit de transferencia" />
+				<f:selectItem itemLabel="Cinturón de arrastre"
+					itemValue="Cinturón de arrastre" />
+				<f:selectItem itemLabel="Fusor" itemValue="Fusor" />
+				<f:selectItem itemLabel="Recipiente de residuos"
+					itemValue="Recipiente de residuos" />
+			</h:selectOneMenu>
+			<br />
+			<h:outputLabel value="Color" />
+			<h:selectOneMenu value="#{addPrinterModel.consumableColor}"
+				id="colour">
+				<f:selectItem itemLabel="Negro" itemValue="Negro" />
+				<f:selectItem itemLabel="Negro fotográfico"
+					itemValue="Negro fotográfico" />
+				<f:selectItem itemLabel="Tricolor" itemValue="Tricolor" />
+				<f:selectItem itemLabel="Cyan" itemValue="Cyan" />
+				<f:selectItem itemLabel="Cyan claro" itemValue="Cyan claro" />
+				<f:selectItem itemLabel="Magenta" itemValue="Magenta" />
+				<f:selectItem itemLabel="Magenta claro" itemValue="Magenta claro" />
+				<f:selectItem itemLabel="Amarillo" itemValue="Amarillo" />
+			</h:selectOneMenu>
+			<br />
+			<h:commandButton action="#{addPrinterModel.doAddConsumable()}"
+				value="Añadir consumible">
+				<f:ajax render="consumables"
+					execute="consumableName type colour description"
+					listener="#{addPrinterModel.update}" />
+			</h:commandButton>
+			<br />
+		<h2>Nuevo modelo de impresora</h2>
+		<h:outputLabel value="Nombre" />
+		<h:inputText value="#{addPrinterModel.modelName}" />
+		<br />
+		<h:outputLabel value="Marca" />
+		<h:inputText value="#{addPrinterModel.tradeMark}" />
+		<br />
+		<h:outputLabel value="Consumible Negro" />
+		<h:selectOneMenu value="#{addPrinterModel.blackConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.blackConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Negro Fotográfico" />
+		<h:selectOneMenu value="#{addPrinterModel.photoBlackConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.photoBlackConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Cyan" />
+		<h:selectOneMenu value="#{addPrinterModel.cyanConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.cyanConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Cyan Claro" />
+		<h:selectOneMenu value="#{addPrinterModel.lightCyanConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.lightCyanConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Magenta" />
+		<h:selectOneMenu value="#{addPrinterModel.magentaConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.magentaConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Magenta Claro" />
+		<h:selectOneMenu value="#{addPrinterModel.lightMagentaConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.lightMagentaConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Amarillo" />
+		<h:selectOneMenu value="#{addPrinterModel.yellowConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.yellowConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Consumible Tricolor" />
+		<h:selectOneMenu value="#{addPrinterModel.tricolorConsumable}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.tricolorConsumables}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Recipiente de residuos" />
+		<h:selectOneMenu value="#{addPrinterModel.garbageUnit}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.garbageUnits}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Tambor" />
+		<h:selectOneMenu value="#{addPrinterModel.drum}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.drumUnits}" var="consumable"
+				itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Cinturón de arrastre" />
+		<h:selectOneMenu value="#{addPrinterModel.beltUnit}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.beltUnits}" var="consumable"
+				itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Kit de transferencia" />
+		<h:selectOneMenu value="#{addPrinterModel.transferKit}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.transferKitUnits}"
+				var="consumable" itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Fusor" />
+		<h:selectOneMenu value="#{addPrinterModel.fuser}">
+			<f:selectItem itemLabel="N/A" itemValue="N/A" />
+			<f:selectItems value="#{addPrinterModel.fuserUnits}" var="consumable"
+				itemValue="#{consumable.consumableName}"
+				itemLabel="#{consumable.consumableName}" />
+		</h:selectOneMenu>
+		<h:commandButton action="#{addPrinterModel.doAddModel()}"
+			value="Añadir modelo" />
+		<br />
+		</h:form>
+	</h:panelGroup>
+
 </h:body>
 </html>

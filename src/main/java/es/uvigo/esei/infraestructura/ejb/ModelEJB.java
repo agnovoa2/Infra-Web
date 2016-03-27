@@ -28,4 +28,9 @@ public class ModelEJB {
 	public Model findModel(String modelName){
 		return em.find(Model.class, modelName);
 	}
+	
+	@RolesAllowed({"INTERN","PROFESSOR"})
+	public void addModel(Model model){
+		em.persist(model);
+	}
 }

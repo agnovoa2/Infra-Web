@@ -22,7 +22,7 @@ public class Model {
 	@Column(name="modelName", length = 100)
 	private String modelName;
 
-	@Column(length = 12, nullable = false)
+	@Column(length = 45, nullable = false)
 	private String tradeMark;
 
 	@ManyToMany
@@ -35,6 +35,12 @@ public class Model {
 	
 	// Constructor required for JPA framework
 	Model(){}
+	
+	public Model(String modelName, String tradeMark) {
+		super();
+		this.modelName = modelName;
+		this.tradeMark = tradeMark;
+	}
 
 	public String getModelName() {
 		return modelName;
