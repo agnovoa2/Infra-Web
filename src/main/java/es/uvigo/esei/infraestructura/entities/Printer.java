@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -26,6 +27,12 @@ public class Printer {
 	@ManyToMany(mappedBy = "printers")
 	private List<User> users;
 
+	
+	@ManyToMany
+	@JoinTable(name = "Petition", joinColumns = @JoinColumn(name = "inventoryNumber", referencedColumnName = "inventoryNumber"), 
+		inverseJoinColumns = @JoinColumn(name = "consumableName", referencedColumnName = "consumableName"))
+	private List<Consumable> consumables;
+	
 	@ManyToOne
 	@JoinColumn(name = "modelName")
 	private Model model;

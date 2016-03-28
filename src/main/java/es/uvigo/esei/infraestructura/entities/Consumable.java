@@ -49,6 +49,9 @@ public class Consumable {
 	@ManyToMany(mappedBy = "consumables")
 	private List<Model> models;
 
+	@ManyToMany(mappedBy = "consumables")
+	private List<Printer> printers;
+	
 	// Constructor required for JPA framework
 	Consumable() {
 	}
