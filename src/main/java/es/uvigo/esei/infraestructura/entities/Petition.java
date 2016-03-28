@@ -9,7 +9,6 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Petition")
@@ -39,6 +38,9 @@ public class Petition{
 	@Column(name = "state")
 	private int state;
 
+	@Column(name = "petitioner")
+	private String petitioner;
+	
 	Petition() {
 	}
 
@@ -72,5 +74,13 @@ public class Petition{
 
 	public void setPetitionNumber(int petitionNumber) {
 		this.petitionNumber = petitionNumber;
+	}
+
+	public String getPetitioner() {
+		return petitioner;
+	}
+
+	public void setPetitioner(String petitioner) {
+		this.petitioner = petitioner;
 	}
 }
