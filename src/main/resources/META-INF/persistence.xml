@@ -29,6 +29,9 @@
       <class>es.uvigo.esei.infraestructura.entities.User</class>
       <class>es.uvigo.esei.infraestructura.entities.Software</class>
       <class>es.uvigo.esei.infraestructura.entities.Subject</class>
+      <class>es.uvigo.esei.infraestructura.entities.Consumable</class>
+      <class>es.uvigo.esei.infraestructura.entities.Printer</class>
+      <class>es.uvigo.esei.infraestructura.entities.Model</class>
       <properties>
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />

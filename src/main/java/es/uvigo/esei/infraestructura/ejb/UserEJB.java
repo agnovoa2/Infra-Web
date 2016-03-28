@@ -84,7 +84,7 @@ public class UserEJB {
 	
 
     @RolesAllowed({ "INTERN", "PROFESSOR"})
-	public void assignSubjectToProfessor(String login, String subjectName) throws IOException {
+	public void assignSubjectToProfessor(String login, String subjectName)  {
     	Subject subject = em.find(Subject.class, subjectName);
     	User user = em.find(User.class, login);
     	List<Subject> subjectList = new LinkedList<Subject>();
@@ -97,7 +97,7 @@ public class UserEJB {
 	}
     
     @RolesAllowed({ "INTERN", "PROFESSOR"})
-	public void removeSubjectFromProfessor(String login, String subjectName) throws IOException {
+	public void removeSubjectFromProfessor(String login, String subjectName)  {
     	Subject subject = em.find(Subject.class, subjectName);
     	User user = em.find(User.class, login);
     	if(!user.getSubjects().isEmpty())
@@ -106,14 +106,14 @@ public class UserEJB {
 	}
     
     @RolesAllowed({ "INTERN", "PROFESSOR"})
-	public void assignPrinterToProfessor(String login, Printer printer) throws IOException {
+	public void assignPrinterToProfessor(String login, Printer printer)  {
     	User user = findUserByLogin(login);
     	user.getPrinters().add(printer);
     	em.merge(user);
     }
     
     @RolesAllowed({ "INTERN", "PROFESSOR"})
-	public void removePrinterFromProfessor(String login, Printer printer) throws IOException {
+	public void removePrinterFromProfessor(String login, Printer printer)  {
     	User user = findUserByLogin(login);
     	user.getPrinters().remove(printer);
     	em.merge(user);

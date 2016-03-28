@@ -30,6 +30,14 @@ public class PrinterEJB {
 	}
 	
 	@RolesAllowed({"INTERN","PROFESSOR"})
+	public List<Printer> getAllNonProfessorPrinters(User user){
+		List<Printer> professorPrinters = getAllProfessorPrinters(user);
+		List<Printer> allPrinters = findAllPrinters();
+		allPrinters.removeAll(professorPrinters);
+		return allPrinters;
+	}
+	
+	@RolesAllowed({"INTERN","PROFESSOR"})
 	public void addPrinter(Printer printer, Model model){
 		printer.setModel(model);
 		em.persist(printer);
@@ -38,5 +46,15 @@ public class PrinterEJB {
 	@RolesAllowed({"INTERN","PROFESSOR"})
 	public Printer findPrinter(int inventoryNumber){
 		return em.find(Printer.class, inventoryNumber);
+	}
+	
+	@RolesAllowed({"INTERN","PROFESSOR"})
+	public void removePrinter(int printer){
+		em.remove(findPrinter(printer));
+	}
+	
+	@RolesAllowed({"INTERN","PROFESSOR"})
+	public List<Printer> findAllPrinters(){
+		return em.createNamedQuery("findAllPrinters",Printer.class).getResultList();
 	}
 }

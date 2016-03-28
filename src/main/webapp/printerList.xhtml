@@ -11,13 +11,34 @@
 </h:head>
 <h:body>
 	<h2>Mis impresoras</h2>
-	<ui:repeat var="printer" value="#{printerList.allPrinters}">
-		<h:outputLabel value="#{printer.model.modelName}" />
-		&nbsp;
-		<h:outputLabel value="#{printer.ubication}" />
-		<br/>
-	</ui:repeat>
+	<h:panelGroup id="printers">
+		<h:form>
+			<ui:repeat var="printer" value="#{printerList.allPrinters}">
+				<h:outputLabel value="#{printer.model.modelName}" />
+				&nbsp;
+				<h:outputLabel value="#{printer.ubication}" />
+				<h:commandLink
+					action="#{printerList.doRemovePrinter(printer.inventoryNumber)}"
+					value="Eliminar">
+					<f:ajax render="printers" />
+				</h:commandLink>
+				<br />
+			</ui:repeat>
+
+			<h2>Comparto impresora con</h2>
+
+			<h:selectOneMenu value="#{printerList.printer}" id="existingPrinter">
+				<f:selectItems value="#{printerList.notProfessorPrinters}" var="printer"
+					itemValue="#{printer.inventoryNumber}"
+					itemLabel="#{printer.model.modelName}&nbsp;#{printer.ubication}" />
+			</h:selectOneMenu>
+			<br />
+			<h:commandButton action="#{printerList.doAddExistingPrinter()}" value="Añadir impresora" >
+				<f:ajax execute="existingPrinter" render="printers"/>
+			</h:commandButton>
+		</h:form>
+	</h:panelGroup>
 	<h2>Añadir nueva impresora</h2>
-	<h:link value="Añadir impresora" outcome="addPrinter"/>
+	<h:link value="Añadir impresora" outcome="addPrinter" />
 </h:body>
 </html>

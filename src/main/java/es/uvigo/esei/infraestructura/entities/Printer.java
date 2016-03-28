@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Printer")
+@NamedQuery(name="findAllPrinters", query="Select p From Printer p")
 public class Printer {
 	@Id
 	@JoinColumn
