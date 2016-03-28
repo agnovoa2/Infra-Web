@@ -6,15 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Printer")
-@NamedQuery(name="findAllPrinters", query="Select p From Printer p")
+@NamedQuery(name = "findAllPrinters", query = "Select p From Printer p")
 public class Printer {
 	@Id
 	@JoinColumn
@@ -27,12 +27,9 @@ public class Printer {
 	@ManyToMany(mappedBy = "printers")
 	private List<User> users;
 
-	
-	@ManyToMany
-	@JoinTable(name = "Petition", joinColumns = @JoinColumn(name = "inventoryNumber", referencedColumnName = "inventoryNumber"), 
-		inverseJoinColumns = @JoinColumn(name = "consumableName", referencedColumnName = "consumableName"))
-	private List<Consumable> consumables;
-	
+	@OneToMany(mappedBy = "printer")
+	private List<Petition> consumables;
+
 	@ManyToOne
 	@JoinColumn(name = "modelName")
 	private Model model;
@@ -79,6 +76,18 @@ public class Printer {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((consumables == null) ? 0 : consumables.hashCode());
+		result = prime * result + inventoryNumber;
+		result = prime * result + ((model == null) ? 0 : model.hashCode());
+		result = prime * result + ((ubication == null) ? 0 : ubication.hashCode());
+		result = prime * result + ((users == null) ? 0 : users.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		try {
 			if (((Printer) obj).getInventoryNumber() == this.getInventoryNumber())
@@ -88,4 +97,7 @@ public class Printer {
 			return false;
 		}
 	}
+
+	
+	
 }

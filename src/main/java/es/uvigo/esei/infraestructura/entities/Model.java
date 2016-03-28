@@ -73,6 +73,49 @@ public class Model {
 	public void setPrinters(List<Printer> printers) {
 		this.printers = printers;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((consumables == null) ? 0 : consumables.hashCode());
+		result = prime * result + ((modelName == null) ? 0 : modelName.hashCode());
+		result = prime * result + ((printers == null) ? 0 : printers.hashCode());
+		result = prime * result + ((tradeMark == null) ? 0 : tradeMark.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Model other = (Model) obj;
+		if (consumables == null) {
+			if (other.consumables != null)
+				return false;
+		} else if (!consumables.equals(other.consumables))
+			return false;
+		if (modelName == null) {
+			if (other.modelName != null)
+				return false;
+		} else if (!modelName.equals(other.modelName))
+			return false;
+		if (printers == null) {
+			if (other.printers != null)
+				return false;
+		} else if (!printers.equals(other.printers))
+			return false;
+		if (tradeMark == null) {
+			if (other.tradeMark != null)
+				return false;
+		} else if (!tradeMark.equals(other.tradeMark))
+			return false;
+		return true;
+	}
 	
 	
 }

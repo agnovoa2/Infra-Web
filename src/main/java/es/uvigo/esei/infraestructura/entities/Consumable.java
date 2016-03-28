@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -48,10 +49,10 @@ public class Consumable {
 
 	@ManyToMany(mappedBy = "consumables")
 	private List<Model> models;
-
-	@ManyToMany(mappedBy = "consumables")
-	private List<Printer> printers;
 	
+	@OneToMany(mappedBy="consumable")
+	private List<Petition> printers;
+
 	// Constructor required for JPA framework
 	Consumable() {
 	}
@@ -178,6 +179,5 @@ public class Consumable {
 			return false;
 		return true;
 	}
-	
-	
+
 }
