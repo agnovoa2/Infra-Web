@@ -22,6 +22,10 @@
 					value="Eliminar">
 					<f:ajax render="printers" />
 				</h:commandLink>
+				&nbsp;
+				<h:link
+					outcome="consumablePetition?invnum=#{printer.inventoryNumber}"
+					value="Petición de consumibles"/>
 				<br />
 			</ui:repeat>
 

@@ -12,9 +12,10 @@
 		type="preRenderView" />
 	<f:event listener="#{loginController.redirectIfStudent()}"
 		type="preRenderView" />
-	<f:event listener="#{softwarePetition.redirectIfNotProfessorSubject()}"
-		type="preRenderView" />
-	<f:viewParam name="invnum" value="#{softwarePetition.code}" />
+	<f:viewParam name="invnum" value="#{consumablePetition.invnum}">
+		<f:convertNumber integerOnly="#{true}" />
+	</f:viewParam>
+	<f:event type="preRenderView" listener="#{consumablePetition.init}" />
 </f:metadata>
 <h:head>
 	<title>Infraestructura ESEI</title>
@@ -22,6 +23,13 @@
 <h:body>
 	<h2>Petición de consumible</h2>
 	<h3>Consumibles de impresora</h3>
-	
+	<ui:repeat var="consumable"
+		value="#{consumablePetition.printerConsumables}">
+		<h:outputLabel value="#{consumable.consumableName}" />
+		&nbsp;
+		<h:outputLabel value="#{consumable.consumableType}" />
+		&nbsp;
+		<br />
+	</ui:repeat>
 </h:body>
 </html>

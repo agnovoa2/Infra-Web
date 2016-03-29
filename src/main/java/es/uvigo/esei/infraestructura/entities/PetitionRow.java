@@ -34,6 +34,13 @@ public class PetitionRow {
 	
 	PetitionRow(){}
 
+	public PetitionRow(Petition petition, Consumable consumable, Printer printer, int quantity){
+		this.petition = petition;
+		this.consumable = consumable;
+		this.printer = printer;
+		this.quantity = quantity;
+	}
+	
 	public Petition getPetition() {
 		return petition;
 	}

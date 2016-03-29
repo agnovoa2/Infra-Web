@@ -30,9 +30,9 @@ insert into sub_soft values('Informática: Programación I','Kubuntu 15.10');
 
 insert into model values('OKI model 1', 'OKI');
 
-insert into printer values('0000001', 'Despacho 301', 'OKI model 1');
+insert into printer values(1, 'Despacho 301', 'OKI model 1');
 
-insert into prof_prin values('profesor','0000001');
+insert into prof_prin values('profesor',1);
 
 insert into consumable values('OKI TONER N','Negro','TONER','Para impresora OKI');
 insert into consumable values('OKI CARTUCHO N','Negro','CARTRIDGE','Para impresora OKI');

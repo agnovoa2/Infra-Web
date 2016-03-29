@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,14 +28,23 @@ public class Petition{
 	@Column(name="petitionDate")
 	private Date petitionDate;
 	
+	@Column(name="petitionState")
+	private int petitionState;
+	
 	@ManyToOne
 	@JoinColumn(name = "petitioner")
 	private User user;
 	
-	@OneToMany(mappedBy="petition")
+	@OneToMany(mappedBy="petition",fetch = FetchType.EAGER)
 	private List<PetitionRow> petitionRows;
 	
 	Petition(){}
+	
+	public Petition(Date petitionDate, User user, List<PetitionRow> petitionRows){
+		this.petitionDate = petitionDate;
+		this.user = user;
+		this.petitionRows = petitionRows;
+	}
 
 	public int getPetitionNumber() {
 		return petitionNumber;
@@ -66,5 +76,13 @@ public class Petition{
 
 	public void setPetitionRows(List<PetitionRow> petitionRows) {
 		this.petitionRows = petitionRows;
+	}
+
+	public int getPetitionState() {
+		return petitionState;
+	}
+
+	public void setPetitionState(int petitionState) {
+		this.petitionState = petitionState;
 	}
 }
