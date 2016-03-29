@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -57,6 +58,9 @@ public class User {
 		inverseJoinColumns = @JoinColumn(name = "inventoryNumber", referencedColumnName = "inventoryNumber"))
 	private List<Printer> printers;
 
+	@OneToMany(mappedBy="user")
+	private List<Petition> petitions;
+	
 	// Constructor required for JPA framework
 	User() {
 	}

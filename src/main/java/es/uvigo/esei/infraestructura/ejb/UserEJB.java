@@ -1,6 +1,5 @@
 package es.uvigo.esei.infraestructura.ejb;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 

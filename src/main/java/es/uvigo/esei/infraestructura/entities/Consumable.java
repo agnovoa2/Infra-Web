@@ -49,10 +49,10 @@ public class Consumable {
 
 	@ManyToMany(mappedBy = "consumables")
 	private List<Model> models;
-	
-	@OneToMany(mappedBy="consumable")
-	private List<Petition> printers;
 
+	@OneToMany(mappedBy="consumable")
+	private List<PetitionRow> petitionRows;
+	
 	// Constructor required for JPA framework
 	Consumable() {
 	}

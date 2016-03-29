@@ -1,6 +1,5 @@
 package es.uvigo.esei.infraestructura.controller;
 
-import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,9 +17,6 @@ import es.uvigo.esei.infraestructura.entities.Model;
 @ViewScoped
 @ManagedBean(name = "addPrinterModel")
 public class AddPrinterModelController {
-
-	@Inject
-	private Principal currentUser;
 
 	@Inject
 	private ConsumableEJB consumableEJB;

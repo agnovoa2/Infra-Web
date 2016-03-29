@@ -1,55 +1,47 @@
 package es.uvigo.esei.infraestructura.entities;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Petition")
-@IdClass(PetitionId.class)
+@NamedQuery(name="findAllPetitions",query="Select p From Petition p")
 public class Petition{
 	
 	@Id
-    @ManyToOne
-    @JoinColumn(name = "inventoryNumber", referencedColumnName = "inventoryNumber")
-    private Printer printer;
-	
-	@Id
-    @ManyToOne
-    @JoinColumn(name = "consumableName", referencedColumnName = "consumableName")
-    private Consumable consumable;
-	
-	@Column(name = "petitionNumber")
+	@Column(name="petitionNumber")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int petitionNumber;
 	
-	@Column(name = "quantity")
-	private int quantity;
-
-	@Column(name = "petitionDate")
+	@Column(name="petitionDate")
 	private Date petitionDate;
-
-	// 0 petition done 1 petition solved
-	@Column(name = "state")
-	private int state;
-
-	@Column(name = "petitioner")
-	private String petitioner;
 	
-	Petition() {
+	@ManyToOne
+	@JoinColumn(name = "petitioner")
+	private User user;
+	
+	@OneToMany(mappedBy="petition")
+	private List<PetitionRow> petitionRows;
+	
+	Petition(){}
+
+	public int getPetitionNumber() {
+		return petitionNumber;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setPetitionNumber(int petitionNumber) {
+		this.petitionNumber = petitionNumber;
 	}
 
 	public Date getPetitionDate() {
@@ -60,27 +52,19 @@ public class Petition{
 		this.petitionDate = petitionDate;
 	}
 
-	public int getState() {
-		return state;
+	public User getUser() {
+		return user;
 	}
 
-	public void setState(int state) {
-		this.state = state;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public int getPetitionNumber() {
-		return petitionNumber;
+	public List<PetitionRow> getPetitionRows() {
+		return petitionRows;
 	}
 
-	public void setPetitionNumber(int petitionNumber) {
-		this.petitionNumber = petitionNumber;
-	}
-
-	public String getPetitioner() {
-		return petitioner;
-	}
-
-	public void setPetitioner(String petitioner) {
-		this.petitioner = petitioner;
+	public void setPetitionRows(List<PetitionRow> petitionRows) {
+		this.petitionRows = petitionRows;
 	}
 }

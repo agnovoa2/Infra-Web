@@ -27,12 +27,12 @@ public class Printer {
 	@ManyToMany(mappedBy = "printers")
 	private List<User> users;
 
-	@OneToMany(mappedBy = "printer")
-	private List<Petition> consumables;
-
 	@ManyToOne
 	@JoinColumn(name = "modelName")
 	private Model model;
+	
+	@OneToMany(mappedBy="printer")
+	private List<PetitionRow> petitionRows;
 
 	// Constructor required for JPA framework
 	Printer() {
@@ -76,18 +76,6 @@ public class Printer {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((consumables == null) ? 0 : consumables.hashCode());
-		result = prime * result + inventoryNumber;
-		result = prime * result + ((model == null) ? 0 : model.hashCode());
-		result = prime * result + ((ubication == null) ? 0 : ubication.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		try {
 			if (((Printer) obj).getInventoryNumber() == this.getInventoryNumber())
@@ -97,7 +85,4 @@ public class Printer {
 			return false;
 		}
 	}
-
-	
-	
 }
