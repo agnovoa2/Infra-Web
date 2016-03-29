@@ -3,6 +3,7 @@ package es.uvigo.esei.infraestructura.entities;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,10 +41,10 @@ public class Petition{
 	
 	Petition(){}
 	
-	public Petition(Date petitionDate, User user, List<PetitionRow> petitionRows){
+	public Petition(Date petitionDate, User user){
 		this.petitionDate = petitionDate;
 		this.user = user;
-		this.petitionRows = petitionRows;
+		this.petitionState = 0;
 	}
 
 	public int getPetitionNumber() {

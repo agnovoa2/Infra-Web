@@ -55,3 +55,6 @@ insert into consumable(consumableName, consumableType, description) values('OKI 
 insert into consumable(consumableName, consumableType, description) values('OKI BASURA','GARBAGE_UNIT','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI TRANSFERENCIA','TRANSFER_KIT','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI TAMBOR','DRUM','Para impresora OKI');
+
+insert into cons_model values('OKI model 1','OKI TONER N');
+insert into cons_model values('OKI model 1','OKI TAMBOR');

@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import es.uvigo.esei.infraestructura.entities.Petition;
 import es.uvigo.esei.infraestructura.entities.PetitionRow;
 import es.uvigo.esei.infraestructura.entities.PetitionRowId;
 
@@ -35,7 +34,7 @@ public class PetitionRowEJB {
 	}
 
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public void addPetition(Petition petition) {
+	public void addPetitionRow(PetitionRow petition) {
 		em.persist(petition);
 	}
 }

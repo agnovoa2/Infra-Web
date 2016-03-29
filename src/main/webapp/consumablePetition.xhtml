@@ -23,13 +23,18 @@
 <h:body>
 	<h2>Petición de consumible</h2>
 	<h3>Consumibles de impresora</h3>
-	<ui:repeat var="consumable"
-		value="#{consumablePetition.printerConsumables}">
-		<h:outputLabel value="#{consumable.consumableName}" />
-		&nbsp;
-		<h:outputLabel value="#{consumable.consumableType}" />
-		&nbsp;
-		<br />
-	</ui:repeat>
+	<h:form>
+		<ui:repeat var="consumable"
+			value="#{consumablePetition.printerConsumables}" varStatus="status">
+			<h:outputLabel value="#{consumable.consumableName}" />
+			&nbsp;
+			<h:outputLabel value="#{consumable.consumableType}" />
+			&nbsp;
+			<h:inputText value="#{consumablePetition.quantities[status.index]}" />
+			<br />
+		</ui:repeat>
+		<h:commandButton action="#{consumablePetition.doAddPetition()}"
+			value="Realizar petición" />
+	</h:form>
 </h:body>
 </html>

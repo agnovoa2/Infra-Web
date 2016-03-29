@@ -33,5 +33,8 @@ public class PetitionEJB {
 		em.persist(petition);
 	}
 	
-	
+	@RolesAllowed({ "INTERN", "PROFESSOR" })
+	public void updatePetition(Petition petition) {
+		em.merge(petition);
+	}
 }
