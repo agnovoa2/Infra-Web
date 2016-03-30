@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -38,10 +37,10 @@ public class Subject {
 	@Column(name="description", length = 1000)
 	private String description;
 	
-	@ManyToMany(mappedBy="subjects",fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy="subjects")
 	private List<User> users;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "SUB_SOFT", joinColumns = @JoinColumn(name = "subjectName", referencedColumnName = "subjectName"), 
 		inverseJoinColumns = @JoinColumn(name = "softwareName", referencedColumnName = "softwareName"))
 	private List<Software> softwares;

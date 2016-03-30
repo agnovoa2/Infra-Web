@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -30,7 +29,7 @@ public class Software {
 	@Column(length = 255)
 	private String downloadURL;
 
-	@ManyToMany(mappedBy = "softwares",fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "softwares")
 	private List<Subject> subjects;
 
 	// Constructor required for JPA framework

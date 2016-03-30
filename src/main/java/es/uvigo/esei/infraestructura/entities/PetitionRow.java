@@ -1,31 +1,32 @@
 package es.uvigo.esei.infraestructura.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(PetitionRowId.class)
 @Table(name = "PetitionRow")
 @NamedQuery(name="findAllPetitionRows",query="Select p From PetitionRow p")
 public class PetitionRow {
+
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int ID;
+	
 	@ManyToOne
 	@JoinColumn(name = "petition")
 	private Petition petition;
 	
-	@Id
 	@ManyToOne
 	@JoinColumn(name = "consumable")
 	private Consumable consumable;
 	
-	@Id
 	@ManyToOne
 	@JoinColumn(name = "printer")
 	private Printer printer;
@@ -72,5 +73,13 @@ public class PetitionRow {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 }

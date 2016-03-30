@@ -7,8 +7,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
+import es.uvigo.esei.infraestructura.entities.Printer;
 
 @Stateless
 public class ConsumableEJB {
@@ -18,6 +20,9 @@ public class ConsumableEJB {
 
 	@EJB
 	private UserAuthorizationEJB auth;
+	
+	@EJB
+	private PrinterEJB printerEJB;
 
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
 	public Consumable find(String consumable){
@@ -97,5 +102,14 @@ public class ConsumableEJB {
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
 	public List<Consumable> findAllTransferKitConsumables(){
 		return em.createNamedQuery("findAllTransferKitConsumables",Consumable.class).getResultList();
+	}
+	
+	@RolesAllowed({ "INTERN", "PROFESSOR" })
+	public List<Consumable> findAllPrinterConsumables(int inventoryNumber){
+		
+		Printer printer = printerEJB.findPrinter(inventoryNumber);
+		Query query = em.createQuery("SELECT c FROM Consumable c JOIN c.models m WHERE m.modelName = :modelName", Consumable.class);
+		query.setParameter("modelName", printer.getModel().getModelName());
+		return query.getResultList();
 	}
 }

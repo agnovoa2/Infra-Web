@@ -3,12 +3,8 @@ package es.uvigo.esei.infraestructura.entities;
 import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +19,6 @@ public class Petition{
 	
 	@Id
 	@Column(name="petitionNumber")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int petitionNumber;
 	
 	@Column(name="petitionDate")
@@ -36,12 +31,13 @@ public class Petition{
 	@JoinColumn(name = "petitioner")
 	private User user;
 	
-	@OneToMany(mappedBy="petition",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="petition")
 	private List<PetitionRow> petitionRows;
 	
 	Petition(){}
 	
-	public Petition(Date petitionDate, User user){
+	public Petition(int petitionNumber, Date petitionDate, User user){
+		this.petitionNumber = petitionNumber;
 		this.petitionDate = petitionDate;
 		this.user = user;
 		this.petitionState = 0;

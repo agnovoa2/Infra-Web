@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -25,14 +24,14 @@ public class Printer {
 	@Column(length = 100, nullable = false)
 	private String ubication;
 
-	@ManyToMany(mappedBy = "printers",fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "printers")
 	private List<User> users;
 
 	@ManyToOne
 	@JoinColumn(name = "modelName")
 	private Model model;
 	
-	@OneToMany(mappedBy="printer",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="printer")
 	private List<PetitionRow> petitionRows;
 
 	// Constructor required for JPA framework

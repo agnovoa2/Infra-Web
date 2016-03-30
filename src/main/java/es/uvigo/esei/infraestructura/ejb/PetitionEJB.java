@@ -6,6 +6,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import es.uvigo.esei.infraestructura.entities.Petition;
@@ -31,10 +32,22 @@ public class PetitionEJB {
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
 	public void addPetition(Petition petition) {
 		em.persist(petition);
+		em.flush();
 	}
 	
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
 	public void updatePetition(Petition petition) {
 		em.merge(petition);
+	}
+	
+	@RolesAllowed({ "INTERN", "PROFESSOR" })
+	public int nextPetitionNumber() {
+		try{
+		Integer i = em.createQuery("Select max(p.petitionNumber) From Petition p",Integer.class).getSingleResult();
+		return i.intValue()+1;
+		}
+		catch(NullPointerException e){
+			return 1;
+		}
 	}
 }

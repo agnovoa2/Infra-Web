@@ -48,7 +48,7 @@ public class ConsumablePetitionController {
 	private List<String> quantities;
 
 	public void init() throws IOException {
-		this.printerConsumables = printerEJB.findPrinter(getInvnum()).getModel().getConsumables();
+		this.printerConsumables = consumableEJB.findAllPrinterConsumables(getInvnum());
 		this.quantities = new LinkedList<String>();
 		for(int i = 0; i < printerConsumables.size(); i++){
 			quantities.add("0");
@@ -72,15 +72,14 @@ public class ConsumablePetitionController {
 	}
 
 	public void doAddPetition() {
-		List<PetitionRow> petitionRows = new LinkedList<PetitionRow>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		Petition petition = new Petition(sqlDate, userEJB.findUserByLogin(currentUser.getName()));
+		Petition petition = new Petition(petitionEJB.nextPetitionNumber(),sqlDate, userEJB.findUserByLogin(currentUser.getName()));
 		petitionEJB.addPetition(petition);
 		for (int i = 0; i < this.printerConsumables.size(); i++) {
-			if(Integer.parseInt(quantities.get(0)) > 0){
+			if(Integer.parseInt(quantities.get(i)) > 0){
 				PetitionRow pr = new PetitionRow(petition, 
 												 consumableEJB.find(printerConsumables.get(i).getConsumableName()), 
 												 printerEJB.findPrinter(getInvnum()), 

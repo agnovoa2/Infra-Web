@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -49,17 +48,17 @@ public class User {
 	@Column
 	private boolean authorized;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "PROF_SUB", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
 		inverseJoinColumns = @JoinColumn(name = "subjectName", referencedColumnName = "subjectName"))
 	private List<Subject> subjects;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "PROF_PRIN", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
 		inverseJoinColumns = @JoinColumn(name = "inventoryNumber", referencedColumnName = "inventoryNumber"))
 	private List<Printer> printers;
 
-	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="user")
 	private List<Petition> petitions;
 	
 	// Constructor required for JPA framework

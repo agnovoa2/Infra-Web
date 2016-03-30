@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -26,12 +25,12 @@ public class Model {
 	@Column(length = 45, nullable = false)
 	private String tradeMark;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "CONS_MODEL", joinColumns = @JoinColumn(name = "modelName", referencedColumnName = "modelName"), 
 		inverseJoinColumns = @JoinColumn(name = "consumableName", referencedColumnName = "consumableName"))
 	private List<Consumable> consumables;
 	
-	@OneToMany(mappedBy="model",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="model")
 	private List<Printer> printers;
 	
 	// Constructor required for JPA framework

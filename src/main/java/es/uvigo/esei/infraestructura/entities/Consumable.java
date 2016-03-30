@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -48,10 +47,10 @@ public class Consumable {
 	@Column(length = 1000, nullable = false)
 	private String description;
 
-	@ManyToMany(mappedBy = "consumables",fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "consumables")
 	private List<Model> models;
 
-	@OneToMany(mappedBy="consumable", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="consumable")
 	private List<PetitionRow> petitionRows;
 	
 	// Constructor required for JPA framework
