@@ -2,8 +2,9 @@ package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -12,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
-@RequestScoped
+@SessionScoped
 @ManagedBean(name = "loginController")
 public class LoginController {
 	
@@ -22,6 +24,9 @@ public class LoginController {
 	
 	@Inject
 	private UserAuthorizationEJB auth;
+	
+	@Inject
+	private UserGatewayBean userGateway;
 	
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
@@ -68,11 +73,11 @@ public class LoginController {
 					.getRequest();
 			request.login(this.getLogin(), this.getPassword());
 			this.error = false;
-
+			this.userGateway.find(this.getLogin());
 			if (auth.getCurrentUser().getRole().equals(Role.INTERN))
-			    context.redirect("zonaBecario.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("zonaBecario.xhtml");
 			else
-			    context.redirect("index.xhtml?login=true");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
 		} catch (ServletException e) {
 			this.error = true;
 			this.errorMessage = "Login or password don't match";

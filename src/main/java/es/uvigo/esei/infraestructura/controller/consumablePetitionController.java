@@ -23,7 +23,7 @@ import es.uvigo.esei.infraestructura.entities.PetitionRow;
 
 @ViewScoped
 @ManagedBean(name = "consumablePetition")
-public class ConsumablePetitionController {
+public class consumablePetitionController {
 
 	@Inject
 	private Principal currentUser;

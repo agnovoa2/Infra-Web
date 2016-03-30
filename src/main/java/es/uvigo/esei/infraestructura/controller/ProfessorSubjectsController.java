@@ -5,16 +5,16 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import es.uvigo.esei.infraestructura.ejb.SubjectEJB;
-import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.Subject;
+import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
-@RequestScoped
+@SessionScoped
 @ManagedBean(name = "proffessorSubjects")
 public class ProfessorSubjectsController {
 
@@ -22,19 +22,16 @@ public class ProfessorSubjectsController {
 	private Principal currentUser;
 	
 	@Inject
-	private SubjectEJB subjectEJB;
+	private SubjectGatewayBean subjectGateway;
 	
 	@Inject
-	private UserEJB userEJB;
+	private UserGatewayBean userGateway;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
 	public List<Subject> getProfessorSubjects(){
-		return subjectEJB.getProfessorSubjects(currentUser.getName());
-	}
-	
-	public List<Subject> getSubjects(){
-		return subjectEJB.getSubjects();
+		this.userGateway.find(currentUser.getName());
+		return this.userGateway.getCurrent().getSubjects();
 	}
 	
 	public String getCurrentUserName(){
@@ -42,11 +39,13 @@ public class ProfessorSubjectsController {
 	}
 	
 	public void removeSubjectFromProfessor(String subject) throws IOException{
-		userEJB.removeSubjectFromProfessor(currentUser.getName(),subject);
-		context.redirect("professorSubjects.xhtml");
+		this.userGateway.getCurrent().getSubjects().remove(this.subjectGateway.find(subject));
+		this.userGateway.update();
+		this.userGateway.save();
 	}
 	
 	public boolean isPetitionDone(String code){
-		return subjectEJB.isPetitionDone(code);
+		this.subjectGateway.find(code);
+		return this.subjectGateway.getCurrent().getPetitionState() > 0;
 	}
 }
