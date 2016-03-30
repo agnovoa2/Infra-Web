@@ -18,13 +18,13 @@ delete from consumable;
 
 insert into user values('profesor',1,'profesor@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
 
-insert into subject values('Informática: Programación I','O06G150V01104','GRADE','',0);
-insert into subject values('Sistemas Gráficos Interactivos','O06M132V01105','MASTER','',0);
+insert into subject values('PROI','O06G150V01104','GRADE','',0);
+insert into subject values('SGI','O06M132V01105','MASTER','',0);
 
 insert into software values('Kubuntu 15.10', 'kubuntu.org', 'OPERATIVE_SYSTEM');
 insert into software values('CodeBlocks', 'coeblocks.org', 'PROGRAM');
 
-insert into prof_sub values('profesor','Informática: Programación I');
+insert into prof_sub values('profesor','PROI');
 
 insert into sub_soft values('Informática: Programación I','Kubuntu 15.10');
 

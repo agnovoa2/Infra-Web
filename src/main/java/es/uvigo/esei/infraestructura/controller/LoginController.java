@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
-@SessionScoped
+@RequestScoped
 @ManagedBean(name = "loginController")
 public class LoginController {
 	
@@ -88,7 +88,7 @@ public class LoginController {
 	public void doLogout() throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		request.logout();
-		context.redirect("index.xhtml?logout=true");
+		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 	
 	public Principal getCurrentUser() {

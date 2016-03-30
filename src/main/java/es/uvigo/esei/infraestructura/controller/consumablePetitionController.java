@@ -1,6 +1,5 @@
 package es.uvigo.esei.infraestructura.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,47 +7,54 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import es.uvigo.esei.infraestructura.ejb.ConsumableEJB;
-import es.uvigo.esei.infraestructura.ejb.PetitionEJB;
-import es.uvigo.esei.infraestructura.ejb.PetitionRowEJB;
-import es.uvigo.esei.infraestructura.ejb.PrinterEJB;
-import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.Consumable;
 import es.uvigo.esei.infraestructura.entities.Petition;
 import es.uvigo.esei.infraestructura.entities.PetitionRow;
+import es.uvigo.esei.infraestructura.facade.ConsumableGatewayBean;
+import es.uvigo.esei.infraestructura.facade.PetitionGatewayBean;
+import es.uvigo.esei.infraestructura.facade.PetitionRowGatewayBean;
+import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @ViewScoped
 @ManagedBean(name = "consumablePetition")
-public class consumablePetitionController {
+public class ConsumablePetitionController {
 
 	@Inject
 	private Principal currentUser;
 
 	@Inject
-	private PrinterEJB printerEJB;
+	private PrinterGatewayBean printerGateway;
 
 	@Inject
-	private UserEJB userEJB;
+	private UserGatewayBean userGateway;
 
 	@Inject
-	private ConsumableEJB consumableEJB;
+	private ConsumableGatewayBean consumableGateway;
 	
 	@Inject
-	private PetitionEJB petitionEJB;
+	private PetitionGatewayBean petitionGateway;
 	
 	@Inject
-	private PetitionRowEJB petitionRowEJB;
+	private PetitionRowGatewayBean petitionRowGateway;
 
 	private int invnum;
 	private List<Consumable> printerConsumables;
 	private List<String> quantities;
 
-	public void init() throws IOException {
-		this.printerConsumables = consumableEJB.findAllPrinterConsumables(getInvnum());
+	@PostConstruct
+	public void init(){
+		this.userGateway.find(currentUser.getName());
+	}
+	
+	public void initLists(){
+		System.out.println("entré");
+		this.printerConsumables = this.printerGateway.find(getInvnum()).getModel().getConsumables();
 		this.quantities = new LinkedList<String>();
 		for(int i = 0; i < printerConsumables.size(); i++){
 			quantities.add("0");
@@ -76,17 +82,20 @@ public class consumablePetitionController {
 		Date date = new Date();
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		Petition petition = new Petition(petitionEJB.nextPetitionNumber(),sqlDate, userEJB.findUserByLogin(currentUser.getName()));
-		petitionEJB.addPetition(petition);
+		Petition petition = new Petition(this.petitionGateway.nextPetitionNumber(),sqlDate, this.userGateway.getCurrent());
+		this.petitionGateway.create(petition);
+		this.petitionGateway.save();
+//		petitionEJB.addPetition(petition);
 		for (int i = 0; i < this.printerConsumables.size(); i++) {
 			if(Integer.parseInt(quantities.get(i)) > 0){
 				PetitionRow pr = new PetitionRow(petition, 
-												 consumableEJB.find(printerConsumables.get(i).getConsumableName()), 
-												 printerEJB.findPrinter(getInvnum()), 
+												 this.consumableGateway.find(printerConsumables.get(i).getConsumableName()), 
+												 this.printerGateway.find(getInvnum()), 
 												 Integer.parseInt(quantities.get(i)));
-				petitionRowEJB.addPetitionRow(pr);
+				this.petitionRowGateway.create(pr);
+				this.petitionRowGateway.save();
 			}
-		}		
+		}
 	}
 
 	public List<String> getQuantities() {

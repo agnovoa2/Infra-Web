@@ -1,5 +1,7 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -9,40 +11,44 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.User;
+import es.uvigo.esei.infraestructura.entities.Printer;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class UserGatewayBean {
+public class PrinterGatewayBean {
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private User current;
+	private Printer current;
 
-	public User find(String id) {
-		this.current = this.em.find(User.class, id);
+	public Printer find(int id) {
+		this.current = this.em.find(Printer.class, id);
 		return this.current;
 	}
 
-	public User getCurrent() {
+	public Printer getCurrent() {
 		return current;
 	}
 
-	public void create(User user) {
-		this.em.persist(user);
-		this.current = user;
+	public void create(Printer printer) {
+		this.em.persist(printer);
+		this.current = printer;
 	}
 
-	public void remove(String id) {
-		User ref = this.em.getReference(User.class, id);
+	public void remove(int id) {
+		Printer ref = this.em.getReference(Printer.class, id);
 		this.em.remove(ref);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void save() {
 		// nothing to do
+	}
+	
+	public List<Printer> getAll(){
+		return em.createNamedQuery("findAllPrinters", Printer.class).getResultList();
 	}
 }

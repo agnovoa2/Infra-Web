@@ -10,6 +10,7 @@
 		type="preRenderView" />
 	<f:event listener="#{loginController.redirectIfStudent()}"
 		type="preRenderView" />
+
 </f:metadata>
 <h:head>
 	<title>Infraestructura ESEI</title>
@@ -19,18 +20,29 @@
 	<h:outputLabel value="#{proffessorSubjects.currentUserName}" />
 	<br />
 	<h3>Asignaturas de las que soy responsable</h3>
-	<h:form>
-		<ui:repeat var="subject"
-			value="#{proffessorSubjects.professorSubjects}">
-			<h:outputLabel value="#{subject.subjectName}" />
-			<h:commandLink action="#{proffessorSubjects.removeSubjectFromProfessor(subject.subjectName)}" value="Ya no imparto esta asignatura" />
-			&nbsp;
-			<h:link value="Petición de software" outcome="softwarePetition?code=#{subject.code}" rendered="#{!proffessorSubjects.isPetitionDone(subject.subjectName)}"/>
-			&nbsp;
-			<h:link value="Editar petición de software" outcome="softwarePetition?code=#{subject.code}" rendered="#{proffessorSubjects.isPetitionDone(subject.subjectName)}"/>
-			<br/>
-		</ui:repeat>
-	</h:form>
+	<h:panelGroup id="subjects">
+		<h:form>
+			<ui:repeat var="subject"
+				value="#{proffessorSubjects.professorSubjects}">
+				<h:outputLabel value="#{subject.subjectName}" />
+				&nbsp;
+				<h:commandLink
+					action="#{proffessorSubjects.removeSubjectFromProfessor(subject.subjectName)}"
+					value="Ya no imparto esta asignatura">
+					<f:ajax render="subjects" />
+				</h:commandLink>
+				&nbsp;
+				<h:link value="Petición de software"
+					outcome="softwarePetition?code=#{subject.code}"
+					rendered="#{!proffessorSubjects.isPetitionDone(subject.subjectName)}" />
+				&nbsp;
+				<h:link value="Editar petición de software"
+					outcome="softwarePetition?code=#{subject.code}"
+					rendered="#{proffessorSubjects.isPetitionDone(subject.subjectName)}" />
+				<br />
+			</ui:repeat>
+		</h:form>
+	</h:panelGroup>
 	<br />
 	<h:link outcome="assignSubject" value="Lista de asignaturas" />
 </h:body>

@@ -4,37 +4,42 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import es.uvigo.esei.infraestructura.ejb.SubjectEJB;
-import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.Subject;
+import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean(name = "assignSubject")
 public class AssignSubjectController {
-
+	
 	@Inject
 	private Principal currentUser;
 	
 	@Inject
-	private UserEJB userEJB;
+	private UserGatewayBean userGateway;
 	
 	@Inject
-	private SubjectEJB subjectEJB;
+	private SubjectGatewayBean subjectGateway;
 
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+	@PostConstruct
+	void init(){
+		this.userGateway.find(currentUser.getName());
+		System.out.println(this.userGateway.getCurrent().getLogin());
+	}
 	
 	public void assignSubjectToProfessor(String subject) throws IOException{
-		userEJB.assignSubjectToProfessor(currentUser.getName(),subject);
-		context.redirect("assignSubject.xhtml");
+		this.userGateway.getCurrent().getSubjects().add(subjectGateway.find(subject));
+		this.userGateway.save();
 	}
 	
 	public List<Subject> getRemainingSubjects(){
-		return subjectEJB.getRemainingSubjects(currentUser.getName());
+		List<Subject> subjects = this.subjectGateway.getAll();	
+		subjects.removeAll(this.userGateway.getCurrent().getSubjects());
+		return subjects;
 	}
 }

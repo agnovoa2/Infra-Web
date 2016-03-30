@@ -13,10 +13,12 @@
 	<h2>Mis impresoras</h2>
 	<h:panelGroup id="printers">
 		<h:form>
-			<ui:repeat var="printer" value="#{printerList.allPrinters}">
+			<ui:repeat var="printer" value="#{printerList.allProfessorPrinters}">
 				<h:outputLabel value="#{printer.model.modelName}" />
 				&nbsp;
 				<h:outputLabel value="#{printer.ubication}" />
+				&nbsp;
+				<h:outputLabel value="#{printer.inventoryNumber}" />
 				<h:commandLink
 					action="#{printerList.doRemovePrinter(printer.inventoryNumber)}"
 					value="Eliminar">

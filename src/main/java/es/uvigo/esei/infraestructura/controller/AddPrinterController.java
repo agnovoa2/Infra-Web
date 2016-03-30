@@ -11,11 +11,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import es.uvigo.esei.infraestructura.ejb.ModelEJB;
-import es.uvigo.esei.infraestructura.ejb.PrinterEJB;
-import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.Model;
 import es.uvigo.esei.infraestructura.entities.Printer;
+import es.uvigo.esei.infraestructura.facade.ModelGatewayBean;
+import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @RequestScoped
 @ManagedBean(name = "addPrinter")
@@ -25,24 +25,23 @@ public class AddPrinterController {
 	private Principal currentUser;
 	
 	@Inject 
-	private PrinterEJB printerEJB;
+	private PrinterGatewayBean printerGateway;
 	
 	@Inject
-	private ModelEJB modelEJB;
+	private ModelGatewayBean modelGateway;
 	
 	@Inject
-	private UserEJB userEJB;
+	private UserGatewayBean userGatewayBean;
 	
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
 	private String model;
-	private List<Model> modelList;
 	private String ubication;
 	private int inventoryNumber;
 	
 	@PostConstruct
     public void init() {
-        modelList= modelEJB.getAllPrinterModels();
+		this.userGatewayBean.find(currentUser.getName());
     }
 	
 	public String getModel() {
@@ -53,12 +52,8 @@ public class AddPrinterController {
 		this.model = model;
 	}
 	
-	public List<Model> getModelList() {
-		return modelList;
-	}
-	
-	public void setModelList(List<Model> modelList) {
-		this.modelList = modelList;
+	public List<Model> getAllModels() {
+		return this.modelGateway.getAll();
 	}
 	
 	public String getUbication() {
@@ -78,8 +73,12 @@ public class AddPrinterController {
 	}
 	
 	public void doAddPrinter() throws IOException{
-		printerEJB.addPrinter(new Printer(getInventoryNumber(),getUbication()), modelEJB.findModel(getModel()));
-		userEJB.assignPrinterToProfessor(currentUser.getName(), printerEJB.findPrinter(getInventoryNumber()));
+		this.printerGateway.create(new Printer(getInventoryNumber(),getUbication()));
+		this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
+		this.printerGateway.save();
+		
+		this.userGatewayBean.getCurrent().getPrinters().add(this.printerGateway.getCurrent());
+		this.userGatewayBean.save();
 		context.redirect("printerList.xhtml");
 	}
 }

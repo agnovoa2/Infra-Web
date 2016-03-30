@@ -8,9 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import es.uvigo.esei.infraestructura.ejb.PrinterEJB;
-import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.Printer;
+import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @ViewScoped
 @ManagedBean(name = "printerList")
@@ -20,31 +20,27 @@ public class PrinterListController {
 	private Principal currentUser;
 	
 	@Inject
-	private PrinterEJB printerEJB;
+	private PrinterGatewayBean printerGateway;
 	
 	@Inject
-	private UserEJB userEJB;
+	private UserGatewayBean userGateway;
 	
 	private int printer;
-	private List<Printer> notProfessorPrinters;
 	
 	@PostConstruct
     public void init() {
-		updateSelectOnMenus();
+		userGateway.find(currentUser.getName());
     }
-	
-	public void updateSelectOnMenus(){
-		notProfessorPrinters = printerEJB.getAllNonProfessorPrinters(userEJB.findUserByLogin(currentUser.getName()));
-	}
-	
+		
 	public void doRemovePrinter(int inventoryNumber){
-		userEJB.removePrinterFromProfessor(currentUser.getName(), printerEJB.findPrinter(inventoryNumber));
-		updateSelectOnMenus();
+
+		this.userGateway.getCurrent().getPrinters().remove(this.printerGateway.find(inventoryNumber));
+		this.userGateway.save();
 	}
 	
 	public void doAddExistingPrinter(){
-		userEJB.assignPrinterToProfessor(currentUser.getName(), printerEJB.findPrinter(getPrinter()));
-		updateSelectOnMenus();
+		this.userGateway.getCurrent().getPrinters().add(this.printerGateway.find(getPrinter()));
+		this.userGateway.save();
 	}
 
 	public int getPrinter() {
@@ -56,14 +52,12 @@ public class PrinterListController {
 	}
 
 	public List<Printer> getNotProfessorPrinters() {
-		return notProfessorPrinters;
-	}
-
-	public void setNotProfessorPrinters(List<Printer> notProfessorPrinters) {
-		this.notProfessorPrinters = notProfessorPrinters;
+		List<Printer> printers = this.printerGateway.getAll();
+		printers.removeAll(this.userGateway.getCurrent().getPrinters());
+		return printers;
 	}
 	
-	public List<Printer> getAllPrinters(){
-		return printerEJB.getAllProfessorPrinters(userEJB.findUserByLogin(currentUser.getName()));
+	public List<Printer> getAllProfessorPrinters(){
+		return this.userGateway.getCurrent().getPrinters();
 	}
 }

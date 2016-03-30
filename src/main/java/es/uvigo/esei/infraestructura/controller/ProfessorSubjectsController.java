@@ -5,16 +5,14 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Subject;
 import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "proffessorSubjects")
 public class ProfessorSubjectsController {
 
@@ -26,8 +24,6 @@ public class ProfessorSubjectsController {
 	
 	@Inject
 	private UserGatewayBean userGateway;
-
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
 	public List<Subject> getProfessorSubjects(){
 		this.userGateway.find(currentUser.getName());
@@ -40,7 +36,6 @@ public class ProfessorSubjectsController {
 	
 	public void removeSubjectFromProfessor(String subject) throws IOException{
 		this.userGateway.getCurrent().getSubjects().remove(this.subjectGateway.find(subject));
-		this.userGateway.update();
 		this.userGateway.save();
 	}
 	

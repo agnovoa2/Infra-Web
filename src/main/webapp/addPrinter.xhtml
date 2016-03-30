@@ -18,7 +18,7 @@
 		<h:inputText value="#{addPrinter.inventoryNumber}" />
 		<br />
 		<h:selectOneMenu value="#{addPrinter.model}">
-			<f:selectItems value="#{addPrinter.modelList}" var="model" itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
+			<f:selectItems value="#{addPrinter.allModels}" var="model" itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
 		</h:selectOneMenu>
 		<h:commandButton action="#{addPrinter.doAddPrinter()}" value="Añadir impresora" />
 	</h:form>

@@ -9,35 +9,35 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.User;
+import es.uvigo.esei.infraestructura.entities.PetitionRow;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class UserGatewayBean {
+public class PetitionRowGatewayBean {
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private User current;
+	private PetitionRow current;
 
-	public User find(String id) {
-		this.current = this.em.find(User.class, id);
+	public PetitionRow find(String id) {
+		this.current = this.em.find(PetitionRow.class, id);
 		return this.current;
 	}
 
-	public User getCurrent() {
+	public PetitionRow getCurrent() {
 		return current;
 	}
 
-	public void create(User user) {
+	public void create(PetitionRow user) {
 		this.em.persist(user);
 		this.current = user;
 	}
 
 	public void remove(String id) {
-		User ref = this.em.getReference(User.class, id);
+		PetitionRow ref = this.em.getReference(PetitionRow.class, id);
 		this.em.remove(ref);
 	}
 

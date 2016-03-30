@@ -110,4 +110,17 @@ public class Subject {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			if (((Subject) obj).getSubjectName().equals(this.getSubjectName()))
+				return true;
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	
 }

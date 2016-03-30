@@ -4,7 +4,8 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
 <f:metadata>
 	<f:event listener="#{loginController.redirectIfAnonymous()}"
 		type="preRenderView" />
@@ -17,14 +18,19 @@
 <h:body>
 	<h2>Lista de asignaturas</h2>
 	<h3>Lista de asignaturas</h3>
-	<h:form>
-		<ui:repeat var="subject"
-			value="#{assignSubject.remainingSubjects}">
-			<h:commandLink action="#{assignSubject.assignSubjectToProfessor(subject.subjectName)}" value="#{subject.subjectName}" />
-			<br/>
-		</ui:repeat>
-	</h:form>
-	<h:link value="Volver atrás" outcome="professorSubjects"/>
+	<h:panelGroup id="subjects">
+		<o:form>
+			<ui:repeat var="subject" value="#{assignSubject.remainingSubjects}">
+				<h:commandLink
+					action="#{assignSubject.assignSubjectToProfessor(subject.subjectName)}"
+					value="#{subject.subjectName}">
+					<f:ajax render="subjects"/>
+				</h:commandLink>
+				<br />
+			</ui:repeat>
+		</o:form>
+	</h:panelGroup>
+	<h:link value="Volver atrás" outcome="professorSubjects" />
 	<br />
 </h:body>
 </html>

@@ -77,12 +77,16 @@ public class Printer {
 
 	@Override
 	public boolean equals(Object obj) {
-		try {
-			if (((Printer) obj).getInventoryNumber() == this.getInventoryNumber())
-				return true;
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		} catch (Exception e) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
+		Printer other = (Printer) obj;
+		if (inventoryNumber != other.inventoryNumber)
+			return false;
+		return true;
 	}
+
 }

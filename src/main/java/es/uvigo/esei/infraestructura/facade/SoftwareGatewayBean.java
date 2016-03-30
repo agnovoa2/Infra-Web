@@ -1,5 +1,7 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -45,4 +47,8 @@ public class SoftwareGatewayBean {
     public void save(){
         //nothing to do
     }
+	
+	public List<Software> getAll(){
+		return em.createNamedQuery("findAllSoftware", Software.class).getResultList();
+	}
 }
