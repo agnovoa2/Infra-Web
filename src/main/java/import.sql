@@ -58,3 +58,5 @@ insert into consumable(consumableName, consumableType, description) values('OKI 
 
 insert into cons_model values('OKI model 1','OKI TONER N');
 insert into cons_model values('OKI model 1','OKI TAMBOR');
+
+insert into configuration values(1,'agnovoa2@esei.uvigo.es','correoSephiroth69','agnovoa2@esei.uvigo.es');

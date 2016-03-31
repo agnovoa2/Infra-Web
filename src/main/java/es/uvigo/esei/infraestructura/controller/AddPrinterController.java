@@ -31,7 +31,7 @@ public class AddPrinterController {
 	private ModelGatewayBean modelGateway;
 	
 	@Inject
-	private UserGatewayBean userGatewayBean;
+	private UserGatewayBean userGateway;
 	
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
@@ -41,7 +41,7 @@ public class AddPrinterController {
 	
 	@PostConstruct
     public void init() {
-		this.userGatewayBean.find(currentUser.getName());
+		this.userGateway.find(currentUser.getName());
     }
 	
 	public String getModel() {
@@ -77,8 +77,8 @@ public class AddPrinterController {
 		this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
 		this.printerGateway.save();
 		
-		this.userGatewayBean.getCurrent().getPrinters().add(this.printerGateway.getCurrent());
-		this.userGatewayBean.save();
+		this.userGateway.getCurrent().getPrinters().add(this.printerGateway.getCurrent());
+		this.userGateway.save();
 		context.redirect("printerList.xhtml");
 	}
 }

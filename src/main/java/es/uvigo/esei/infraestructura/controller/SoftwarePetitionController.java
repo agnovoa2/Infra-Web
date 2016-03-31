@@ -2,6 +2,9 @@ package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +17,7 @@ import es.uvigo.esei.infraestructura.entities.Software;
 import es.uvigo.esei.infraestructura.facade.SoftwareGatewayBean;
 import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
+import es.uvigo.esei.infraestructura.util.Mail;
 
 @ViewScoped
 @ManagedBean(name = "softwarePetition")
@@ -31,11 +35,15 @@ public class SoftwarePetitionController {
 	@Inject
 	private SubjectGatewayBean subjectGateway;
 
+	@Inject
+	private Mail mail;
+	
 	private String software;
 	private int softwareType;
 	private String dowloadURL;
 	private String code;
 	private String description;
+	private String textMessage;
 	
 	@PostConstruct
 	void init(){
@@ -115,6 +123,8 @@ public class SoftwarePetitionController {
 		this.subjectGateway.getCurrent().setPetitionState(1);
 		this.subjectGateway.getCurrent().setDescription(getDescription());
 		this.subjectGateway.save();
+		this.setTextMessage();
+		this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de software");
 		FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
 	}
 
@@ -124,6 +134,28 @@ public class SoftwarePetitionController {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void setTextMessage() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date = new Date();
+		dateFormat.format(date);
+		
+		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
+				+ "\n"
+				+ "El profesor " + userGateway.getCurrent().getName() + " "
+				+ userGateway.getCurrent().getFirstSurname() + " "
+				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de " + new java.sql.Date(date.getTime())
+				+ " la siguiente petición de software para la asignatura " + this.subjectGateway.getCurrent().getSubjectName()+ " \n");
+		for (Software software : this.subjectGateway.getCurrent().getSoftwares()) {
+			this.textMessage += ( software.getSoftwareName()+"\n");
+		}
+		if(this.subjectGateway.getCurrent().getDescription() != null && !this.subjectGateway.getCurrent().getDescription().equals(""))
+			this.textMessage += ("\nDescripción opcional: " + this.subjectGateway.getCurrent().getDescription());
+	}
+	
+	public String getTextMessage(){
+		return this.textMessage;
 	}
 	
 }
