@@ -82,15 +82,14 @@ public class ConsumablePetitionController {
 		Date date = new Date();
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		Petition petition = new Petition(this.petitionGateway.nextPetitionNumber(),sqlDate, this.userGateway.getCurrent());
+		Petition petition = new Petition(this.petitionGateway.nextPetitionNumber(),this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
 		this.petitionGateway.create(petition);
 		this.petitionGateway.save();
 //		petitionEJB.addPetition(petition);
 		for (int i = 0; i < this.printerConsumables.size(); i++) {
 			if(Integer.parseInt(quantities.get(i)) > 0){
 				PetitionRow pr = new PetitionRow(petition, 
-												 this.consumableGateway.find(printerConsumables.get(i).getConsumableName()), 
-												 this.printerGateway.find(getInvnum()), 
+												 this.consumableGateway.find(printerConsumables.get(i).getConsumableName()),  
 												 Integer.parseInt(quantities.get(i)));
 				this.petitionRowGateway.create(pr);
 				this.petitionRowGateway.save();
