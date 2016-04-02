@@ -18,7 +18,6 @@ import javax.persistence.Table;
 public class Model {
 	
 	@Id
-	@JoinColumn
 	@Column(name="modelName", length = 100)
 	private String modelName;
 

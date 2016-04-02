@@ -22,7 +22,6 @@ public class User {
 	// Regex for the validation of md5 passwords
 
 	@Id
-	@JoinColumn
 	@Column(name="login", length = 45)
 	private String login;
 
@@ -60,6 +59,9 @@ public class User {
 
 	@OneToMany(mappedBy="user")
 	private List<Petition> petitions;
+	
+	@OneToMany(mappedBy="user")
+	private List<Incidence> incidences;
 	
 	// Constructor required for JPA framework
 	User() {
@@ -164,6 +166,26 @@ public class User {
 
 	public void setPrinters(List<Printer> printers) {
 		this.printers = printers;
+	}
+
+	public List<Petition> getPetitions() {
+		return petitions;
+	}
+
+	public void setPetitions(List<Petition> petitions) {
+		this.petitions = petitions;
+	}
+
+	public List<Incidence> getIncidences() {
+		return incidences;
+	}
+
+	public void setIncidences(List<Incidence> incidences) {
+		this.incidences = incidences;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	@Override

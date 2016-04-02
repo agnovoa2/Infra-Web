@@ -70,8 +70,6 @@ public class Report {
 	public void doTemplate(boolean solicitude, Petition petition) throws DocumentException, MalformedURLException, IOException{
 		document = new Document();
 		document.setMargins(0, 0, 0, 0);
-		System.out.println(document.getPageSize().getHeight());
-		System.out.println(document.getPageSize().getWidth());
 		writer = PdfWriter.getInstance(document, new FileOutputStream(petition.getPetitionNumber() + ".pdf"));
         document.open();
         canvas = writer.getDirectContent();
@@ -79,8 +77,6 @@ public class Report {
         //Setting logo
         Image image = Image.getInstance(Report.class.getResource("img/logo.jpg").toString());
         image.setAbsolutePosition(62, 752);
-        System.out.println(image.getHeight());
-        System.out.println(image.getWidth());
         document.add(image);
 
         //Setting logo lines

@@ -71,6 +71,14 @@ public class Software {
 		this.downloadURL = downloadURL;
 	}
 
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		try {

@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @NamedQuery(name = "findAllPrinters", query = "Select p From Printer p")
 public class Printer {
 	@Id
-	@JoinColumn
 	@Column(name = "inventoryNumber", length = 100)
 	private int inventoryNumber;
 
@@ -30,8 +29,8 @@ public class Printer {
 	@ManyToOne
 	@JoinColumn(name = "modelName")
 	private Model model;
-	
-	@OneToMany(mappedBy="printer")
+
+	@OneToMany(mappedBy = "printer")
 	private List<Petition> petitions;
 
 	// Constructor required for JPA framework
@@ -73,6 +72,14 @@ public class Printer {
 
 	public void setModel(Model model) {
 		this.model = model;
+	}
+
+	public List<Petition> getPetitions() {
+		return petitions;
+	}
+
+	public void setPetitions(List<Petition> petitions) {
+		this.petitions = petitions;
 	}
 
 	@Override

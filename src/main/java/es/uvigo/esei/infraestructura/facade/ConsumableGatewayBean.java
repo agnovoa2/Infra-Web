@@ -2,7 +2,6 @@ package es.uvigo.esei.infraestructura.facade;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;

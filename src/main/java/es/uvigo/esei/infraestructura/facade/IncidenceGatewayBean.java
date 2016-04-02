@@ -11,35 +11,35 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.Model;
+import es.uvigo.esei.infraestructura.entities.Incidence;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class ModelGatewayBean {
+public class IncidenceGatewayBean {
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private Model current;
+	private Incidence current;
 
-	public Model find(String id) {
-		this.current = this.em.find(Model.class, id);
+	public Incidence find(int id) {
+		this.current = this.em.find(Incidence.class, id);
 		return this.current;
 	}
 
-	public Model getCurrent() {
+	public Incidence getCurrent() {
 		return current;
 	}
 
-	public void create(Model model) {
-		this.em.persist(model);
-		this.current = model;
+	public void create(Incidence incidence) {
+		this.em.persist(incidence);
+		this.current = incidence;
 	}
 
 	public void remove(String id) {
-		Model ref = this.em.getReference(Model.class, id);
+		Incidence ref = this.em.getReference(Incidence.class, id);
 		this.em.remove(ref);
 	}
 
@@ -48,7 +48,7 @@ public class ModelGatewayBean {
 		// nothing to do
 	}
 	
-	public List<Model> getAll(){
-		return em.createNamedQuery("findAllModels", Model.class).getResultList();
+	public List<Incidence> getAll(){
+		return em.createNamedQuery("findAllIncidences", Incidence.class).getResultList();
 	}
 }

@@ -17,7 +17,7 @@ public class PetitionRow {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int ID;
+	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name = "petition")
@@ -63,10 +63,10 @@ public class PetitionRow {
 	}
 
 	public int getID() {
-		return ID;
+		return id;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setID(int id) {
+		this.id = id;
 	}
 }

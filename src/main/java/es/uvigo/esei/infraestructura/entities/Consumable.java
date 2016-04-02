@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,7 +32,6 @@ import javax.persistence.Table;
 public class Consumable {
 
 	@Id
-	@JoinColumn
 	@Column(name = "consumableName", length = 100)
 	private String consumableName;
 
@@ -133,9 +131,15 @@ public class Consumable {
 	public void setModels(List<Model> models) {
 		this.models = models;
 	}
+	
+	public List<PetitionRow> getPetitionRows() {
+		return petitionRows;
+	}
 
-	
-	
+	public void setPetitionRows(List<PetitionRow> petitionRows) {
+		this.petitionRows = petitionRows;
+	}
+
 	@Override
 	public String toString() {
 		String toRet = "";

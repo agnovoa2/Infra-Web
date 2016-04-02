@@ -19,7 +19,6 @@ import javax.persistence.Table;
 public class Subject {
 	
 	@Id
-	@JoinColumn
 	@Column(name="subjectName", length = 80)
 	private String subjectName;
 
