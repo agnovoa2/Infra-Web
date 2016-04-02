@@ -165,4 +165,11 @@ public class User {
 	public void setPrinters(List<Printer> printers) {
 		this.printers = printers;
 	}
+
+	@Override
+	public String toString() {
+		return name + " " + firstSurname + " " + secondSurname;
+	}
+	
+	
 }

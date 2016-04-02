@@ -1,5 +1,6 @@
 ﻿package es.uvigo.esei.infraestructura.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import com.itextpdf.text.DocumentException;
+
 import es.uvigo.esei.infraestructura.entities.Consumable;
 import es.uvigo.esei.infraestructura.entities.Petition;
 import es.uvigo.esei.infraestructura.entities.PetitionRow;
@@ -21,6 +24,7 @@ import es.uvigo.esei.infraestructura.facade.PetitionRowGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Report;
 
 @ViewScoped
 @ManagedBean(name = "consumablePetition")
@@ -46,6 +50,9 @@ public class ConsumablePetitionController {
 
 	@Inject
 	private Mail mail;
+	
+	@Inject
+	private Report report;
 	
 	private int invnum;
 	private List<Consumable> printerConsumables;
@@ -87,7 +94,7 @@ public class ConsumablePetitionController {
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-		Petition petition = new Petition(this.petitionGateway.nextPetitionNumber(),sqlDate, this.userGateway.getCurrent());
+		Petition petition = new Petition(this.petitionGateway.nextPetitionNumber(),this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
 		List<PetitionRow> petitionRows= new LinkedList<PetitionRow>();
 
 		for (int i = 0; i < this.printerConsumables.size(); i++) {
@@ -108,7 +115,27 @@ public class ConsumablePetitionController {
 			this.petitionRowGateway.save();
 		}
 		
+		
 		mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
+		try {
+			this.setTextMessage(petition);
+			this.petitionGateway.create(petition);
+			this.petitionGateway.save();
+			
+			for (PetitionRow petitionRow : petitionRows) {
+				this.petitionRowGateway.create(petitionRow);
+				this.petitionRowGateway.save();
+			}
+			
+			
+			mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
+			report.doSolicitudePDF(petition);
+			
+			
+		} catch (DocumentException | IOException e) {
+			// TODO Auto-generated catch block
+			// mandar mensaje de que pasó algo al crear el pdf
+		}
 	}
 
 	public List<String> getQuantities() {

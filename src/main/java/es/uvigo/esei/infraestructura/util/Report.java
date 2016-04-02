@@ -3,6 +3,9 @@ package es.uvigo.esei.infraestructura.util;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.ejb.Singleton;
 import javax.enterprise.inject.Default;
@@ -28,6 +31,7 @@ public class Report {
 	private PdfContentByte canvas;
 	private PdfContentByte cb;
 	private BaseFont bf;
+	private float beginOfNewTable;
 	
 	public void doSolicitudePDF(Petition petition) throws DocumentException, MalformedURLException, IOException {
 		doTemplate(true,petition);
@@ -36,6 +40,30 @@ public class Report {
 	
 	public void doRetrievePDF(Petition petition) throws DocumentException, MalformedURLException, IOException {
 		doTemplate(false,petition);
+		
+		//Last table
+		Rectangle rec = new Rectangle(94, beginOfNewTable - 21, 501, beginOfNewTable);
+        rec.setBackgroundColor(BaseColor.GRAY);
+        rec.setBorder(Rectangle.BOX);
+        rec.setBorderWidth(1);
+        canvas.rectangle(rec);
+        rec = new Rectangle(94, beginOfNewTable - 39, 501, beginOfNewTable - 21);
+        rec.setBackgroundColor(BaseColor.WHITE);
+        rec.setBorder(Rectangle.BOX);
+        rec.setBorderWidth(1);
+        canvas.rectangle(rec);
+		
+        //Fill last table
+        cb.beginText();
+        cb.setTextMatrix(104, beginOfNewTable - 15);
+        cb.setColorFill(BaseColor.BLACK);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        cb.showText("Datos da recollida de consumibles con data " + dateFormat.format(date));
+        cb.setTextMatrix(104, beginOfNewTable - 33);
+        cb.setColorFill(BaseColor.BLACK);
+        cb.showText("Persoa que recolle: " + petition.getUser().toString());
+        cb.endText();
 		document.close();
 	}
 	
@@ -145,7 +173,7 @@ public class Report {
         cb.showText("Ubicación: " + petition.getPrinter().getUbication());
         cb.setTextMatrix(104, 549);
         cb.setColorFill(BaseColor.BLACK);
-        cb.showText("Solicitante: " + petition.getUser().getName() + " " + petition.getUser().getFirstSurname() + " " + petition.getUser().getSecondSurname());
+        cb.showText("Solicitante: " + petition.getUser().toString());
         cb.setTextMatrix(378, 549);
         cb.setColorFill(BaseColor.BLACK);
         cb.showText("Inventario: " + petition.getPrinter().getInventoryNumber());
@@ -178,6 +206,27 @@ public class Report {
             cb.showText(petitionRow.getConsumable().toString() + " Cantidad: " + petitionRow.getQuantity());
             i++;
 		}
+        beginOfNewTable = 431 - petition.getPetitionRows().size() * 14 - 68;
+        
+        //Report footer
+        cb.setTextMatrix(291, 150);
+        cb.setColorFill(BaseColor.BLACK);
+        if(solicitude)
+        	cb.showText("Solicitante da petición");
+        else
+        	cb.showText("Persoa que recolle");
+        cb.setTextMatrix(291, 106);
+        cb.setColorFill(BaseColor.BLACK);
+        cb.showText("Asdo: " + petition.getUser().toString());
+        cb.setTextMatrix(44, 18);
+        cb.setColorFill(BaseColor.BLACK);
+        cb.showText("Servicio de Infraestructura da ESEI");
         cb.endText();
+        
+        rec = new Rectangle(44, 40, 565, 41);
+        rec.setBorderWidth(0);
+        rec.setBackgroundColor(BaseColor.BLACK);
+        rec.setBorder(Rectangle.BOX);
+        canvas.rectangle(rec);
 	}
 }

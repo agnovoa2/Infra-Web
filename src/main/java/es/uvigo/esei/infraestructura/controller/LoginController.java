@@ -152,7 +152,7 @@ public class LoginController {
 		petitionRows.add(petitionRow);
 		petitionRows.add(petitionRow2);
 		petition.setPetitionRows(petitionRows);
-		report.doSolicitudePDF(petition);
+		report.doRetrievePDF(petition);
 	}
 	
 	private void redirectToIndex() throws IOException {
