@@ -115,8 +115,6 @@ public class ConsumablePetitionController {
 			this.petitionRowGateway.save();
 		}
 		
-		
-		mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
 		try {
 			this.setTextMessage(petition);
 			this.petitionGateway.create(petition);

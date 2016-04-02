@@ -135,25 +135,6 @@ public class LoginController {
 		if (this.isStudent())
             redirectToIndex();
 	}
-	//TO ERASE
-	public void doPdf() throws DocumentException, MalformedURLException, IOException{
-		User user = new User("asd","Alejandro","Gutiérrez","Novoa");
-		Model model = new Model("Oki model", "Oki");
-		Printer printer = new Printer(12345,"Despacho 401");
-		Petition petition = new Petition(1, printer, null, user);
-		Consumable consumable = new Consumable("Toner Negro","Toner","Negro","Toner negro para oki");
-		Consumable consumable2 = new Consumable("Cartucho Negro","Toner","Negro","Toner negro para oki");
-		PetitionRow petitionRow = new PetitionRow(petition, consumable, 2);
-		PetitionRow petitionRow2 = new PetitionRow(petition, consumable2, 1);
-		printer.setModel(model);
-		petition.setUser(user);
-		petitionRow.setConsumable(consumable);
-		List<PetitionRow> petitionRows = new LinkedList<PetitionRow>();
-		petitionRows.add(petitionRow);
-		petitionRows.add(petitionRow2);
-		petition.setPetitionRows(petitionRows);
-		report.doRetrievePDF(petition);
-	}
 	
 	private void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");

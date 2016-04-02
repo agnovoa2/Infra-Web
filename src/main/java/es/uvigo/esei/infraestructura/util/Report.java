@@ -72,7 +72,7 @@ public class Report {
 		document.setMargins(0, 0, 0, 0);
 		System.out.println(document.getPageSize().getHeight());
 		System.out.println(document.getPageSize().getWidth());
-		writer = PdfWriter.getInstance(document, new FileOutputStream("p.pdf"));
+		writer = PdfWriter.getInstance(document, new FileOutputStream(petition.getPetitionNumber() + ".pdf"));
         document.open();
         canvas = writer.getDirectContent();
         
