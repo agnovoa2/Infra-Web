@@ -134,6 +134,19 @@ public class Consumable {
 		this.models = models;
 	}
 
+	
+	
+	@Override
+	public String toString() {
+		String toRet = "";
+		if(this.getColour() == null)
+			toRet = this.getConsumableType().toString();
+		else
+			toRet = this.getColour();
+		toRet += ": " + this.getConsumableName();
+		return toRet;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

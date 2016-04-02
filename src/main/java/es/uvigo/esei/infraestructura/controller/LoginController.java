@@ -1,7 +1,10 @@
 package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -11,9 +14,18 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import com.itextpdf.text.DocumentException;
+
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.entities.Consumable;
+import es.uvigo.esei.infraestructura.entities.Model;
+import es.uvigo.esei.infraestructura.entities.Petition;
+import es.uvigo.esei.infraestructura.entities.PetitionRow;
+import es.uvigo.esei.infraestructura.entities.Printer;
 import es.uvigo.esei.infraestructura.entities.Role;
+import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
+import es.uvigo.esei.infraestructura.util.Report;
 
 @RequestScoped
 @ManagedBean(name = "loginController")
@@ -27,6 +39,9 @@ public class LoginController {
 	
 	@Inject
 	private UserGatewayBean userGateway;
+	
+	@Inject
+	private Report report;
 	
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
@@ -119,6 +134,25 @@ public class LoginController {
 	public void redirectIfStudent() throws IOException {
 		if (this.isStudent())
             redirectToIndex();
+	}
+	//TO ERASE
+	public void doPdf() throws DocumentException, MalformedURLException, IOException{
+		User user = new User("asd","Alejandro","Gutiérrez","Novoa");
+		Model model = new Model("Oki model", "Oki");
+		Printer printer = new Printer(12345,"Despacho 401");
+		Petition petition = new Petition(1, printer, null, user);
+		Consumable consumable = new Consumable("Toner Negro","Toner","Negro","Toner negro para oki");
+		Consumable consumable2 = new Consumable("Cartucho Negro","Toner","Negro","Toner negro para oki");
+		PetitionRow petitionRow = new PetitionRow(petition, consumable, 2);
+		PetitionRow petitionRow2 = new PetitionRow(petition, consumable2, 1);
+		printer.setModel(model);
+		petition.setUser(user);
+		petitionRow.setConsumable(consumable);
+		List<PetitionRow> petitionRows = new LinkedList<PetitionRow>();
+		petitionRows.add(petitionRow);
+		petitionRows.add(petitionRow2);
+		petition.setPetitionRows(petitionRows);
+		report.doSolicitudePDF(petition);
 	}
 	
 	private void redirectToIndex() throws IOException {

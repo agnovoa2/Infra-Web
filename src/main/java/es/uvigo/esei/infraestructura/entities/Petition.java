@@ -31,15 +31,20 @@ public class Petition{
 	@JoinColumn(name = "petitioner")
 	private User user;
 	
+	@ManyToOne
+	@JoinColumn(name = "printer")
+	private Printer printer;
+	
 	@OneToMany(mappedBy="petition")
 	private List<PetitionRow> petitionRows;
 	
 	Petition(){}
 	
-	public Petition(int petitionNumber, Date petitionDate, User user){
+	public Petition(int petitionNumber, Printer printer, Date petitionDate, User user){
 		this.petitionNumber = petitionNumber;
 		this.petitionDate = petitionDate;
 		this.user = user;
+		this.printer = printer;
 		this.petitionState = 0;
 	}
 
@@ -81,5 +86,13 @@ public class Petition{
 
 	public void setPetitionState(int petitionState) {
 		this.petitionState = petitionState;
+	}
+
+	public Printer getPrinter() {
+		return printer;
+	}
+
+	public void setPrinter(Printer printer) {
+		this.printer = printer;
 	}
 }

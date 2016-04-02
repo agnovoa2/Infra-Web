@@ -27,19 +27,14 @@ public class PetitionRow {
 	@JoinColumn(name = "consumable")
 	private Consumable consumable;
 	
-	@ManyToOne
-	@JoinColumn(name = "printer")
-	private Printer printer;
-	
 	@Column(name="quantity")
 	private int quantity;
 	
 	PetitionRow(){}
 
-	public PetitionRow(Petition petition, Consumable consumable, Printer printer, int quantity){
+	public PetitionRow(Petition petition, Consumable consumable, int quantity){
 		this.petition = petition;
 		this.consumable = consumable;
-		this.printer = printer;
 		this.quantity = quantity;
 	}
 	
@@ -57,14 +52,6 @@ public class PetitionRow {
 
 	public void setConsumable(Consumable consumable) {
 		this.consumable = consumable;
-	}
-
-	public Printer getPrinter() {
-		return printer;
-	}
-
-	public void setPrinter(Printer printer) {
-		this.printer = printer;
 	}
 
 	public int getQuantity() {

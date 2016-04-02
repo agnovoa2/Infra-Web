@@ -32,7 +32,7 @@ public class Printer {
 	private Model model;
 	
 	@OneToMany(mappedBy="printer")
-	private List<PetitionRow> petitionRows;
+	private List<Petition> petitions;
 
 	// Constructor required for JPA framework
 	Printer() {
