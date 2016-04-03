@@ -17,6 +17,7 @@ delete from model;
 delete from consumable;
 
 insert into user values('profesor',1,'profesor@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
+insert into user values('agnovoa2',1,'agnovoa2@esei.uvigo.es','Gutierrez','Alejandro','eseiSephiroth69','INTERN','Novoa');
 
 insert into subject values('PROI','O06G150V01104','GRADE','',0);
 insert into subject values('SGI','O06M132V01105','MASTER','',0);
@@ -60,3 +61,6 @@ insert into cons_model values('OKI model 1','OKI TONER N');
 insert into cons_model values('OKI model 1','OKI TAMBOR');
 
 insert into configuration values(1,'agnovoa2@esei.uvigo.es','correoSephiroth69','agnovoa2@esei.uvigo.es');
+
+insert into computer(labelNum,laboratory,num,state) values(12,'libre acceso',0,'OK');
+insert into computer(labelNum,laboratory,num,state) values(13,'libre acceso',47,'OK');

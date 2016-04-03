@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:viewParam name="lab" value="#{incidences.laboratory}" />
+	<f:event type="preRenderView" listener="#{incidences.initLists}" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h1>
+		Incidencias
+		<h:outputFormat value="{0}">
+			<f:param value="#{incidences.laboratory}" />
+		</h:outputFormat>
+	</h1>
+	<h:panelGroup id="computers">
+		<o:form>
+			<!-- aulas -->
+
+			<h:commandLink action="#{incidences.doSelectComputer(0)}"
+				rendered="#{incidences.laboratory == 'aula 2.1' or incidences.laboratory == 'aula 2.2'  or incidences.laboratory == 'aula 3.1'  or incidences.laboratory == 'aula 3.2' }">
+				<h:graphicImage value="resources/img/computer_no.png" />
+				<f:ajax render="computers" />
+			</h:commandLink>
+			<!-- libre acceso -->
+			<ui:repeat var="num" value="#{incidences.auxArray}"
+				rendered="#{incidences.laboratory == 'libre acceso'}">
+				<h:commandLink
+					action="#{incidences.doSelectComputer(num.intValue())}">
+					<h:graphicImage value="resources/img/computer_no.png"
+						rendered="#{incidences.isNoPc(num) and !incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_ok.png"
+						rendered="#{incidences.isPcOk(num) and !incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_rep.png"
+						rendered="#{incidences.isPcRepair(num) and !incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_warn.png"
+						rendered="#{incidences.isHasIncidence(num) and !incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_no_focus.png"
+						rendered="#{incidences.isNoPc(num) and incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_ok_focus.png"
+						rendered="#{incidences.isPcOk(num) and incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_rep_focus.png"
+						rendered="#{incidences.isPcRepair(num) and incidences.hasFocus(num)}" />
+					<h:graphicImage value="resources/img/computer_warn_focus.png"
+						rendered="#{incidences.isHasIncidence(num) and incidences.hasFocus(num)}" />
+					<f:ajax render="computers" />
+					<ui:fragment
+						rendered="#{num.intValue() == 7 or num.intValue() == 15 or num.intValue() == 23 or num.intValue() == 31 or num.intValue() == 39}">
+						<div></div>
+					</ui:fragment>
+				</h:commandLink>
+			</ui:repeat>
+			<!-- sotanos -->
+			<ui:repeat var="num" value="#{incidences.auxArray}"
+				rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
+				<h:commandLink
+					action="#{incidences.doSelectComputer(num.intValue())}">
+					<h:graphicImage value="resources/img/computer_no.png" />
+					<f:ajax render="computers" />
+					<ui:fragment
+						rendered="#{num.intValue() == 0 or num.intValue() == 7 or num.intValue() == 14 or num.intValue() == 21}">
+						<div></div>
+					</ui:fragment>
+				</h:commandLink>
+			</ui:repeat>
+		</o:form>
+			</h:panelGroup>
+			<div></div>
+			<h:outputLabel value="Etiqueta pc:" />
+			<h:inputText id="numPc" value="#{incidences.labelNum}" />
+			<h:commandButton action="#{incidences.doAddComputer()}"
+				value="Dar de alta pc">
+				<f:ajax execute="numPc" render="computers" />
+			</h:commandButton>
+			<h:commandButton action="#{incidences.doRemoveComputer()}"
+				value="Dar de baja pc">
+				<f:ajax execute="numPc" render="computers" />
+			</h:commandButton>
+			<h2>Nueva incidencia</h2>
+			<h:outputLabel value="Etiqueta pc:" />
+			<h:inputTextarea value="#{incidences.description}" />
+			<br />
+			<h:outputLabel value="Etiqueta pc:" />
+			<h:inputText id="description" value="#{incidences.labelNum}" />
+			<h:commandButton action="#{incidences.doAddIncidence()}"
+				value="Mandar incidencia">
+				<f:ajax execute="numPc" render="computers" />
+			</h:commandButton>
+
+
+</h:body>
+</html>

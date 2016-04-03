@@ -27,11 +27,15 @@ public class ComputerGatewayBean {
 
 	public Computer find(int num, String laboratory) {
 		
-		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory And c.num = :num",Computer.class);
+		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = :num", Computer.class);
 		query.setParameter("laboratory", laboratory);
 		query.setParameter("num", num);
+		if(query.getResultList().size() == 0){
+			this.current = null;
+			return null;
+		}
 		this.current = (Computer) query.getResultList().get(0);
-		return this.current;
+		return current;
 	}
 
 	public Computer getCurrent() {
@@ -55,5 +59,11 @@ public class ComputerGatewayBean {
 	
 	public List<Computer> getAll(){
 		return em.createNamedQuery("findAllComputers", Computer.class).getResultList();
+	}
+	
+	public List<Computer> getAllLaboratoryComputers(String laboratory){
+		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = 0", Computer.class);
+		query.setParameter("laboratory", laboratory);
+		return query.getResultList();
 	}
 }
