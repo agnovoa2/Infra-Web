@@ -22,7 +22,7 @@ public class IncidenceType {
 	
 	IncidenceType(){}
 	
-	IncidenceType(String type){
+	public IncidenceType(String type){
 		this.type = type;
 	}
 

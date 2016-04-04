@@ -1,20 +1,4 @@
-select * from user;
-select * from subject;
-select * from software;
-select * from prof_sub;
-select * from sub_soft;
-select * from printer;
-select * from model;
-select * from consumable;
 
-delete from sub_soft;
-delete from prof_sub;
-delete from software;
-delete from user;
-delete from subject;
-delete from printer;
-delete from model;
-delete from consumable;
 
 insert into user values('profesor',1,'profesor@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
 insert into user values('agnovoa2',1,'agnovoa2@esei.uvigo.es','Gutierrez','Alejandro','eseiSephiroth69','INTERN','Novoa');
@@ -64,3 +48,14 @@ insert into configuration values(1,'agnovoa2@esei.uvigo.es','correoSephiroth69',
 
 insert into computer(labelNum,laboratory,num,state) values(12,'libre acceso',0,'OK');
 insert into computer(labelNum,laboratory,num,state) values(13,'libre acceso',47,'OK');
+
+insert into incidencetype values('Monitor');
+insert into incidencetype values('Cpu');
+insert into incidencetype values('Teclado');
+insert into incidencetype values('Raton');
+insert into incidencetype values('Red');
+insert into incidencetype values('Inicio de Sesion');
+insert into incidencetype values('Software');
+insert into incidencetype values('Otros');
+insert into incidencetype values('Windows');
+insert into incidencetype values('Linux');

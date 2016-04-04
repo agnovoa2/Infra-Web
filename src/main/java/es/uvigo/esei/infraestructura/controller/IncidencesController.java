@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Computer;
 import es.uvigo.esei.infraestructura.entities.Incidence;
+import es.uvigo.esei.infraestructura.entities.IncidenceType;
 import es.uvigo.esei.infraestructura.entities.State;
 import es.uvigo.esei.infraestructura.facade.ComputerGatewayBean;
 import es.uvigo.esei.infraestructura.facade.IncidenceGatewayBean;
@@ -38,9 +39,10 @@ public class IncidencesController {
 	@Inject
 	private Mail mail;
 
-	private int computerNum = 0;
+	private int computerNum;
 	private int labelNum;
 	private Integer[] auxArray;
+	private String[] types;
 	private String laboratory;
 	private String description;
 
@@ -86,10 +88,12 @@ public class IncidencesController {
 
 	public void doSelectComputer(int num) {
 		this.computerNum = num;
+		System.out.println(this.computerNum);
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 	}
 
 	public void doAddComputer() {
+		System.out.println(this.labelNum);
 		this.computerGateway.create(new Computer(getLaboratory(), getComputerNum(), getLabelNum()));
 		this.computerGateway.save();
 	}
@@ -111,8 +115,13 @@ public class IncidencesController {
 			List<Incidence> incidences = new LinkedList<Incidence>();
 			this.computerGateway.getCurrent().setIncidences(incidences);
 		}
+		List<IncidenceType> typeList = new LinkedList<IncidenceType>();
+		for (String incidence : this.types) {
+			typeList.add(new IncidenceType(incidence));
+		}
 		this.computerGateway.getCurrent().getIncidences().add(new Incidence(this.getDescription(), sqlDate));
 		this.incidenceGateway.create(new Incidence(this.getDescription(), sqlDate));
+		this.incidenceGateway.getCurrent().setTypes(typeList);
 		this.incidenceGateway.getCurrent().setComputer(this.computerGateway.getCurrent());
 		this.incidenceGateway.save();
 		this.computerGateway.save();
@@ -152,12 +161,6 @@ public class IncidencesController {
 		this.computerGateway.find(num, getLaboratory());
 		if (this.computerGateway.getCurrent() != null
 				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE)
-			return true;
-		return false;
-	}
-
-	public boolean hasFocus(int num) {
-		if (this.getComputerNum() == num)
 			return true;
 		return false;
 	}
@@ -202,4 +205,11 @@ public class IncidencesController {
 		this.description = description;
 	}
 
+	public String[] getTypes() {
+		return types;
+	}
+
+	public void setTypes(String[] types) {
+		this.types = types;
+	}
 }

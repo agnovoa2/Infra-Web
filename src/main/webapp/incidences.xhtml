@@ -36,21 +36,13 @@
 				<h:commandLink
 					action="#{incidences.doSelectComputer(num.intValue())}">
 					<h:graphicImage value="resources/img/computer_no.png"
-						rendered="#{incidences.isNoPc(num) and !incidences.hasFocus(num)}" />
+						rendered="#{incidences.isNoPc(num)}" />
 					<h:graphicImage value="resources/img/computer_ok.png"
-						rendered="#{incidences.isPcOk(num) and !incidences.hasFocus(num)}" />
+						rendered="#{incidences.isPcOk(num)}" />
 					<h:graphicImage value="resources/img/computer_rep.png"
-						rendered="#{incidences.isPcRepair(num) and !incidences.hasFocus(num)}" />
+						rendered="#{incidences.isPcRepair(num)}" />
 					<h:graphicImage value="resources/img/computer_warn.png"
-						rendered="#{incidences.isHasIncidence(num) and !incidences.hasFocus(num)}" />
-					<h:graphicImage value="resources/img/computer_no_focus.png"
-						rendered="#{incidences.isNoPc(num) and incidences.hasFocus(num)}" />
-					<h:graphicImage value="resources/img/computer_ok_focus.png"
-						rendered="#{incidences.isPcOk(num) and incidences.hasFocus(num)}" />
-					<h:graphicImage value="resources/img/computer_rep_focus.png"
-						rendered="#{incidences.isPcRepair(num) and incidences.hasFocus(num)}" />
-					<h:graphicImage value="resources/img/computer_warn_focus.png"
-						rendered="#{incidences.isHasIncidence(num) and incidences.hasFocus(num)}" />
+						rendered="#{incidences.isHasIncidence(num)}" />
 					<f:ajax render="computers" />
 					<ui:fragment
 						rendered="#{num.intValue() == 7 or num.intValue() == 15 or num.intValue() == 23 or num.intValue() == 31 or num.intValue() == 39}">
@@ -71,8 +63,7 @@
 					</ui:fragment>
 				</h:commandLink>
 			</ui:repeat>
-		</o:form>
-			</h:panelGroup>
+
 			<div></div>
 			<h:outputLabel value="Etiqueta pc:" />
 			<h:inputText id="numPc" value="#{incidences.labelNum}" />
@@ -85,16 +76,27 @@
 				<f:ajax execute="numPc" render="computers" />
 			</h:commandButton>
 			<h2>Nueva incidencia</h2>
-			<h:outputLabel value="Etiqueta pc:" />
+			<h:outputLabel value="Descripción:" />
 			<h:inputTextarea value="#{incidences.description}" />
 			<br />
-			<h:outputLabel value="Etiqueta pc:" />
-			<h:inputText id="description" value="#{incidences.labelNum}" />
+			<h:selectManyCheckbox id="types" value="#{incidences.types}">
+				<f:selectItem itemValue="Monitor" itemLabel="Monitor" />
+   				<f:selectItem itemValue="Cpu" itemLabel="Cpu" />
+   				<f:selectItem itemValue="Teclado" itemLabel="Teclado" />
+   				<f:selectItem itemValue="Raton" itemLabel="Ratón" />
+   				<f:selectItem itemValue="Red" itemLabel="Red" />
+   				<f:selectItem itemValue="Inicio de sesión" itemLabel="Inicio de sesión" />
+   				<f:selectItem itemValue="Software" itemLabel="Software (Especificar)" />
+   				<f:selectItem itemValue="Otros" itemLabel="Otros (Especificar)" />
+   				<f:selectItem itemValue="Windows" itemLabel="Windows" />
+   				<f:selectItem itemValue="Linux" itemLabel="Linux" />
+			</h:selectManyCheckbox>
 			<h:commandButton action="#{incidences.doAddIncidence()}"
 				value="Mandar incidencia">
-				<f:ajax execute="numPc" render="computers" />
+				<f:ajax execute="numPc types" render="computers" />
 			</h:commandButton>
-
+		</o:form>
+	</h:panelGroup>
 
 </h:body>
 </html>
