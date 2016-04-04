@@ -77,7 +77,7 @@
 			</h:commandButton>
 			<h2>Nueva incidencia</h2>
 			<h:outputLabel value="Descripción:" />
-			<h:inputTextarea value="#{incidences.description}" />
+			<h:inputTextarea id="description" value="#{incidences.description}" />
 			<br />
 			<h:selectManyCheckbox id="types" value="#{incidences.types}">
 				<f:selectItem itemValue="Monitor" itemLabel="Monitor" />
@@ -93,7 +93,7 @@
 			</h:selectManyCheckbox>
 			<h:commandButton action="#{incidences.doAddIncidence()}"
 				value="Mandar incidencia">
-				<f:ajax execute="numPc types" render="computers" />
+				<f:ajax execute="description types" render="computers" />
 			</h:commandButton>
 		</o:form>
 	</h:panelGroup>
