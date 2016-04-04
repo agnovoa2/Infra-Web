@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Computer;
@@ -47,7 +49,7 @@ public class IncidencesController {
 	private String description;
 
 	public void initLists() {
-		switch (laboratory) {
+		switch (laboratory.toLowerCase()) {
 		case "libre acceso":
 			fillArray(48);
 			break;
@@ -107,6 +109,7 @@ public class IncidencesController {
 	public void doAddIncidence() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 		this.computerGateway.getCurrent().setState(State.INCIDENCE);
+		this.userGateway.find(currentUser.getName());
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		dateFormat.format(date);
@@ -123,6 +126,7 @@ public class IncidencesController {
 		this.incidenceGateway.create(new Incidence(this.getDescription(), sqlDate));
 		this.incidenceGateway.getCurrent().setTypes(typeList);
 		this.incidenceGateway.getCurrent().setComputer(this.computerGateway.getCurrent());
+		this.incidenceGateway.getCurrent().setUser(this.userGateway.getCurrent());
 		this.incidenceGateway.save();
 		this.computerGateway.save();
 	}
@@ -163,6 +167,33 @@ public class IncidencesController {
 				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE)
 			return true;
 		return false;
+	}
+
+	public void redirectIfNotLaboratory() throws IOException {
+		if (!this.laboratory.toLowerCase().equals("libre acceso")
+				&& !this.laboratory.toLowerCase().equals("s01")
+				&& !this.laboratory.toLowerCase().equals("s02")
+				&& !this.laboratory.toLowerCase().equals("s03")
+				&& !this.laboratory.toLowerCase().equals("s04")
+				&& !this.laboratory.toLowerCase().equals("s05")
+				&& !this.laboratory.toLowerCase().equals("s06")
+				&& !this.laboratory.toLowerCase().equals("aula 2.1")
+				&& !this.laboratory.toLowerCase().equals("aula 2.2")
+				&& !this.laboratory.toLowerCase().equals("aula 3.1")
+				&& !this.laboratory.toLowerCase().equals("aula 3.2")
+				&& !this.laboratory.toLowerCase().equals("laboratorio 30a")
+				&& !this.laboratory.toLowerCase().equals("laboratorio 30b")
+				&& !this.laboratory.toLowerCase().equals("laboratorio 31a")
+				&& !this.laboratory.toLowerCase().equals("laboratorio 37")
+				&& !this.laboratory.toLowerCase().equals("laboratorio 38")
+				&& !this.laboratory.toLowerCase().equals("laboratorio 39")
+				) {
+			this.redirectToIndex();
+		}
+	}
+
+	private void redirectToIndex() throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
 	public int getComputerNum() {

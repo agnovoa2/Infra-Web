@@ -10,6 +10,8 @@
 <f:metadata>
 	<f:viewParam name="lab" value="#{incidences.laboratory}" />
 	<f:event type="preRenderView" listener="#{incidences.initLists}" />
+	<f:event listener="#{incidences.redirectIfNotLaboratory()}"
+		type="preRenderView" />
 </f:metadata>
 <h:head>
 	<title>Infraestructura ESEI</title>
@@ -65,36 +67,43 @@
 			</ui:repeat>
 
 			<div></div>
-			<h:outputLabel value="Etiqueta pc:" />
-			<h:inputText id="numPc" value="#{incidences.labelNum}" />
-			<h:commandButton action="#{incidences.doAddComputer()}"
-				value="Dar de alta pc">
-				<f:ajax execute="numPc" render="computers" />
-			</h:commandButton>
-			<h:commandButton action="#{incidences.doRemoveComputer()}"
-				value="Dar de baja pc">
-				<f:ajax execute="numPc" render="computers" />
-			</h:commandButton>
-			<h2>Nueva incidencia</h2>
-			<h:outputLabel value="Descripción:" />
-			<h:inputTextarea id="description" value="#{incidences.description}" />
-			<br />
-			<h:selectManyCheckbox id="types" value="#{incidences.types}">
-				<f:selectItem itemValue="Monitor" itemLabel="Monitor" />
-   				<f:selectItem itemValue="Cpu" itemLabel="Cpu" />
-   				<f:selectItem itemValue="Teclado" itemLabel="Teclado" />
-   				<f:selectItem itemValue="Raton" itemLabel="Ratón" />
-   				<f:selectItem itemValue="Red" itemLabel="Red" />
-   				<f:selectItem itemValue="Inicio de sesión" itemLabel="Inicio de sesión" />
-   				<f:selectItem itemValue="Software" itemLabel="Software (Especificar)" />
-   				<f:selectItem itemValue="Otros" itemLabel="Otros (Especificar)" />
-   				<f:selectItem itemValue="Windows" itemLabel="Windows" />
-   				<f:selectItem itemValue="Linux" itemLabel="Linux" />
-			</h:selectManyCheckbox>
-			<h:commandButton action="#{incidences.doAddIncidence()}"
-				value="Mandar incidencia">
-				<f:ajax execute="description types" render="computers" />
-			</h:commandButton>
+			<h:panelGroup rendered="#{!loginController.anonymous and loginController.intern}">
+				<h2>Alta baja Pcs</h2>
+				<h:outputLabel value="Etiqueta pc:" />
+				<h:inputText id="numPc" value="#{incidences.labelNum}" />
+				<h:commandButton action="#{incidences.doAddComputer()}"
+					value="Dar de alta pc">
+					<f:ajax execute="numPc" render="computers" />
+				</h:commandButton>
+				<h:commandButton action="#{incidences.doRemoveComputer()}"
+					value="Dar de baja pc">
+					<f:ajax execute="numPc" render="computers" />
+				</h:commandButton>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{!loginController.anonymous}">
+				<h2>Nueva incidencia</h2>
+				<h:outputLabel value="Descripción:" />
+				<h:inputTextarea id="description" value="#{incidences.description}" />
+				<br />
+				<h:selectManyCheckbox id="types" value="#{incidences.types}">
+					<f:selectItem itemValue="Monitor" itemLabel="Monitor" />
+					<f:selectItem itemValue="Cpu" itemLabel="Cpu" />
+					<f:selectItem itemValue="Teclado" itemLabel="Teclado" />
+					<f:selectItem itemValue="Raton" itemLabel="Ratón" />
+					<f:selectItem itemValue="Red" itemLabel="Red" />
+					<f:selectItem itemValue="Inicio de sesión"
+						itemLabel="Inicio de sesión" />
+					<f:selectItem itemValue="Software"
+						itemLabel="Software (Especificar)" />
+					<f:selectItem itemValue="Otros" itemLabel="Otros (Especificar)" />
+					<f:selectItem itemValue="Windows" itemLabel="Windows" />
+					<f:selectItem itemValue="Linux" itemLabel="Linux" />
+				</h:selectManyCheckbox>
+				<h:commandButton action="#{incidences.doAddIncidence()}"
+					value="Mandar incidencia">
+					<f:ajax execute="description types" render="computers" />
+				</h:commandButton>
+			</h:panelGroup>
 		</o:form>
 	</h:panelGroup>
 
