@@ -2,6 +2,7 @@ package es.uvigo.esei.infraestructura.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -35,7 +36,7 @@ public class Computer {
 	@Column(name="labelNum", unique=true, nullable=false)
 	private int labelNum;
 	
-	@OneToMany(mappedBy="computer")
+	@OneToMany(mappedBy="computer",cascade=CascadeType.REMOVE)
 	private List<Incidence> incidences;
 	
 	Computer(){}

@@ -2,6 +2,7 @@
 
 insert into user values('profesor',1,'profesor@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
 insert into user values('agnovoa2',1,'agnovoa2@esei.uvigo.es','Gutierrez','Alejandro','eseiSephiroth69','INTERN','Novoa');
+insert into user values('alumno',1,'alumno@esei.uvigo.es','alumno','alumno','alumno','STUDENT','alumno');
 
 insert into subject values('PROI','O06G150V01104','GRADE','',0);
 insert into subject values('SGI','O06M132V01105','MASTER','',0);
@@ -46,9 +47,6 @@ insert into cons_model values('OKI model 1','OKI TAMBOR');
 
 insert into configuration values(1,'agnovoa2@esei.uvigo.es','correoSephiroth69','agnovoa2@esei.uvigo.es');
 
-insert into computer(labelNum,laboratory,num,state) values(12,'libre acceso',0,'OK');
-insert into computer(labelNum,laboratory,num,state) values(13,'libre acceso',47,'OK');
-
 insert into incidencetype values('Monitor');
 insert into incidencetype values('Cpu');
 insert into incidencetype values('Teclado');
@@ -59,3 +57,8 @@ insert into incidencetype values('Software');
 insert into incidencetype values('Otros');
 insert into incidencetype values('Windows');
 insert into incidencetype values('Linux');
+
+insert into computer(labelNum,laboratory,num,state) values(12,'libre acceso',0,'OK');
+insert into computer(labelNum,laboratory,num,state) values(13,'libre acceso',47,'INCIDENCE');
+
+insert into incidence(date,description,state,computer,user) values('2016-03-29','una insidensia',0,2,'agnovoa2');

@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Computer;
@@ -47,6 +47,7 @@ public class IncidencesController {
 	private String[] types;
 	private String laboratory;
 	private String description;
+	private String textMessage;
 
 	public void initLists() {
 		switch (laboratory.toLowerCase()) {
@@ -107,28 +108,35 @@ public class IncidencesController {
 	}
 
 	public void doAddIncidence() {
-		this.computerGateway.find(getComputerNum(), getLaboratory());
-		this.computerGateway.getCurrent().setState(State.INCIDENCE);
-		this.userGateway.find(currentUser.getName());
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		if (this.computerGateway.getCurrent().getIncidences() == null) {
-			List<Incidence> incidences = new LinkedList<Incidence>();
-			this.computerGateway.getCurrent().setIncidences(incidences);
-		}
+		Incidence incidence = new Incidence(this.getDescription(), sqlDate);
+		this.userGateway.find(currentUser.getName());
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		incidence.setUser(this.userGateway.getCurrent());
+		incidence.setComputer(this.computerGateway.getCurrent());
 		List<IncidenceType> typeList = new LinkedList<IncidenceType>();
-		for (String incidence : this.types) {
-			typeList.add(new IncidenceType(incidence));
+		for (String incidenceType : this.types) {
+			typeList.add(new IncidenceType(incidenceType));
 		}
-		this.computerGateway.getCurrent().getIncidences().add(new Incidence(this.getDescription(), sqlDate));
-		this.incidenceGateway.create(new Incidence(this.getDescription(), sqlDate));
-		this.incidenceGateway.getCurrent().setTypes(typeList);
-		this.incidenceGateway.getCurrent().setComputer(this.computerGateway.getCurrent());
-		this.incidenceGateway.getCurrent().setUser(this.userGateway.getCurrent());
+		incidence.setTypes(typeList);
+		this.incidenceGateway.create(incidence);
+		if (this.userGateway.getCurrent().getIncidences() == null) {
+			this.userGateway.getCurrent().setIncidences(new LinkedList<Incidence>());
+		}
+		this.userGateway.getCurrent().getIncidences().add(incidence);
+		if (this.computerGateway.getCurrent().getIncidences() == null) {
+			this.computerGateway.getCurrent().setIncidences(new LinkedList<Incidence>());
+		}
+		this.computerGateway.getCurrent().getIncidences().add(incidence);
+		this.computerGateway.getCurrent().setState(State.INCIDENCE);
 		this.incidenceGateway.save();
+		this.userGateway.save();
 		this.computerGateway.save();
+		this.setTextMessage();
+		this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva incidencia en " + getLaboratory());
 	}
 
 	private void fillArray(int c) {
@@ -140,6 +148,14 @@ public class IncidencesController {
 
 	public boolean isNoPc(int num) {
 		this.computerGateway.find(num, getLaboratory());
+		if (this.computerGateway.getCurrent() == null) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isNoPc() {
+		this.computerGateway.find(getComputerNum(), getLaboratory());
 		if (this.computerGateway.getCurrent() == null) {
 			return true;
 		}
@@ -161,6 +177,14 @@ public class IncidencesController {
 		return false;
 	}
 
+	public boolean isPcRepair() {
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		if (this.computerGateway.getCurrent() != null
+				&& this.computerGateway.getCurrent().getState() == State.UNDER_REPAIR)
+			return true;
+		return false;
+	}
+
 	public boolean isHasIncidence(int num) {
 		this.computerGateway.find(num, getLaboratory());
 		if (this.computerGateway.getCurrent() != null
@@ -169,15 +193,19 @@ public class IncidencesController {
 		return false;
 	}
 
+	public boolean isHasIncidence() {
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		if (this.computerGateway.getCurrent() != null
+				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE)
+			return true;
+		return false;
+	}
+
 	public void redirectIfNotLaboratory() throws IOException {
-		if (!this.laboratory.toLowerCase().equals("libre acceso")
-				&& !this.laboratory.toLowerCase().equals("s01")
-				&& !this.laboratory.toLowerCase().equals("s02")
-				&& !this.laboratory.toLowerCase().equals("s03")
-				&& !this.laboratory.toLowerCase().equals("s04")
-				&& !this.laboratory.toLowerCase().equals("s05")
-				&& !this.laboratory.toLowerCase().equals("s06")
-				&& !this.laboratory.toLowerCase().equals("aula 2.1")
+		if (!this.laboratory.toLowerCase().equals("libre acceso") && !this.laboratory.toLowerCase().equals("s01")
+				&& !this.laboratory.toLowerCase().equals("s02") && !this.laboratory.toLowerCase().equals("s03")
+				&& !this.laboratory.toLowerCase().equals("s04") && !this.laboratory.toLowerCase().equals("s05")
+				&& !this.laboratory.toLowerCase().equals("s06") && !this.laboratory.toLowerCase().equals("aula 2.1")
 				&& !this.laboratory.toLowerCase().equals("aula 2.2")
 				&& !this.laboratory.toLowerCase().equals("aula 3.1")
 				&& !this.laboratory.toLowerCase().equals("aula 3.2")
@@ -186,10 +214,70 @@ public class IncidencesController {
 				&& !this.laboratory.toLowerCase().equals("laboratorio 31a")
 				&& !this.laboratory.toLowerCase().equals("laboratorio 37")
 				&& !this.laboratory.toLowerCase().equals("laboratorio 38")
-				&& !this.laboratory.toLowerCase().equals("laboratorio 39")
-				) {
+				&& !this.laboratory.toLowerCase().equals("laboratorio 39")) {
 			this.redirectToIndex();
 		}
+	}
+
+	public void setTextMessage() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date date = new Date();
+		dateFormat.format(date);
+
+		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+				+ "El usuario " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
+				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
+				+ new java.sql.Date(date.getTime()) + " la siguiente incidencia en el ordenador número " + this.labelNum
+				+ " de " + this.getLaboratory() + "\n" + "Categorías: ");
+		for (IncidenceType type : this.incidenceGateway.getCurrent().getTypes()) {
+			this.textMessage += (type.getType() + " ");
+		}
+		String description = this.incidenceGateway.getCurrent().getDescription();
+		if (description != null && !description.equals("")) {
+			this.textMessage += ("\n" + "Descripción: " + description);
+		}
+	}
+
+	public void doSendComputerToRepair() {
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
+		Incidence incidence = null;
+		if (incidences != null) {
+			for (int i = 0; i < incidences.size(); i++) {
+				incidence = incidences.get(i);
+				System.out.println("incidences id: " + incidence.getId());
+				if (incidence.getState() == 0)
+					break;
+			}
+		}
+		if (incidence != null) {
+			System.out.println("incidence id: " + incidence.getId());
+			this.incidenceGateway.find(incidence.getId());
+			this.incidenceGateway.getCurrent().setState(1);
+			this.incidenceGateway.save();
+		}
+		this.computerGateway.getCurrent().setState(State.UNDER_REPAIR);
+		this.computerGateway.save();
+	}
+
+	public void doFinishIncidence() {
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
+		Incidence incidence = null;
+		if (incidences != null) {
+			for (int i = 0; i < incidences.size(); i++) {
+				incidence = incidences.get(i);
+				if (incidence.getState() == 1 || incidence.getState() == 0)
+					break;
+			}
+		}
+		if (incidence != null) {
+			this.incidenceGateway.find(incidence.getId());
+			this.incidenceGateway.getCurrent().setState(2);
+			this.incidenceGateway.save();
+		}
+		this.computerGateway.getCurrent().setState(State.OK);
+		this.computerGateway.save();
 	}
 
 	private void redirectToIndex() throws IOException {
@@ -242,5 +330,9 @@ public class IncidencesController {
 
 	public void setTypes(String[] types) {
 		this.types = types;
+	}
+
+	public String getTextMessage() {
+		return textMessage;
 	}
 }
