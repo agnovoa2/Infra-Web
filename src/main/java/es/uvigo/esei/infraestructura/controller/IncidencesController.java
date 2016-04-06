@@ -280,6 +280,20 @@ public class IncidencesController {
 		this.computerGateway.save();
 	}
 
+	public String incidenceToString(){
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
+		Incidence incidence = null;
+		if (incidences != null) {
+			for (int i = 0; i < incidences.size(); i++) {
+				incidence = incidences.get(i);
+				if (incidence.getState() == 1 || incidence.getState() == 0)
+					break;
+			}
+		}
+		return incidence.toString();
+	}
+	
 	private void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}

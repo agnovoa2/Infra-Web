@@ -69,9 +69,14 @@
 			<div></div>
 			<h:panelGroup
 				rendered="#{!loginController.anonymous and loginController.intern}">
+				<h:panelGroup rendered="#{incidences.hasIncidence}">
+					<h2>Incidencia</h2>
+					<h:outputLabel value="#{incidences.incidenceToString()}" />
+				</h:panelGroup>
 				<h2>Alta baja Pcs</h2>
 				<h:outputLabel value="Etiqueta pc:" />
-				<h:inputText id="numPc" value="#{incidences.labelNum}" />
+				<h:inputText id="numPc" value="#{incidences.labelNum}"
+					rendered="#{incidences.noPc}" />
 				<h:commandButton action="#{incidences.doAddComputer()}"
 					value="Dar de alta pc" rendered="#{incidences.noPc}">
 					<f:ajax execute="numPc" render="computers" />
@@ -81,16 +86,18 @@
 					<f:ajax render="computers" />
 				</h:commandButton>
 				<h:commandButton action="#{incidences.doSendComputerToRepair()}"
-					value="Pc en reparación" rendered="#{!incidences.noPc and !incidences.pcRepair}">
+					value="Pc en reparación"
+					rendered="#{!incidences.noPc and !incidences.pcRepair}">
 					<f:ajax render="computers" />
 				</h:commandButton>
 				<h:commandButton action="#{incidences.doFinishIncidence()}"
-					value="Cerrar incidencia" rendered="#{incidences.hasIncidence or incidences.pcRepair}">
+					value="Cerrar incidencia"
+					rendered="#{incidences.hasIncidence or incidences.pcRepair}">
 					<f:ajax render="computers" />
 				</h:commandButton>
-				<h2>Gestión de incidencias</h2>
 			</h:panelGroup>
-			<h:panelGroup rendered="#{!loginController.anonymous and !incidences.hasIncidence}">
+			<h:panelGroup
+				rendered="#{!loginController.anonymous and !incidences.hasIncidence and !incidences.pcRepair}">
 				<h2>Nueva incidencia</h2>
 				<h:outputLabel value="Descripción:" />
 				<h:inputTextarea id="description" value="#{incidences.description}" />

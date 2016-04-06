@@ -112,4 +112,15 @@ public class Incidence {
 	public void setTypes(List<IncidenceType> types) {
 		this.types = types;
 	}
+
+	@Override
+	public String toString() {
+		String toRet = "Categorías: ";
+		for (IncidenceType incidenceType : this.getTypes()) {
+			toRet += incidenceType.getType() + " ";
+		}
+		return toRet + "\nDescripción: " + this.getDescription();
+	}
+	
+	
 }
