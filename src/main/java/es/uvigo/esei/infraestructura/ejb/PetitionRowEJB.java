@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import es.uvigo.esei.infraestructura.entities.PetitionRow;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 
 @Stateless
 public class PetitionRowEJB {
@@ -19,12 +19,12 @@ public class PetitionRowEJB {
 	private UserAuthorizationEJB auth;
 	
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public List<PetitionRow> findAllPetitionRows() {
-		return em.createNamedQuery("findAllPetitionRows", PetitionRow.class).getResultList();
+	public List<ConsumablePetitionRow> findAllPetitionRows() {
+		return em.createNamedQuery("findAllPetitionRows", ConsumablePetitionRow.class).getResultList();
 	}
 
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public void addPetitionRow(PetitionRow petition) {
+	public void addPetitionRow(ConsumablePetitionRow petition) {
 		em.persist(petition);
 	}
 }

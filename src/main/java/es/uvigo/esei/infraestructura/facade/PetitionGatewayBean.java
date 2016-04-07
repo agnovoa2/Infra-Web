@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.Petition;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -20,24 +20,24 @@ public class PetitionGatewayBean {
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private Petition current;
+	private ConsumablePetition current;
 
-	public Petition find(int id) {
-		this.current = this.em.find(Petition.class, id);
+	public ConsumablePetition find(int id) {
+		this.current = this.em.find(ConsumablePetition.class, id);
 		return this.current;
 	}
 
-	public Petition getCurrent() {
+	public ConsumablePetition getCurrent() {
 		return current;
 	}
 
-	public void create(Petition petition) {
+	public void create(ConsumablePetition petition) {
 		this.em.persist(petition);
 		this.current = petition;
 	}
 
 	public void remove(String id) {
-		Petition ref = this.em.getReference(Petition.class, id);
+		ConsumablePetition ref = this.em.getReference(ConsumablePetition.class, id);
 		this.em.remove(ref);
 	}
 
@@ -48,7 +48,7 @@ public class PetitionGatewayBean {
 	
 	public int nextPetitionNumber() {
 		try{
-		Integer i = em.createQuery("Select max(p.petitionNumber) From Petition p",Integer.class).getSingleResult();
+		Integer i = em.createQuery("Select max(p.petitionNumber) From ConsumablePetition p",Integer.class).getSingleResult();
 		return i.intValue()+1;
 		}
 		catch(NullPointerException e){

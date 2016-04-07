@@ -16,8 +16,8 @@ import javax.inject.Inject;
 import com.itextpdf.text.DocumentException;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
-import es.uvigo.esei.infraestructura.entities.Petition;
-import es.uvigo.esei.infraestructura.entities.PetitionRow;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 import es.uvigo.esei.infraestructura.facade.ConsumableGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PetitionRowGatewayBean;
@@ -94,12 +94,12 @@ public class ConsumablePetitionController {
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-		Petition petition = new Petition(this.petitionGateway.nextPetitionNumber(),this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
-		List<PetitionRow> petitionRows= new LinkedList<PetitionRow>();
+		ConsumablePetition petition = new ConsumablePetition(this.petitionGateway.nextPetitionNumber(),this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
+		List<ConsumablePetitionRow> petitionRows= new LinkedList<ConsumablePetitionRow>();
 
 		for (int i = 0; i < this.printerConsumables.size(); i++) {
 			if(Integer.parseInt(quantities.get(i)) > 0){
-				PetitionRow pr = new PetitionRow(petition, 
+				ConsumablePetitionRow pr = new ConsumablePetitionRow(petition, 
 												 this.consumableGateway.find(printerConsumables.get(i).getConsumableName()),  
 												 Integer.parseInt(quantities.get(i)));
 				petitionRows.add(pr);
@@ -110,7 +110,7 @@ public class ConsumablePetitionController {
 		this.petitionGateway.create(petition);
 		this.petitionGateway.save();
 		
-		for (PetitionRow petitionRow : petitionRows) {
+		for (ConsumablePetitionRow petitionRow : petitionRows) {
 			this.petitionRowGateway.create(petitionRow);
 			this.petitionRowGateway.save();
 		}
@@ -120,7 +120,7 @@ public class ConsumablePetitionController {
 			this.petitionGateway.create(petition);
 			this.petitionGateway.save();
 			
-			for (PetitionRow petitionRow : petitionRows) {
+			for (ConsumablePetitionRow petitionRow : petitionRows) {
 				this.petitionRowGateway.create(petitionRow);
 				this.petitionRowGateway.save();
 			}
@@ -145,7 +145,7 @@ public class ConsumablePetitionController {
 	}
 	
 
-	public void setTextMessage(Petition petition) {
+	public void setTextMessage(ConsumablePetition petition) {
 		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
 				+ "\n"
 				+ "El profesor " + userGateway.getCurrent().getName() + " "
@@ -154,7 +154,7 @@ public class ConsumablePetitionController {
 				+ " la siguiente petición de consumibles para la impresora de la marca " + this.printerGateway.getCurrent().getModel().getTradeMark() 
 				+ " modelo "+ this.printerGateway.getCurrent().getModel().getModelName()+ ".\n"
 				+ " \n");
-		for (PetitionRow petitionRow : petition.getPetitionRows()) {
+		for (ConsumablePetitionRow petitionRow : petition.getPetitionRows()) {
 			if(petitionRow.getConsumable().getColour() != null)
 				this.textMessage += petitionRow.getConsumable().getColour() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() + "\n";
 			else

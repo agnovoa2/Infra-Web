@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import es.uvigo.esei.infraestructura.entities.Petition;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 
 @Stateless
 public class PetitionEJB {
@@ -20,23 +20,23 @@ public class PetitionEJB {
 	private UserAuthorizationEJB auth;
 
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public List<Petition> findAllPetitions() {
-		return em.createNamedQuery("findAllPetitions", Petition.class).getResultList();
+	public List<ConsumablePetition> findAllPetitions() {
+		return em.createNamedQuery("findAllPetitions", ConsumablePetition.class).getResultList();
 	}
 
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public Petition findPetition(int petitionNumber) {
-		return em.find(Petition.class, petitionNumber);
+	public ConsumablePetition findPetition(int petitionNumber) {
+		return em.find(ConsumablePetition.class, petitionNumber);
 	}
 
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public void addPetition(Petition petition) {
+	public void addPetition(ConsumablePetition petition) {
 		em.persist(petition);
 		em.flush();
 	}
 	
 	@RolesAllowed({ "INTERN", "PROFESSOR" })
-	public void updatePetition(Petition petition) {
+	public void updatePetition(ConsumablePetition petition) {
 		em.merge(petition);
 	}
 	

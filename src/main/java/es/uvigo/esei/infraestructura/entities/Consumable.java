@@ -49,7 +49,7 @@ public class Consumable {
 	private List<Model> models;
 
 	@OneToMany(mappedBy="consumable")
-	private List<PetitionRow> petitionRows;
+	private List<ConsumablePetitionRow> petitionRows;
 	
 	// Constructor required for JPA framework
 	Consumable() {
@@ -132,11 +132,11 @@ public class Consumable {
 		this.models = models;
 	}
 	
-	public List<PetitionRow> getPetitionRows() {
+	public List<ConsumablePetitionRow> getPetitionRows() {
 		return petitionRows;
 	}
 
-	public void setPetitionRows(List<PetitionRow> petitionRows) {
+	public void setPetitionRows(List<ConsumablePetitionRow> petitionRows) {
 		this.petitionRows = petitionRows;
 	}
 

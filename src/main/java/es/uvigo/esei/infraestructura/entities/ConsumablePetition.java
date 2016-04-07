@@ -13,9 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Petition")
-@NamedQuery(name="findAllPetitions",query="Select p From Petition p")
-public class Petition{
+@Table(name = "ConsumablePetition")
+@NamedQuery(name="findAllPetitions",query="Select p From ConsumablePetition p")
+public class ConsumablePetition{
 	
 	@Id
 	@Column(name="petitionNumber")
@@ -36,11 +36,11 @@ public class Petition{
 	private Printer printer;
 	
 	@OneToMany(mappedBy="petition")
-	private List<PetitionRow> petitionRows;
+	private List<ConsumablePetitionRow> petitionRows;
 	
-	Petition(){}
+	ConsumablePetition(){}
 	
-	public Petition(int petitionNumber, Printer printer, Date petitionDate, User user){
+	public ConsumablePetition(int petitionNumber, Printer printer, Date petitionDate, User user){
 		this.petitionNumber = petitionNumber;
 		this.petitionDate = petitionDate;
 		this.user = user;
@@ -72,11 +72,11 @@ public class Petition{
 		this.user = user;
 	}
 
-	public List<PetitionRow> getPetitionRows() {
+	public List<ConsumablePetitionRow> getPetitionRows() {
 		return petitionRows;
 	}
 
-	public void setPetitionRows(List<PetitionRow> petitionRows) {
+	public void setPetitionRows(List<ConsumablePetitionRow> petitionRows) {
 		this.petitionRows = petitionRows;
 	}
 

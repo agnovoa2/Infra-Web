@@ -19,8 +19,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import es.uvigo.esei.infraestructura.entities.Petition;
-import es.uvigo.esei.infraestructura.entities.PetitionRow;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 
 @Default
 @Singleton
@@ -33,12 +33,12 @@ public class Report {
 	private BaseFont bf;
 	private float beginOfNewTable;
 	
-	public void doSolicitudePDF(Petition petition) throws DocumentException, MalformedURLException, IOException {
+	public void doSolicitudePDF(ConsumablePetition petition) throws DocumentException, MalformedURLException, IOException {
 		doTemplate(true,petition);
 		document.close();
 	}
 	
-	public void doRetrievePDF(Petition petition) throws DocumentException, MalformedURLException, IOException {
+	public void doRetrievePDF(ConsumablePetition petition) throws DocumentException, MalformedURLException, IOException {
 		doTemplate(false,petition);
 		
 		//Last table
@@ -67,7 +67,7 @@ public class Report {
 		document.close();
 	}
 	
-	public void doTemplate(boolean solicitude, Petition petition) throws DocumentException, MalformedURLException, IOException{
+	public void doTemplate(boolean solicitude, ConsumablePetition petition) throws DocumentException, MalformedURLException, IOException{
 		document = new Document();
 		document.setMargins(0, 0, 0, 0);
 		writer = PdfWriter.getInstance(document, new FileOutputStream(petition.getPetitionNumber() + ".pdf"));
@@ -196,7 +196,7 @@ public class Report {
         cb.setColorFill(BaseColor.BLACK);
         cb.showText("Petición:");
         int i = 0;
-        for (PetitionRow petitionRow : petition.getPetitionRows()) {
+        for (ConsumablePetitionRow petitionRow : petition.getPetitionRows()) {
         	cb.setTextMatrix(112, 424 - 14 * i);
             cb.setColorFill(BaseColor.BLACK);
             cb.showText(petitionRow.getConsumable().toString() + " Cantidad: " + petitionRow.getQuantity());

@@ -31,7 +31,7 @@ public class Printer {
 	private Model model;
 
 	@OneToMany(mappedBy = "printer")
-	private List<Petition> petitions;
+	private List<ConsumablePetition> petitions;
 
 	// Constructor required for JPA framework
 	Printer() {
@@ -74,11 +74,11 @@ public class Printer {
 		this.model = model;
 	}
 
-	public List<Petition> getPetitions() {
+	public List<ConsumablePetition> getPetitions() {
 		return petitions;
 	}
 
-	public void setPetitions(List<Petition> petitions) {
+	public void setPetitions(List<ConsumablePetition> petitions) {
 		this.petitions = petitions;
 	}
 

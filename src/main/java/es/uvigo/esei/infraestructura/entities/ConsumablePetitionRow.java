@@ -12,8 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PetitionRow")
-@NamedQuery(name="findAllPetitionRows",query="Select p From PetitionRow p")
-public class PetitionRow {
+@NamedQuery(name="findAllConsumablePetitionRows",query="Select p From ConsumablePetitionRow p")
+public class ConsumablePetitionRow {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class PetitionRow {
 	
 	@ManyToOne
 	@JoinColumn(name = "petition")
-	private Petition petition;
+	private ConsumablePetition petition;
 	
 	@ManyToOne
 	@JoinColumn(name = "consumable")
@@ -30,19 +30,19 @@ public class PetitionRow {
 	@Column(name="quantity")
 	private int quantity;
 	
-	PetitionRow(){}
+	ConsumablePetitionRow(){}
 
-	public PetitionRow(Petition petition, Consumable consumable, int quantity){
+	public ConsumablePetitionRow(ConsumablePetition petition, Consumable consumable, int quantity){
 		this.petition = petition;
 		this.consumable = consumable;
 		this.quantity = quantity;
 	}
 	
-	public Petition getPetition() {
+	public ConsumablePetition getPetition() {
 		return petition;
 	}
 
-	public void setPetition(Petition petition) {
+	public void setPetition(ConsumablePetition petition) {
 		this.petition = petition;
 	}
 

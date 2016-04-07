@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.PetitionRow;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -20,24 +20,24 @@ public class PetitionRowGatewayBean {
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private PetitionRow current;
+	private ConsumablePetitionRow current;
 
-	public PetitionRow find(String id) {
-		this.current = this.em.find(PetitionRow.class, id);
+	public ConsumablePetitionRow find(String id) {
+		this.current = this.em.find(ConsumablePetitionRow.class, id);
 		return this.current;
 	}
 
-	public PetitionRow getCurrent() {
+	public ConsumablePetitionRow getCurrent() {
 		return current;
 	}
 
-	public void create(PetitionRow user) {
+	public void create(ConsumablePetitionRow user) {
 		this.em.persist(user);
 		this.current = user;
 	}
 
 	public void remove(String id) {
-		PetitionRow ref = this.em.getReference(PetitionRow.class, id);
+		ConsumablePetitionRow ref = this.em.getReference(ConsumablePetitionRow.class, id);
 		this.em.remove(ref);
 	}
 

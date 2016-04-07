@@ -59,7 +59,7 @@ public class User {
 	private List<Printer> printers;
 
 	@OneToMany(mappedBy="user")
-	private List<Petition> petitions;
+	private List<ConsumablePetition> petitions;
 	
 	@OneToMany(mappedBy="user")
 	private List<Incidence> incidences;
@@ -169,11 +169,11 @@ public class User {
 		this.printers = printers;
 	}
 
-	public List<Petition> getPetitions() {
+	public List<ConsumablePetition> getPetitions() {
 		return petitions;
 	}
 
-	public void setPetitions(List<Petition> petitions) {
+	public void setPetitions(List<ConsumablePetition> petitions) {
 		this.petitions = petitions;
 	}
 
