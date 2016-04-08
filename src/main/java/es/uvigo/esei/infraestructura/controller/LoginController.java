@@ -121,6 +121,11 @@ public class LoginController {
             redirectToIndex();
 	}
 	
+	public void redirectIfNotIntern() throws IOException {
+		if (!this.isIntern())
+            redirectToIndex();
+	}
+	
 	private void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}

@@ -22,7 +22,7 @@ public class Subject {
 	@Column(name="subjectName", length = 80)
 	private String subjectName;
 
-	@Column(name="code", length = 13, nullable = false)
+	@Column(name="code", length = 13, nullable = false, unique = true)
 	private String code;
 	
 	@Column(name="degree", length = 6, nullable = false)
@@ -46,11 +46,14 @@ public class Subject {
 	
 	Subject() {}
 
-	public Subject(String subjectName, String code, SubjectDegree degree) {
+	public Subject(String subjectName, String code, String degree) {
 		super();
 		this.subjectName = subjectName;
 		this.code = code;
-		this.degree = degree;
+		if(degree.equals("grado"))
+			this.degree = SubjectDegree.GRADE;
+		if(degree.equals("máster"))
+			this.degree= SubjectDegree.MASTER;
 		this.petitionState = 0;
 	}
 
@@ -74,8 +77,11 @@ public class Subject {
 		return degree;
 	}
 
-	public void setDegree(SubjectDegree degree) {
-		this.degree = degree;
+	public void setDegree(String degree) {
+		if(degree.equals("grado"))
+			this.degree = SubjectDegree.GRADE;
+		if(degree.equals("máster"))
+			this.degree= SubjectDegree.MASTER;
 	}
 
 	public List<User> getUsers() {

@@ -50,41 +50,43 @@ public class IncidencesController {
 	private String textMessage;
 
 	public void initLists() {
-		switch (laboratory.toLowerCase()) {
-		case "libre acceso":
-			fillArray(48);
-			break;
-		case "s01":
-			fillArray(29);
-			break;
-		case "s02":
-			fillArray(29);
-			break;
-		case "s03":
-			fillArray(29);
-			break;
-		case "s04":
-			fillArray(29);
-			break;
-		case "s05":
-			fillArray(29);
-			break;
-		case "s06":
-			fillArray(29);
-			break;
-		case "aula 2.1":
-			fillArray(1);
-			break;
-		case "aula 2.2":
-			fillArray(1);
-			break;
-		case "aula 3.1":
-			fillArray(1);
-			break;
-		case "aula 3.2":
-			fillArray(1);
-			break;
-		// TODO faltan mirar los labs 37 38 39 30A 30B 31A
+		if (laboratory != null) {
+			switch (laboratory.toLowerCase()) {
+			case "libre acceso":
+				fillArray(48);
+				break;
+			case "s01":
+				fillArray(29);
+				break;
+			case "s02":
+				fillArray(29);
+				break;
+			case "s03":
+				fillArray(29);
+				break;
+			case "s04":
+				fillArray(29);
+				break;
+			case "s05":
+				fillArray(29);
+				break;
+			case "s06":
+				fillArray(29);
+				break;
+			case "aula 2.1":
+				fillArray(1);
+				break;
+			case "aula 2.2":
+				fillArray(1);
+				break;
+			case "aula 3.1":
+				fillArray(1);
+				break;
+			case "aula 3.2":
+				fillArray(1);
+				break;
+			// TODO faltan mirar los labs 37 38 39 30A 30B 31A
+			}
 		}
 
 	}
@@ -202,10 +204,11 @@ public class IncidencesController {
 	}
 
 	public void redirectIfNotLaboratory() throws IOException {
-		if (!this.laboratory.toLowerCase().equals("libre acceso") && !this.laboratory.toLowerCase().equals("s01")
-				&& !this.laboratory.toLowerCase().equals("s02") && !this.laboratory.toLowerCase().equals("s03")
-				&& !this.laboratory.toLowerCase().equals("s04") && !this.laboratory.toLowerCase().equals("s05")
-				&& !this.laboratory.toLowerCase().equals("s06") && !this.laboratory.toLowerCase().equals("aula 2.1")
+		if (this.laboratory != null && !this.laboratory.toLowerCase().equals("libre acceso")
+				&& !this.laboratory.toLowerCase().equals("s01") && !this.laboratory.toLowerCase().equals("s02")
+				&& !this.laboratory.toLowerCase().equals("s03") && !this.laboratory.toLowerCase().equals("s04")
+				&& !this.laboratory.toLowerCase().equals("s05") && !this.laboratory.toLowerCase().equals("s06")
+				&& !this.laboratory.toLowerCase().equals("aula 2.1")
 				&& !this.laboratory.toLowerCase().equals("aula 2.2")
 				&& !this.laboratory.toLowerCase().equals("aula 3.1")
 				&& !this.laboratory.toLowerCase().equals("aula 3.2")
@@ -280,7 +283,7 @@ public class IncidencesController {
 		this.computerGateway.save();
 	}
 
-	public String incidenceToString(){
+	public String incidenceToString() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
 		Incidence incidence = null;
@@ -293,7 +296,7 @@ public class IncidencesController {
 		}
 		return incidence.toString();
 	}
-	
+
 	private void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}

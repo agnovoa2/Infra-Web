@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+	<f:event listener="#{loginController.redirectIfNotIntern()}"
+		type="preRenderView" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h2>Gestión de asignaturas</h2>
+	<h3>Alta asignaturas</h3>
+	<h:form>
+		<h:outputLabel value="Nombre asignatura: " />
+		<h:inputText id="subjectName" value="#{subjectManagement.subjectName}" />
+		<div />
+		<h:outputLabel value="Código asignatura: " />
+		<h:inputText id="code" value="#{subjectManagement.code}" />
+		<div />
+		<h:selectOneMenu id="degree" value="#{subjectManagement.grade}">
+			<f:selectItem itemValue="Grado" itemLabel="Grado" />
+			<f:selectItem itemValue="Máster" itemLabel="Máster" />
+		</h:selectOneMenu>
+		<div />
+		<h:commandButton action="#{subjectManagement.doAddSubject()}"
+			value="Dar de alta asignatura">
+			<f:ajax execute="subjectName code degree" render="subjects" />
+		</h:commandButton>
+	</h:form>
+	<h3>Baja asignaturas</h3>
+	<h:panelGroup id="subjects">
+		<h:form>
+			<ui:repeat var="subject" value="#{subjectManagement.allSubjects}">
+				<h:outputLabel value="#{subject.subjectName}" />
+				&nbsp;
+				<h:commandLink
+					action="#{subjectManagement.doRemoveSubject(subject.subjectName)}"
+					value="eliminar">
+					<f:ajax render="subjects" />
+				</h:commandLink>
+				&nbsp;
+				<h:commandLink
+					action="#{subjectManagement.doSetEditSubject(subject.subjectName)}"
+					value="editar">
+					<f:ajax render="edit" />
+				</h:commandLink>
+				<div></div>
+			</ui:repeat>
+		</h:form>
+	</h:panelGroup>
+	<h3>Editar asignaturas</h3>
+	<h:panelGroup id="edit">
+		<h:form>
+			<h:outputLabel value="Nombre asignatura: " />
+			<h:inputText id="subjectNameEdit"
+				value="#{subjectManagement.subjectName}" />
+			<div />
+			<h:outputLabel value="Código asignatura: " />
+			<h:inputText id="codeEdit" value="#{subjectManagement.code}" />
+			<div />
+			<h:selectOneMenu id="degreeEdit" value="#{subjectManagement.grade}">
+				<f:selectItem itemValue="Grado" itemLabel="Grado" />
+				<f:selectItem itemValue="Máster" itemLabel="Máster" />
+			</h:selectOneMenu>
+			<div />
+			<h:commandButton action="#{subjectManagement.doAddSubject()}"
+				value="Editar asignatura">
+				<f:ajax execute="subjectNameEdit codeEdit degreeEdit" render="subjects" />
+			</h:commandButton>
+		</h:form>
+	</h:panelGroup>
+</h:body>
+</html>

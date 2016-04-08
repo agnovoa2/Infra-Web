@@ -19,11 +19,36 @@
 <h:body>
 	<h1>
 		Incidencias
-		<h:outputFormat value="{0}">
+		<h:outputFormat value="{0}"
+			rendered="#{incidences.laboratory != null}">
 			<f:param value="#{incidences.laboratory}" />
 		</h:outputFormat>
 	</h1>
-	<h:panelGroup id="computers">
+	<h:panelGroup rendered="#{incidences.laboratory == null}">
+		<a href="incidences.xhtml?lab=libre%20acceso">Libre acceso</a>
+		<br/>
+		<a href="incidences.xhtml?lab=s01">s01</a>
+		<br/>
+		<a href="incidences.xhtml?lab=s02">s02</a>
+		<br/>
+		<a href="incidences.xhtml?lab=s03">s03</a>
+		<br/>
+		<a href="incidences.xhtml?lab=s04">s04</a>
+		<br/>
+		<a href="incidences.xhtml?lab=s05">s05</a>
+		<br/>
+		<a href="incidences.xhtml?lab=s06">s06</a>
+		<br/>
+		<a href="incidences.xhtml?lab=aula%202.1">aula 2.1</a>
+		<br/>
+		<a href="incidences.xhtml?lab=aula%202.1">aula 2.2</a>
+		<br/>
+		<a href="incidences.xhtml?lab=aula%202.1">aula 3.1</a>
+		<br/>
+		<a href="incidences.xhtml?lab=aula%202.1">aula 3.2</a>
+	</h:panelGroup>
+	<h:panelGroup id="computers"
+		rendered="#{incidences.laboratory != null}">
 		<o:form>
 			<!-- aulas -->
 

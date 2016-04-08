@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:metadata>
 	<f:event listener="#{loginController.redirectIfAnonymous()}"
 		type="preRenderView" />
@@ -14,12 +15,17 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Zona becarios infraestructura ESEI</h2>
-	<h:link value="Gestión de asignaturas" outcome="subjectManagement"/>
-	<br/>
-	<h:link value="Gestión de incidencias" outcome="incidences"/>
-	<br/>
-	<h:link value="Gestión de software" outcome="incidences"/>
-	<br/>
+	<h2>Gestión de software</h2>
+	<h3>Baja de software</h3>
+	<h:panelGroup id="subjects">
+		<h:form>
+			<ui:repeat var="subject" value="#{subjectManagement.allSubjects}">
+				<h:commandLink action="#{subjectManagement.doRemoveSubject(subject.subjectName)}" value="#{subject.subjectName}">
+					<f:ajax render="subjects" />
+				</h:commandLink>
+				<div></div>
+			</ui:repeat>
+		</h:form>
+	</h:panelGroup>
 </h:body>
 </html>
