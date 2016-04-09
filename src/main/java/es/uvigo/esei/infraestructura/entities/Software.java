@@ -62,8 +62,12 @@ public class Software {
 		return type;
 	}
 
-	public void setType(SoftwareType type) {
-		this.type = type;
+	public void setType(int type) {
+		if (type == 1) {
+			this.type = SoftwareType.OPERATIVE_SYSTEM;
+		} else {
+			this.type = SoftwareType.PROGRAM;
+		}
 	}
 
 	public String getDownloadURL() {

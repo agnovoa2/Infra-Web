@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.Computer;
 import es.uvigo.esei.infraestructura.entities.Subject;
 
 @Stateful

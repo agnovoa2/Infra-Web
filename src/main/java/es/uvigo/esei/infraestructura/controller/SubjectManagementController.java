@@ -5,7 +5,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.security.auth.message.callback.PrivateKeyCallback.SubjectKeyIDRequest;
 
 import es.uvigo.esei.infraestructura.entities.Software;
 import es.uvigo.esei.infraestructura.entities.Subject;

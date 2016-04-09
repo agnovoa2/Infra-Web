@@ -4,7 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
 <f:metadata>
 	<f:event listener="#{loginController.redirectIfAnonymous()}"
 		type="preRenderView" />
@@ -16,16 +18,72 @@
 </h:head>
 <h:body>
 	<h2>Gestión de software</h2>
-	<h3>Baja de software</h3>
-	<h:panelGroup id="subjects">
-		<h:form>
-			<ui:repeat var="subject" value="#{subjectManagement.allSubjects}">
-				<h:commandLink action="#{subjectManagement.doRemoveSubject(subject.subjectName)}" value="#{subject.subjectName}">
-					<f:ajax render="subjects" />
+	<h3>Alta software</h3>
+	<o:form>
+		<h:outputLabel value="Nombre software: " />
+		<h:inputText id="softwareName"
+			value="#{softwareManagement.softwareName}" required="true"
+			requiredMessage="Debe especificar un nombre de software" />
+		<h:message id="m1" for="softwareName" style="color:red" />
+		<div />
+		<h:outputLabel value="URL de descarga: " />
+		<h:inputText id="downloadURL"
+			value="#{softwareManagement.downloadURL}" />
+		<div />
+		<h:selectOneMenu id="type" value="#{softwareManagement.type}">
+			<f:selectItem itemValue="0" itemLabel="Software" />
+			<f:selectItem itemValue="1" itemLabel="Sistema Operativo" />
+		</h:selectOneMenu>
+		<div />
+		<h:commandButton action="#{softwareManagement.doAddSoftware()}"
+			value="Dar de alta software">
+			<f:ajax execute="@form" render="@form software softwareForm" />
+		</h:commandButton>
+	</o:form>
+	<h3>Baja asignaturas</h3>
+	<h:panelGroup id="software">
+		<o:form id="softwareForm">
+			<ui:repeat var="software" value="#{softwareManagement.allSoftware}">
+				<h:outputLabel value="#{software.softwareName}" />
+				&nbsp;
+				<h:commandLink
+					action="#{softwareManagement.doRemoveSoftware(software.softwareName)}"
+					value="eliminar">
+					<f:ajax render="@form" />
+				</h:commandLink>
+				&nbsp;
+				<h:commandLink
+					action="#{softwareManagement.doSetEditSoftware(software.softwareName)}"
+					value="editar">
+					<f:ajax render="edit editForm" />
 				</h:commandLink>
 				<div></div>
 			</ui:repeat>
-		</h:form>
+		</o:form>
+	</h:panelGroup>
+	<h3>Editar software</h3>
+	<h:panelGroup id="edit">
+		<o:form id="editForm">
+			<h:outputLabel value="Nombre software: " />
+			<h:inputText id="softwareNameEdit"
+				value="#{softwareManagement.newSoftwareName}" required="true"
+				requiredMessage="Debe especificar un nombre de software" />
+			<h:message id="m3" for="softwareNameEdit" style="color:red" />
+			<div />
+			<h:outputLabel value="URL de descarga: " />
+			<h:inputText id="downloadURLEdit"
+				value="#{softwareManagement.downloadURL}" />
+			<div />
+			<h:selectOneMenu id="typeEdit" value="#{softwareManagement.type}">
+				<f:selectItem itemValue="0" itemLabel="Software" />
+				<f:selectItem itemValue="1" itemLabel="Sistema Operativo" />
+			</h:selectOneMenu>
+			<div />
+			<h:commandButton action="#{softwareManagement.doEditSoftware()}"
+				value="Editar software">
+				<f:ajax execute="@form" render="@form software softwareForm" />
+			</h:commandButton>
+		</o:form>
 	</h:panelGroup>
 </h:body>
 </html>

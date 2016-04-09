@@ -45,7 +45,7 @@ public class SoftwareGatewayBean {
         this.current = software;
     }
 	
-	public void remove(String id){
+	public void remove(int id){
 		Software ref = this.em.getReference(Software.class, id);
         this.em.remove(ref);
     }
