@@ -17,29 +17,30 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Gestión de peticiones de software</h2>
+	<h2>Gestión de peticiones de consumibles</h2>
 	<h3>Peticiones de software</h3>
 	<o:form>
-		<ui:repeat var="subject"
-			value="#{softwarePetitionManagement.allPetitions}">
-			<h:outputLabel value="#{subject.subjectName}" />
+		<ui:repeat var="petition"
+			value="#{consumablePetitionManagement.allPetitions}">
+			<h:outputLabel value="#{petition.printer.model.modelName}" />
+			&nbsp;
+			<h:outputLabel value="#{petition.user.toString()}" />
 			<div />
-			<ui:repeat var="software" value="#{subject.softwares}">
-				<h:outputLabel value="#{software.softwareName}" />
+			<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+				<h:outputLabel value="#{petitionRow.consumable.toString()}" />
+				&nbsp;
+				<h:outputLabel value="#{petitionRow.quantity}" />
 				<div />
 			</ui:repeat>
 			<h:outputText value="#{subject.description}" />
+			<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de solicitud</a>
 			<h:commandButton
-				action="#{softwarePetitionManagement.doConfirmPetition(subject.code)}"
-				value="Confirmar petición" rendered="#{subject.petitionState == 1}" >
+				action="#"
+				value="Confirmar petición" rendered="#{petition.petitionState == 0}" >
 				<f:ajax render="@form"/>
 			</h:commandButton>
 			<div />
 		</ui:repeat>
 	</o:form>
-	<h3>Asignaturas que no han hecho petición</h3>
-	<ui:repeat var="subject" value="#{softwarePetitionManagement.noPetitions}">
-		<h:outputLabel value="#{subject.subjectName}" />
-	</ui:repeat>
 </h:body>
 </html>

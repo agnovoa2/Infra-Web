@@ -70,7 +70,11 @@ public class Report {
 	public void doTemplate(boolean solicitude, ConsumablePetition petition) throws DocumentException, MalformedURLException, IOException{
 		document = new Document();
 		document.setMargins(0, 0, 0, 0);
-		writer = PdfWriter.getInstance(document, new FileOutputStream(petition.getPetitionNumber() + ".pdf"));
+		String flag = "";
+		if(!solicitude){
+			flag = "r";
+		}
+		writer = PdfWriter.getInstance(document, new FileOutputStream("/var/webapp/pdf/" + petition.getPetitionNumber() + flag + ".pdf"));
         document.open();
         canvas = writer.getDirectContent();
         

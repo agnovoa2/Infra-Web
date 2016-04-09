@@ -27,6 +27,13 @@ public class SoftwarePetitionManagementController {
 		return subjectGateway.getAllPetitions();
 	}
 	
+	public List<Subject> getNoPetitions(){
+		List<Subject> subjects = subjectGateway.getAll();
+		List<Subject> subjectWithPetition = getAllPetitions();
+		subjects.removeAll(subjectWithPetition);
+		return subjects;
+	}
+	
 	public void doConfirmPetition(String code){
 		subjectGateway.findByCode(code);
 		subjectGateway.getCurrent().setPetitionState(2);

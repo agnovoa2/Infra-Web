@@ -1,5 +1,7 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -44,6 +46,10 @@ public class PetitionGatewayBean {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void save() {
 		// nothing to do
+	}
+	
+	public List<ConsumablePetition> getAllPetitions(){
+		return em.createNamedQuery("findAllPetitions", ConsumablePetition.class).getResultList();
 	}
 	
 	public int nextPetitionNumber() {
