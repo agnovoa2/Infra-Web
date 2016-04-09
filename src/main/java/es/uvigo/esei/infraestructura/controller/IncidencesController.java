@@ -222,6 +222,14 @@ public class IncidencesController {
 		}
 	}
 
+	public void setTextClose() {
+		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+				+ "Se ha solucionado la incidencia reportada sobre el ordenador " + getLabelNum() + " en " + getLaboratory() + "\n"
+				+ "Le agradecemos la molestia de reportar dicha incidencia \n" 
+				+ "Un saludo. Atte: Equipo de infraestructura de la ESEI");
+				
+	}
+	
 	public void setTextMessage() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
@@ -281,6 +289,8 @@ public class IncidencesController {
 		}
 		this.computerGateway.getCurrent().setState(State.OK);
 		this.computerGateway.save();
+		this.setTextClose();
+		mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
 	}
 
 	public String incidenceToString() {

@@ -63,4 +63,8 @@ public class SubjectGatewayBean {
 	public List<Subject> getAll(){
 		return em.createNamedQuery("findAllSubjects", Subject.class).getResultList();
 	}
+	
+	public List<Subject> getAllPetitions(){
+		return em.createNamedQuery("findAllSubjectPetitions", Subject.class).getResultList();
+	}
 }

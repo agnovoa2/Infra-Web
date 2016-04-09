@@ -12,53 +12,58 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Subject")
-@NamedQuery(name = "findAllSubjects", query="select s from Subject s")
+@NamedQueries({ 
+	@NamedQuery(name = "findAllSubjects", query = "select s from Subject s"),
+	@NamedQuery(name = "findAllSubjectPetitions", query = "Select s From Subject s Where s.petitionState > 0") 
+})
+
 public class Subject {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name="subjectName", length = 80, nullable = false, unique = true)
+
+	@Column(name = "subjectName", length = 80, nullable = false, unique = true)
 	private String subjectName;
 
-	@Column(name="code", length = 13, nullable = false, unique = true)
+	@Column(name = "code", length = 13, nullable = false, unique = true)
 	private String code;
-	
-	@Column(name="degree", length = 6, nullable = false)
+
+	@Column(name = "degree", length = 6, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private SubjectDegree degree;
-	
-	//0 for no petition, 1 for petition done and 2 for petition solved
-	@Column(name="petitionState", nullable = false)
+
+	// 0 for no petition, 1 for petition done and 2 for petition solved
+	@Column(name = "petitionState", nullable = false)
 	private int petitionState;
-	
-	@Column(name="description", length = 1000)
+
+	@Column(name = "description", length = 1000)
 	private String description;
-	
-	@ManyToMany(mappedBy="subjects")
+
+	@ManyToMany(mappedBy = "subjects")
 	private List<User> users;
-	
+
 	@ManyToMany
-	@JoinTable(name = "SUB_SOFT", joinColumns = @JoinColumn(name = "subjectId", referencedColumnName = "id"), 
-		inverseJoinColumns = @JoinColumn(name = "softwareId", referencedColumnName = "id"))
+	@JoinTable(name = "SUB_SOFT", joinColumns = @JoinColumn(name = "subjectId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "softwareId", referencedColumnName = "id"))
 	private List<Software> softwares;
-	
-	Subject() {}
+
+	Subject() {
+	}
 
 	public Subject(String subjectName, String code, String degree) {
 		super();
 		this.subjectName = subjectName;
 		this.code = code;
-		if(degree.equals("grado"))
+		if (degree.equals("grado"))
 			this.degree = SubjectDegree.GRADE;
-		if(degree.equals("máster"))
-			this.degree= SubjectDegree.MASTER;
+		if (degree.equals("máster"))
+			this.degree = SubjectDegree.MASTER;
 		this.petitionState = 0;
 	}
 
@@ -83,10 +88,10 @@ public class Subject {
 	}
 
 	public void setDegree(String degree) {
-		if(degree.equals("grado"))
+		if (degree.equals("grado"))
 			this.degree = SubjectDegree.GRADE;
-		if(degree.equals("máster"))
-			this.degree= SubjectDegree.MASTER;
+		if (degree.equals("máster"))
+			this.degree = SubjectDegree.MASTER;
 	}
 
 	public List<User> getUsers() {
@@ -139,6 +144,5 @@ public class Subject {
 			return false;
 		}
 	}
-	
-	
+
 }

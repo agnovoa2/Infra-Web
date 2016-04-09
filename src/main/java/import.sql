@@ -1,10 +1,10 @@
 
 
-insert into user values('profesor',1,'profesor@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
+insert into user values('profesor',1,'agnovoa2@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
 insert into user values('agnovoa2',1,'agnovoa2@esei.uvigo.es','Gutierrez','Alejandro','eseiSephiroth69','INTERN','Novoa');
 insert into user values('alumno',1,'alumno@esei.uvigo.es','alumno','alumno','alumno','STUDENT','alumno');
 
-insert into subject(subjectName,code,degree,description,petitionState) values('PROI','O06G150V01104','GRADE','',0);
+insert into subject(subjectName,code,degree,description,petitionState) values('PROI','O06G150V01104','GRADE','',1);
 insert into subject(subjectName,code,degree,description,petitionState) values('SGI','O06M132V01105','MASTER','',0);
 
 insert into software(softwareName,downloadURL,type) values('Kubuntu 15.10', 'kubuntu.org', 'OPERATIVE_SYSTEM');
