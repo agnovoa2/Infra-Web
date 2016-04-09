@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,7 +21,10 @@ import javax.persistence.Table;
 public class Subject {
 	
 	@Id
-	@Column(name="subjectName", length = 80)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="subjectName", length = 80, nullable = false, unique = true)
 	private String subjectName;
 
 	@Column(name="code", length = 13, nullable = false, unique = true)
@@ -40,8 +45,8 @@ public class Subject {
 	private List<User> users;
 	
 	@ManyToMany
-	@JoinTable(name = "SUB_SOFT", joinColumns = @JoinColumn(name = "subjectName", referencedColumnName = "subjectName"), 
-		inverseJoinColumns = @JoinColumn(name = "softwareName", referencedColumnName = "softwareName"))
+	@JoinTable(name = "SUB_SOFT", joinColumns = @JoinColumn(name = "subjectId", referencedColumnName = "id"), 
+		inverseJoinColumns = @JoinColumn(name = "softwareId", referencedColumnName = "id"))
 	private List<Software> softwares;
 	
 	Subject() {}
@@ -114,6 +119,14 @@ public class Subject {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override

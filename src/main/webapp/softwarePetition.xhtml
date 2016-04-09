@@ -23,7 +23,7 @@
 	<h2>Petición de software</h2>
 	<h3>Listado de software</h3>
 	<h:panelGroup id="softwares">
-		<o:form includeViewParams="true">
+		<o:form includeViewParams="true" id="petitionForm">
 
 			<ui:repeat var="software" value="#{softwarePetition.allSoftware}">
 				<h:outputLabel value="#{software.softwareName}" />
@@ -50,25 +50,30 @@
 			<br />
 			<h:commandButton action="#{softwarePetition.doPetition()}"
 				value="Realizar petición" />
-			<h3>Dar de alta software</h3>
-			<h:outputLabel value="Nombre del Software: " />
-			<h:inputText id="name" value="#{softwarePetition.software}"
-				a:placeholder="Nombre del software" />
-			<br />
-			<h:outputLabel value="Tipo de Software: " />
-			<h:selectOneMenu id="type" value="#{softwarePetition.softwareType}">
-				<f:selectItem itemLabel="Programa" itemValue="0" />
-				<f:selectItem itemLabel="Sistema operativo" itemValue="1" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel id="url" value="URL de descarga: " />
-			<h:inputText value="#{softwarePetition.dowloadURL}" />
-			<br />
-			<h:commandButton value="Dar de alta"
-				action="#{softwarePetition.doAddSoftware()}">
-				<f:ajax execute="name type url" render="softwares" />
-			</h:commandButton>
 		</o:form>
 	</h:panelGroup>
+	<h3>Dar de alta software</h3>
+	<h:form id="softwareForm">
+		<h:outputLabel value="Nombre del Software: " />
+		<h:inputText id="name" value="#{softwarePetition.software}"
+			a:placeholder="Nombre del software" required="true"
+			requiredMessage="Indique el nombre del software" />
+		<h:message id="m1" for="name" style="color:red" />
+		<p></p>
+		<br />
+		<h:outputLabel value="Tipo de Software: " />
+		<h:selectOneMenu id="type" value="#{softwarePetition.softwareType}">
+			<f:selectItem itemLabel="Programa" itemValue="0" />
+			<f:selectItem itemLabel="Sistema operativo" itemValue="1" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel id="url" value="URL de descarga: " />
+		<h:inputText value="#{softwarePetition.dowloadURL}" />
+		<br />
+		<h:commandButton value="Dar de alta"
+			action="#{softwarePetition.doAddSoftware()}">
+			<f:ajax execute="name type url" render="@form softwares petitionForm" />
+		</h:commandButton>
+	</h:form>
 </h:body>
 </html>

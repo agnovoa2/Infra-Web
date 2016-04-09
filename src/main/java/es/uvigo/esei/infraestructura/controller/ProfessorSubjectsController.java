@@ -34,13 +34,13 @@ public class ProfessorSubjectsController {
 		return currentUser.getName();
 	}
 	
-	public void removeSubjectFromProfessor(String subject) throws IOException{
-		this.userGateway.getCurrent().getSubjects().remove(this.subjectGateway.find(subject));
+	public void removeSubjectFromProfessor(String code) throws IOException{
+		this.userGateway.getCurrent().getSubjects().remove(this.subjectGateway.findByCode(code));
 		this.userGateway.save();
 	}
 	
 	public boolean isPetitionDone(String code){
-		this.subjectGateway.find(code);
+		this.subjectGateway.findByCode(code);
 		return this.subjectGateway.getCurrent().getPetitionState() > 0;
 	}
 }

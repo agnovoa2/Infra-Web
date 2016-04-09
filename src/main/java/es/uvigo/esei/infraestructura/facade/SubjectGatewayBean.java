@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.entities.Computer;
 import es.uvigo.esei.infraestructura.entities.Subject;
 
 @Stateful
@@ -30,14 +31,15 @@ public class SubjectGatewayBean {
 		return this.current;
 	}
 	
-	public Subject findByCode(String code){
+	public Subject findByCode(String code){   	
     	Query query = em.createQuery("SELECT s FROM Subject s WHERE s.code =:code",Subject.class);
-    	query.setParameter("code", code);
-    	List<Subject> subjects = query.getResultList();
-    	if(subjects.isEmpty())
-    		return null;
-    	this.current = subjects.get(0);
-    	return this.current;
+		query.setParameter("code", code);
+		if(query.getResultList().size() == 0){
+			this.current = null;
+			return null;
+		}
+		this.current = (Subject) query.getResultList().get(0);
+		return current;
     }
 
 	public Subject getCurrent() {
@@ -49,7 +51,7 @@ public class SubjectGatewayBean {
 		this.current = subject;
 	}
 
-	public void remove(String id) {
+	public void remove(int id) {
 		Subject ref = this.em.getReference(Subject.class, id);
 		this.em.remove(ref);
 	}

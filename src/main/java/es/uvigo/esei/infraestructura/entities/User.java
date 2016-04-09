@@ -50,7 +50,7 @@ public class User {
 
 	@ManyToMany
 	@JoinTable(name = "PROF_SUB", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
-		inverseJoinColumns = @JoinColumn(name = "subjectName", referencedColumnName = "subjectName"))
+		inverseJoinColumns = @JoinColumn(name = "subjectId", referencedColumnName = "id"))
 	private List<Subject> subjects;
 	
 	@ManyToMany

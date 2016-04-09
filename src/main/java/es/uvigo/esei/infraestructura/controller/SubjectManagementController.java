@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.security.auth.message.callback.PrivateKeyCallback.SubjectKeyIDRequest;
 
 import es.uvigo.esei.infraestructura.entities.Software;
 import es.uvigo.esei.infraestructura.entities.Subject;
@@ -23,10 +24,11 @@ public class SubjectManagementController {
 
 	@Inject
 	private UserGatewayBean userGateway;
-	
+
 	@Inject
 	private SoftwareGatewayBean softwareGateway;
 
+	private String newSubjectName;
 	private String code;
 	private String subjectName;
 	private String grade;
@@ -36,37 +38,45 @@ public class SubjectManagementController {
 		subjectGateway.save();
 	}
 
-	public void doRemoveSubject(String id) {
-		subjectGateway.find(id);
-		for (Software software : subjectGateway.getCurrent().getSoftwares()) {
-			softwareGateway.find(software.getSoftwareName());
-			softwareGateway.getCurrent().getSubjects().remove(subjectGateway.getCurrent());
-			softwareGateway.save();
+	public void doRemoveSubject(String code) {
+		subjectGateway.findByCode(code);
+		if (subjectGateway.getCurrent() != null) {
+			if (subjectGateway.getCurrent().getSoftwares() != null) {
+				for (Software software : subjectGateway.getCurrent().getSoftwares()) {
+					softwareGateway.find(software.getSoftwareName());
+					softwareGateway.getCurrent().getSubjects().remove(subjectGateway.getCurrent());
+					softwareGateway.save();
+				}
+			}
+			if (subjectGateway.getCurrent().getUsers() != null) {
+				for (User user : subjectGateway.getCurrent().getUsers()) {
+					userGateway.find(user.getLogin());
+					userGateway.getCurrent().getSubjects().remove(subjectGateway.getCurrent());
+					userGateway.save();
+				}
+			}
+			subjectGateway.getCurrent().setSoftwares(null);
+			subjectGateway.getCurrent().setUsers(null);
 		}
-		for (User user : subjectGateway.getCurrent().getUsers()) {
-			userGateway.find(user.getLogin());
-			userGateway.getCurrent().getSubjects().remove(subjectGateway.getCurrent());
-			userGateway.save();
-		}
-		subjectGateway.getCurrent().setSoftwares(null);
-		subjectGateway.getCurrent().setUsers(null);
-		subjectGateway.remove(id);
+		subjectGateway.remove(subjectGateway.getCurrent().getId());
 		subjectGateway.save();
+
 	}
 
-	public void doSetEditSubject(String id){
-		subjectGateway.find(id);
+	public void doSetEditSubject(String code) {
+		subjectGateway.findByCode(code);
 		setSubjectName(subjectGateway.getCurrent().getSubjectName());
+		setNewSubjectName(subjectGateway.getCurrent().getSubjectName());
 		setCode(subjectGateway.getCurrent().getCode());
-		if(subjectGateway.getCurrent().getDegree().equals(SubjectDegree.GRADE))
+		if (subjectGateway.getCurrent().getDegree().equals(SubjectDegree.GRADE))
 			setGrade("Grado");
-		if(subjectGateway.getCurrent().getDegree().equals(SubjectDegree.MASTER))
+		if (subjectGateway.getCurrent().getDegree().equals(SubjectDegree.MASTER))
 			setGrade("Máster");
 	}
-	
+
 	public void doEditSubject() {
-		subjectGateway.find(getSubjectName());
-		subjectGateway.getCurrent().setSubjectName(getSubjectName());
+		subjectGateway.findByCode(getCode());
+		subjectGateway.getCurrent().setSubjectName(getNewSubjectName());
 		subjectGateway.getCurrent().setCode(getCode());
 		subjectGateway.getCurrent().setDegree(getGrade());
 		subjectGateway.save();
@@ -98,5 +108,13 @@ public class SubjectManagementController {
 
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+
+	public String getNewSubjectName() {
+		return newSubjectName;
+	}
+
+	public void setNewSubjectName(String newSubjectName) {
+		this.newSubjectName = newSubjectName;
 	}
 }

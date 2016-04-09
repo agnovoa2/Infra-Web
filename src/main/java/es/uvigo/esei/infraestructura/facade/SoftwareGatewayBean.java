@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Software;
@@ -24,9 +25,15 @@ public class SoftwareGatewayBean {
 	
 	private Software current;
 
-	public Software find(String id) {
-		this.current = this.em.find(Software.class, id);
-		return this.current;
+	public Software find(String id) {	
+		Query query = em.createQuery("SELECT s FROM Software s WHERE s.softwareName=:softwareName",Software.class);
+		query.setParameter("softwareName", id);
+		if(query.getResultList().size() == 0){
+			this.current = null;
+			return null;
+		}
+		this.current = (Software) query.getResultList().get(0);
+		return current;
 	}
 	
 	public Software getCurrent() {

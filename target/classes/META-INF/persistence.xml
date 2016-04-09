@@ -27,13 +27,20 @@
          can find it in the source at src/main/webapp/WEB-INF/Infra-Web-ds.xml -->
       <jta-data-source>java:jboss/datasources/infra-webDS</jta-data-source>
       <class>es.uvigo.esei.infraestructura.entities.User</class>
-      <class>es.uvigo.esei.infraestructura.entities.Software</class>
       <class>es.uvigo.esei.infraestructura.entities.Subject</class>
-      <class>es.uvigo.esei.infraestructura.entities.Consumable</class>
+      <class>es.uvigo.esei.infraestructura.entities.Software</class>
       <class>es.uvigo.esei.infraestructura.entities.Printer</class>
       <class>es.uvigo.esei.infraestructura.entities.Model</class>
+      <class>es.uvigo.esei.infraestructura.entities.Consumable</class>
       <class>es.uvigo.esei.infraestructura.entities.ConsumablePetition</class>
       <class>es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow</class>
+      <class>es.uvigo.esei.infraestructura.entities.Computer</class>
+      <class>es.uvigo.esei.infraestructura.entities.Incidence</class>
+      <class>es.uvigo.esei.infraestructura.entities.IncidenceType</class>
+      <class>es.uvigo.esei.infraestructura.entities.Configuration</class>
+      <class>es.uvigo.esei.infraestructura.entities.Material</class>
+      <class>es.uvigo.esei.infraestructura.entities.MaterialPetition</class>
+      <class>es.uvigo.esei.infraestructura.entities.MaterialPetitionRow</class>
       <properties>
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
