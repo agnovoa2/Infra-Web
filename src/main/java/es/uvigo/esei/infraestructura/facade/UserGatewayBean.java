@@ -1,5 +1,7 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -44,5 +46,17 @@ public class UserGatewayBean {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void save() {
 		// nothing to do
+	}
+	
+	public List<User> getAllStudents(){
+		return em.createNamedQuery("findAllStudents", User.class).getResultList();
+	}
+	
+	public List<User> getAllProfessors(){
+		return em.createNamedQuery("findAllProfessors", User.class).getResultList();
+	}
+	
+	public List<User> getAllInterns(){
+		return em.createNamedQuery("findAllInterns", User.class).getResultList();
 	}
 }

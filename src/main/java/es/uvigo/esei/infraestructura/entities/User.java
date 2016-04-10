@@ -10,13 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "User")
-@NamedQuery(name = "findAllUsers", query="select u from User u")
+@NamedQueries({
+	@NamedQuery(name = "findAllStudents", query="select u from User u Where u.role = es.uvigo.esei.infraestructura.entities.Role.STUDENT"),
+	@NamedQuery(name = "findAllProfessors", query="select u from User u Where u.role = es.uvigo.esei.infraestructura.entities.Role.PROFESSOR"),
+	@NamedQuery(name = "findAllInterns", query="select u from User u Where u.role = es.uvigo.esei.infraestructura.entities.Role.INTERN")})
 public class User {
 
 	// Regex for the validation of md5 passwords
@@ -45,7 +49,7 @@ public class User {
 	private String email;
 
 	@Column
-	private boolean authorized;
+	private boolean banned;
 
 	@ManyToMany
 	@JoinTable(name = "PROF_SUB", joinColumns = @JoinColumn(name = "login", referencedColumnName = "login"), 
@@ -128,28 +132,12 @@ public class User {
 		return role;
 	}
 
-	public void setRole(String role) {
-		switch (role) {
-		case "Becario":
-			this.role = Role.INTERN;
-			break;
-		case "Profesor":
-			this.role = Role.PROFESSOR;
-			break;
-		case "Alumno":
-			this.role = Role.STUDENT;
-			break;
-		default:
-			break;
-		}
+	public boolean isBanned() {
+		return banned;
 	}
 
-	public boolean isAuthorized() {
-		return authorized;
-	}
-
-	public void setAuthorized(boolean authorized) {
-		this.authorized = authorized;
+	public void setBanned(boolean banned) {
+		this.banned = banned;
 	}
 
 	public List<Subject> getSubjects() {
