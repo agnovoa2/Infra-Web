@@ -27,6 +27,9 @@
 	<h:link value="Petición de toner" outcome="printerList"
 		rendered="#{!loginController.anonymous and loginController.professor}" />
 	<br />
+	<h:link value="Editar mi perfil" outcome="editProfile?login=#{loginController.currentUser.name}"
+		rendered="#{!loginController.anonymous}" />
+	<br />
 	<h:form>
 		<h:commandLink action="#{loginController.doLogout()}" value="Logout"
 			rendered="#{!loginController.anonymous}" />

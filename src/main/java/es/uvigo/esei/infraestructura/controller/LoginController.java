@@ -18,23 +18,23 @@ import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 @RequestScoped
 @ManagedBean(name = "loginController")
 public class LoginController {
-	
+
 	@Inject
 	private Principal currentUser;
-	
+
 	@Inject
 	private UserAuthorizationEJB auth;
-	
+
 	@Inject
 	private UserGatewayBean userGateway;
-	
+
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	
+
 	private String login;
 	private String password;
 	private boolean error;
 	private String errorMessage;
-	
+
 	public String getLogin() {
 		return login;
 	}
@@ -50,7 +50,7 @@ public class LoginController {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}
@@ -58,7 +58,7 @@ public class LoginController {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
+
 	public boolean isError() {
 		return error;
 	}
@@ -69,8 +69,7 @@ public class LoginController {
 
 	public void doLogin() throws IOException, ServletException {
 		try {
-			HttpServletRequest request = (HttpServletRequest) context
-					.getRequest();
+			HttpServletRequest request = (HttpServletRequest) context.getRequest();
 			request.login(this.getLogin(), this.getPassword());
 			this.error = false;
 			this.userGateway.find(this.getLogin());
@@ -81,51 +80,51 @@ public class LoginController {
 		} catch (ServletException e) {
 			this.error = true;
 			this.errorMessage = "Login or password don't match";
-			context.redirect("index.xhtml?login=error"+e.getMessage());
+			context.redirect("index.xhtml?login=error" + e.getMessage());
 		}
 	}
-	
+
 	public void doLogout() throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		request.logout();
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
-	
+
 	public Principal getCurrentUser() {
 		return this.currentUser;
 	}
-	
+
 	public boolean isIntern() {
-	    return auth.getCurrentUser().getRole().equals(Role.INTERN);
+		return auth.getCurrentUser().getRole().equals(Role.INTERN);
 	}
-	
+
 	public boolean isProfessor() {
-	    return auth.getCurrentUser().getRole().equals(Role.PROFESSOR);
+		return auth.getCurrentUser().getRole().equals(Role.PROFESSOR);
 	}
-	
+
 	public boolean isStudent() {
-	    return auth.getCurrentUser().getRole().equals(Role.STUDENT);
+		return auth.getCurrentUser().getRole().equals(Role.STUDENT);
 	}
-	
+
 	public boolean isAnonymous() {
 		return "anonymous".equals(this.getCurrentUser().getName());
 	}
-	
+
 	public void redirectIfAnonymous() throws IOException {
 		if (this.isAnonymous())
-            redirectToIndex();
+			redirectToIndex();
 	}
-	
+
 	public void redirectIfStudent() throws IOException {
 		if (this.isStudent())
-            redirectToIndex();
+			redirectToIndex();
 	}
-	
+
 	public void redirectIfNotIntern() throws IOException {
 		if (!this.isIntern())
-            redirectToIndex();
+			redirectToIndex();
 	}
-	
+
 	private void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:viewParam name="login" value="#{editProfile.login}" />
+	<f:event
+		listener="#{editProfile.redirectIfCantEdit(editProfile.login)}"
+		type="preRenderView" />
+	<f:event type="preRenderView" listener="#{editProfile.init()}" />
+
+</f:metadata>
+<h:head>
+	<h2>
+		Perfil
+		<h:outputFormat value="{0}">
+			<f:param value="#{editProfile.fullName}" />
+		</h:outputFormat>
+	</h2>
+	<o:form includeViewParams="true">
+		<h:outputLabel value="Nombre: " />
+		<h:inputText value="#{editProfile.name}" />
+		<br />
+		<h:outputLabel value="Primer apellido: " />
+		<h:inputText value="#{editProfile.firstSurname}" />
+		<br />
+		<h:outputLabel value="Segundo apellido: " />
+		<h:inputText value="#{editProfile.secondSurname}" />
+		<br />
+		<h:outputLabel value="Correo: " />
+		<h:inputText value="#{editProfile.mail}" />
+		<br />
+		<h:panelGroup rendered="#{!editProfile.intern}">
+			<h:outputLabel value="Contraseña antigua: " />
+			<h:inputText value="#{editProfile.oldPassword}" />
+			<br />
+		</h:panelGroup>
+		<h:outputLabel value="Nueva contraseña: " />
+		<h:inputText value="#{editProfile.newPassword}" />
+		<br />
+		<h:outputLabel value="Repita la contraseña: " />
+		<h:inputText value="#{editProfile.newPassword}" />
+		<br />
+		<h:commandButton action="#{editProfile.doEdit()}"
+			value="Editar perfil" />
+	</o:form>
+</h:head>
+<h:body>
+</h:body>
+</html>
