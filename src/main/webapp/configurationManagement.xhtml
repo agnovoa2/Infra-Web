@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+	<f:event listener="#{loginController.redirectIfNotIntern()}"
+		type="preRenderView" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h2>Configuración del servidor</h2>
+	<h:panelGroup id="configuration">
+		<o:form>
+			<h:outputLabel value="Correo de la aplicación" />
+			<h:inputText value="#{configurationManagement.mailSource}" />
+			<br/>
+			<h:outputLabel value="Correo de destino de la aplicación" />
+			<h:inputText value="#{configurationManagement.mailDestination}" />
+			<br/>
+			<h:outputLabel value="Contraseña del correo" />
+			<h:inputSecret value="#{configurationManagement.mailPassword}" />
+			<br/>
+			<h:outputLabel value="Repita contraseña del correo" />
+			<h:inputSecret value="" />
+			<br/>
+			<h:commandButton action="#{configurationManagement.doChangeConfiguration()}" value="Realizar cambios" >
+				<f:ajax execute="@form" render="configuration"/>
+			</h:commandButton>
+		</o:form>
+	</h:panelGroup>
+</h:body>
+</html>

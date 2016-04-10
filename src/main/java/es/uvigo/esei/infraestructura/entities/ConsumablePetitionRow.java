@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PetitionRow")
+@Table(name = "ConsumablePetitionRow")
 @NamedQuery(name="findAllConsumablePetitionRows",query="Select p From ConsumablePetitionRow p")
 public class ConsumablePetitionRow {
 

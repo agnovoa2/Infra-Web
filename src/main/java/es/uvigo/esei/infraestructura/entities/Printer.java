@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "Printer")
 @NamedQuery(name = "findAllPrinters", query = "Select p From Printer p")
 public class Printer {
+	
 	@Id
 	@Column(name = "inventoryNumber", length = 100)
 	private int inventoryNumber;
