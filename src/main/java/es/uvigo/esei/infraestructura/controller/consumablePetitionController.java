@@ -19,7 +19,7 @@ import es.uvigo.esei.infraestructura.entities.Consumable;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 import es.uvigo.esei.infraestructura.facade.ConsumableGatewayBean;
-import es.uvigo.esei.infraestructura.facade.PetitionGatewayBean;
+import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PetitionRowGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
@@ -43,7 +43,7 @@ public class ConsumablePetitionController {
 	private ConsumableGatewayBean consumableGateway;
 	
 	@Inject
-	private PetitionGatewayBean petitionGateway;
+	private ConsumablePetitionGatewayBean petitionGateway;
 	
 	@Inject
 	private PetitionRowGatewayBean petitionRowGateway;
@@ -94,7 +94,7 @@ public class ConsumablePetitionController {
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-		ConsumablePetition petition = new ConsumablePetition(this.petitionGateway.nextPetitionNumber(),this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
+		ConsumablePetition petition = new ConsumablePetition(this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
 		List<ConsumablePetitionRow> petitionRows= new LinkedList<ConsumablePetitionRow>();
 
 		for (int i = 0; i < this.printerConsumables.size(); i++) {

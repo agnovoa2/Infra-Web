@@ -5,43 +5,48 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "ConsumablePetition")
-@NamedQuery(name="findAllPetitions",query="Select p From ConsumablePetition p")
-public class ConsumablePetition{
-	
+@NamedQueries({
+		@NamedQuery(name = "findAllPetitions", query = "Select p From ConsumablePetition p Where p.petitionState = 0"),
+		@NamedQuery(name = "findAllDonePetitions", query = "Select p From ConsumablePetition p Where p.petitionState = 1") })
+public class ConsumablePetition {	
+
 	@Id
-	@Column(name="petitionNumber")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int petitionNumber;
-	
-	@Column(name="petitionDate")
+
+	@Column(name = "petitionDate")
 	private Date petitionDate;
-	
-	@Column(name="petitionState")
+
+	@Column(name = "petitionState")
 	private int petitionState;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "petitioner")
 	private User user;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "printer")
 	private Printer printer;
-	
-	@OneToMany(mappedBy="petition")
+
+	@OneToMany(mappedBy = "petition")
 	private List<ConsumablePetitionRow> petitionRows;
-	
-	ConsumablePetition(){}
-	
-	public ConsumablePetition(int petitionNumber, Printer printer, Date petitionDate, User user){
-		this.petitionNumber = petitionNumber;
+
+	ConsumablePetition() {
+	}
+
+	public ConsumablePetition(Printer printer, Date petitionDate, User user) {
 		this.petitionDate = petitionDate;
 		this.user = user;
 		this.printer = printer;

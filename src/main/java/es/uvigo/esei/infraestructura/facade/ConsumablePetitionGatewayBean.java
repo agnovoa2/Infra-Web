@@ -15,7 +15,7 @@ import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class PetitionGatewayBean {
+public class ConsumablePetitionGatewayBean {
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 
@@ -52,13 +52,7 @@ public class PetitionGatewayBean {
 		return em.createNamedQuery("findAllPetitions", ConsumablePetition.class).getResultList();
 	}
 	
-	public int nextPetitionNumber() {
-		try{
-		Integer i = em.createQuery("Select max(p.petitionNumber) From ConsumablePetition p",Integer.class).getSingleResult();
-		return i.intValue()+1;
-		}
-		catch(NullPointerException e){
-			return 1;
-		}
+	public List<ConsumablePetition> getAllDonePetitions(){
+		return em.createNamedQuery("findAllDonePetitions", ConsumablePetition.class).getResultList();
 	}
 }

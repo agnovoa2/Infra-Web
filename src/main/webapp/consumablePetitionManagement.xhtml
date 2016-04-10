@@ -19,9 +19,33 @@
 <h:body>
 	<h2>Gestión de peticiones de consumibles</h2>
 	<h3>Peticiones de software</h3>
-	<o:form>
+	<h:panelGroup id="petitions">
+		<o:form>
+			<h4>Peticiones pendientes</h4>
+			<ui:repeat var="petition"
+				value="#{consumablePetitionManagement.allPetitions}">
+				<h:outputLabel value="#{petition.printer.model.modelName}" />
+			&nbsp;
+			<h:outputLabel value="#{petition.user.toString()}" />
+				<div />
+				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+					<h:outputLabel value="#{petitionRow.consumable.toString()}" />
+				&nbsp;
+				<h:outputLabel value="#{petitionRow.quantity}" />
+					<div />
+				</ui:repeat>
+				<h:outputText value="#{subject.description}" />
+				<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de solicitud</a>
+				<h:commandButton action="#{consumablePetitionManagement.doConfirmPetition(petition.petitionNumber)}" value="Confirmar petición"
+					rendered="#{petition.petitionState == 0}">
+					<f:ajax render="@form petitions" />
+				</h:commandButton>
+				<div />
+			</ui:repeat>
+		</o:form>
+		<h4>Peticiones realizadas</h4>
 		<ui:repeat var="petition"
-			value="#{consumablePetitionManagement.allPetitions}">
+			value="#{consumablePetitionManagement.allDonePetitions}">
 			<h:outputLabel value="#{petition.printer.model.modelName}" />
 			&nbsp;
 			<h:outputLabel value="#{petition.user.toString()}" />
@@ -34,13 +58,10 @@
 			</ui:repeat>
 			<h:outputText value="#{subject.description}" />
 			<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de solicitud</a>
-			<h:commandButton
-				action="#"
-				value="Confirmar petición" rendered="#{petition.petitionState == 0}" >
-				<f:ajax render="@form"/>
-			</h:commandButton>
+			<br />
+			<a href="/pdf/#{petition.petitionNumber}r.pdf">pdf de recogida</a>
 			<div />
 		</ui:repeat>
-	</o:form>
+	</h:panelGroup>
 </h:body>
 </html>
