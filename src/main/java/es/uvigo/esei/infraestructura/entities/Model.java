@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,15 +20,19 @@ import javax.persistence.Table;
 public class Model {
 	
 	@Id
-	@Column(name="modelName", length = 100)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="modelName", length = 100, unique=true)
 	private String modelName;
 
 	@Column(length = 45, nullable = false)
 	private String tradeMark;
 
 	@ManyToMany
-	@JoinTable(name = "CONS_MODEL", joinColumns = @JoinColumn(name = "modelName", referencedColumnName = "modelName"), 
-		inverseJoinColumns = @JoinColumn(name = "consumableName", referencedColumnName = "consumableName"))
+	@JoinTable(name = "CONS_MODEL", joinColumns = @JoinColumn(name = "modelId", referencedColumnName = "id"), 
+		inverseJoinColumns = @JoinColumn(name = "consumableId", referencedColumnName = "id"))
 	private List<Consumable> consumables;
 	
 	@OneToMany(mappedBy="model")

@@ -9,8 +9,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.entities.Consumable;
 import es.uvigo.esei.infraestructura.entities.Model;
 
 @Stateful
@@ -25,8 +27,14 @@ public class ModelGatewayBean {
 	private Model current;
 
 	public Model find(String id) {
-		this.current = this.em.find(Model.class, id);
-		return this.current;
+		Query query = em.createQuery("SELECT m FROM Model m WHERE m.modelName=:modelName",Model.class);
+		query.setParameter("modelName", id);
+		if(query.getResultList().size() == 0){
+			this.current = null;
+			return null;
+		}
+		this.current = (Model) query.getResultList().get(0);
+		return current;
 	}
 
 	public Model getCurrent() {

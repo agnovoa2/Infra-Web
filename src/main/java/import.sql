@@ -14,36 +14,36 @@ insert into prof_sub values('profesor',1);
 
 insert into sub_soft values(1,1);
 
-insert into model values('OKI model 1', 'OKI');
+insert into model(modelName,tradeMark) values('OKI model 1', 'OKI');
 
-insert into printer values(1, 'Despacho 301', 'OKI model 1');
+insert into printer values(1, 'Despacho 301', 1);
 
 insert into prof_prin values('profesor',1);
 
-insert into consumable values('OKI TONER N','Negro','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO N','Negro','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER NF','Negro fotográfico','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO NF','Negro fotográfico','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER C','Cyan','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO C','Cyan','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER CC','Cyan claro','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO CC','Cyan claro','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER M','Magenta','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO M','Magenta','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER MM','Magenta claro','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO MM','Magenta claro','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER A','Amarillo','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO A','Amarillo','CARTRIDGE','Para impresora OKI');
-insert into consumable values('OKI TONER T','Tricolor','TONER','Para impresora OKI');
-insert into consumable values('OKI CARTUCHO T','Tricolor','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER N','Negro','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO N','Negro','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER NF','Negro fotográfico','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO NF','Negro fotográfico','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER C','Cyan','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO C','Cyan','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER CC','Cyan claro','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO CC','Cyan claro','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER M','Magenta','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO M','Magenta','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER MM','Magenta claro','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO MM','Magenta claro','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER A','Amarillo','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO A','Amarillo','CARTRIDGE','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI TONER T','Tricolor','TONER','Para impresora OKI');
+insert into consumable(consumableName, colour, consumableType, description) values('OKI CARTUCHO T','Tricolor','CARTRIDGE','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI CINTURON','BELT_UNIT','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI FUSOR','FUSER','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI BASURA','GARBAGE_UNIT','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI TRANSFERENCIA','TRANSFER_KIT','Para impresora OKI');
 insert into consumable(consumableName, consumableType, description) values('OKI TAMBOR','DRUM','Para impresora OKI');
 
-insert into cons_model values('OKI model 1','OKI TONER N');
-insert into cons_model values('OKI model 1','OKI TAMBOR');
+insert into cons_model values(1,1);
+insert into cons_model values(1,21);
 
 insert into configuration values(1,'agnovoa2@esei.uvigo.es','correoSephiroth69','agnovoa2@esei.uvigo.es');
 

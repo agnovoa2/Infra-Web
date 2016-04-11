@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -32,7 +34,11 @@ import javax.persistence.Table;
 public class Consumable {
 
 	@Id
-	@Column(name = "consumableName", length = 100)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name = "consumableName", length = 100, unique=true)
 	private String consumableName;
 
 	@Column(length = 12, nullable = false)
