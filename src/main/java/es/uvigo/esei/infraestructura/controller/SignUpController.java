@@ -7,17 +7,19 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.persistence.EntityExistsException;
 
 import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.exception.RegisterException;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @RequestScoped
 @ManagedBean(name = "signUpController")
 public class SignUpController {
 
 	@Inject
-	private UserEJB userEJB;
+	private UserGatewayBean userGateway;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
@@ -78,13 +80,43 @@ public class SignUpController {
 	
 	public void doRegister() {
 		try {
-			userEJB.registerUser(new User(this.getPassword(), this.getName(), this.getFirstSurname(), this.getSecondSurname()));
+			String login = generateLogin(getName(),getFirstSurname(),getSecondSurname());
+			userGateway.create(new User(login,generateEmail(login),this.getPassword(), this.getName(), this.getFirstSurname(), this.getSecondSurname()));
+			userGateway.save();
 			context.redirect("index.xhtml");
-		} catch (RegisterException e) {
-			this.setError(e.getMessage());
+		//} catch (EntityExistsException e) {
+			this.setError("Ya existe ese usuario en la base de datos");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private String generateLogin(String name, String firstSurname, String secondSurname) {
+		String toRet;
+		toRet = name.substring(0, 1);
+		toRet += firstSurname.substring(0, 1);
+		toRet += secondSurname;
 
+		int i = 2;
+		User previous = userGateway.find(toRet);
+		if(previous != null){
+			toRet += i;
+			i++;
+		} else {
+			return toRet;
+		}
+			
+		previous = userGateway.find(toRet);
+		while(previous != null){
+			toRet = toRet.substring(0, toRet.length()-1);
+			toRet += i;
+			i++;
+			previous = userGateway.find(toRet);
+		}
+		return toRet;
+	}
+
+	private String generateEmail(String login){
+		return login + "@esei.uvigo.es";
+	}
 }

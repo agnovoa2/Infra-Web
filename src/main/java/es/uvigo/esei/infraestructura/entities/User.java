@@ -1,5 +1,7 @@
 package es.uvigo.esei.infraestructura.entities;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 @Entity
 @Table(name = "User")
@@ -72,8 +75,10 @@ public class User {
 	}
 
 	// Constructor required for user registration
-	public User(String password, String name, String firstSurname, String secondSurname) {
-		this.password = password;
+	public User(String login, String email, String password, String name, String firstSurname, String secondSurname) {
+		this.login = login;
+		this.email = email;
+		diggestPassword(password);
 		this.name = name;
 		this.firstSurname = firstSurname;
 		this.secondSurname = secondSurname;
@@ -181,5 +186,17 @@ public class User {
 		return name + " " + firstSurname + " " + secondSurname;
 	}
 	
+	private void diggestPassword(String password){
+		MessageDigest passwordDigester;
+		HexBinaryAdapter adapter = new HexBinaryAdapter();
+		try {
+			passwordDigester = MessageDigest.getInstance("MD5");
+			this.password = adapter.marshal(passwordDigester.digest(password.getBytes())).toLowerCase();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

@@ -1,8 +1,8 @@
 
 
-insert into user values('profesor',0,'profesor@esei.uvigo.es','profesor','profesor','profesor','PROFESSOR','profesor');
-insert into user values('agnovoa2',0,'agnovoa2@esei.uvigo.es','Gutierrez','Alejandro','eseiSephiroth69','INTERN','Novoa');
-insert into user values('alumno',0,'alumno@esei.uvigo.es','alumno','alumno','alumno','STUDENT','alumno');
+insert into user values('profesor',0,'profesor@esei.uvigo.es','profesor','profesor','793741d54b00253006453742ad4ed534','PROFESSOR','profesor');
+insert into user values('agnovoa2',0,'agnovoa2@esei.uvigo.es','Gutierrez','Alejandro','0cb5e3c9e4fb7f4cc6342b18aa5adc8c','INTERN','Novoa');
+insert into user values('alumno',0,'alumno@esei.uvigo.es','alumno','alumno','c6865cf98b133f1f3de596a4a2894630','STUDENT','alumno');
 
 insert into subject(subjectName,code,degree,description,petitionState) values('PROI','O06G150V01104','GRADE','',1);
 insert into subject(subjectName,code,degree,description,petitionState) values('SGI','O06M132V01105','MASTER','',0);

@@ -1,6 +1,8 @@
 package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 
 import javax.faces.bean.ManagedBean;
@@ -10,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
@@ -70,6 +73,7 @@ public class LoginController {
 	public void doLogin() throws IOException, ServletException {
 		try {
 			HttpServletRequest request = (HttpServletRequest) context.getRequest();
+			diggestPassword(password);
 			request.login(this.getLogin(), this.getPassword());
 			this.error = false;
 			this.userGateway.find(this.getLogin());
@@ -127,5 +131,18 @@ public class LoginController {
 
 	private void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+	}
+	
+	private void diggestPassword(String password){
+		MessageDigest passwordDigester;
+		HexBinaryAdapter adapter = new HexBinaryAdapter();
+		try {
+			passwordDigester = MessageDigest.getInstance("MD5");
+			this.password = adapter.marshal(passwordDigester.digest(password.getBytes())).toLowerCase();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
