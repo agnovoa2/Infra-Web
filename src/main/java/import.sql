@@ -45,7 +45,7 @@ insert into consumable(consumableName, consumableType, description) values('OKI 
 insert into cons_model values(1,1);
 insert into cons_model values(1,21);
 
-insert into configuration values(1,'agnovoa2@esei.uvigo.es','correoSephiroth69','agnovoa2@esei.uvigo.es');
+insert into configuration values(1,'ou=esei,o=ou.uvigo.es','172.19.30.3','codeledeldap','agnovoa2@esei.uvigo.es','correoSephiroth69',636,'simple','ssl','agnovoa2@esei.uvigo.es','uid=readldap,ou=administradores,ou=esei,o=ou.uvigo.es');
 
 insert into incidencetype values('Monitor');
 insert into incidencetype values('Cpu');

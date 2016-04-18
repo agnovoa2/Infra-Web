@@ -84,6 +84,16 @@ public class User {
 		this.secondSurname = secondSurname;
 		this.role = Role.STUDENT;
 	}
+	
+	public User(String login, String email, String md5, String name, String firstSurname, String secondSurname, Role role) {
+		this.login = login;
+		this.email = email;
+		this.password = md5;
+		this.name = name;
+		this.firstSurname = firstSurname;
+		this.secondSurname = secondSurname;
+		this.role = role;
+	}
 
 	public String getLogin() {
 		return login;

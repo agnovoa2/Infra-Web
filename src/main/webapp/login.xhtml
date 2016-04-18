@@ -14,7 +14,7 @@
 		<h:inputText a:placeholder="Login" value="#{loginController.login}" />
 		<br></br>
 		<h:outputLabel value="Enter your password: " />
-		<h:inputText a:placeholder="Password" value="#{loginController.password}" />
+		<h:inputSecret a:placeholder="Password" value="#{loginController.password}" />
 		<br></br>
 		<h:commandButton id="submit-button" action="#{loginController.doLogin()}" value="Login" />
     	</h:form>
