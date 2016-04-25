@@ -54,6 +54,13 @@
 					value="editar">
 					<f:ajax render="edit editForm" />
 				</h:commandLink>
+				<h4>Usuarios de impresora</h4>
+				<ui:repeat var="user" value="#{printer.users}">
+					<h:outputLabel value="#{user.toString()}" />
+					<div/>
+				</ui:repeat>
+				
+				
 				<div></div>
 			</ui:repeat>
 		</o:form>
