@@ -20,6 +20,7 @@
 	<h2>Configuración del servidor</h2>
 	<h:panelGroup id="configuration">
 		<o:form>
+			<h3>Configuración correo</h3>
 			<h:outputLabel value="Correo de la aplicación" />
 			<h:inputText value="#{configurationManagement.mailSource}" />
 			<br/>
@@ -31,6 +32,31 @@
 			<br/>
 			<h:outputLabel value="Repita contraseña del correo" />
 			<h:inputSecret value="" />
+			<br/>
+			<h3>Configuración servidor ldap</h3>
+			<h:outputLabel value="Host" />
+			<h:inputText value="#{configurationManagement.host}" />
+			<br/>
+			<h:outputLabel value="Puerto" />
+			<h:inputText value="#{configurationManagement.port}" />
+			<br/>
+			<h:outputLabel value="Base DN" />
+			<h:inputText value="#{configurationManagement.baseDN}" />
+			<br/>
+			<h:outputLabel value="User DN" />
+			<h:inputText value="#{configurationManagement.userDN}" />
+			<br/>
+			<h:outputLabel value="Contraseña LDAP" />
+			<h:inputSecret value="#{configurationManagement.ldapPassword}" />
+			<br/>
+			<h:outputLabel value="Repita contraseña LDAP" />
+			<h:inputSecret value="" />
+			<br/>
+			<h:outputLabel value="Método de autenticación" />
+			<h:inputText value="#{configurationManagement.securityAuthentication}" />
+			<br/>
+			<h:outputLabel value="Protocolo de seguridad" />
+			<h:inputText value="#{configurationManagement.securityProtocol}" />
 			<br/>
 			<h:commandButton action="#{configurationManagement.doChangeConfiguration()}" value="Realizar cambios" >
 				<f:ajax execute="@form" render="configuration"/>

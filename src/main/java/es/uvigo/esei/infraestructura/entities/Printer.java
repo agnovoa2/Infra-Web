@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Printer")
-@NamedQuery(name = "findAllPrinters", query = "Select p From Printer p")
+@NamedQuery(name = "findAllPrinters", query = "Select p From Printer p Where p.unused = false")
 public class Printer {
 	
 	@Id
@@ -24,6 +24,9 @@ public class Printer {
 	@Column(length = 100, nullable = false)
 	private String ubication;
 
+	@Column(nullable = false)
+	private boolean unused;
+	
 	@ManyToMany(mappedBy = "printers")
 	private List<User> users;
 
@@ -41,6 +44,7 @@ public class Printer {
 	public Printer(int inventoryNumber, String ubication) {
 		this.inventoryNumber = inventoryNumber;
 		this.ubication = ubication;
+		this.unused = false;
 	}
 
 	public int getInventoryNumber() {
@@ -69,6 +73,14 @@ public class Printer {
 
 	public Model getModel() {
 		return model;
+	}
+
+	public boolean isUnused() {
+		return unused;
+	}
+
+	public void setUnused(boolean unused) {
+		this.unused = unused;
 	}
 
 	public void setModel(Model model) {

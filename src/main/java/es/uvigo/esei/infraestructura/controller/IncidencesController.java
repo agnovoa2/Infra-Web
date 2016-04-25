@@ -93,12 +93,10 @@ public class IncidencesController {
 
 	public void doSelectComputer(int num) {
 		this.computerNum = num;
-		System.out.println(this.computerNum);
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 	}
 
 	public void doAddComputer() {
-		System.out.println(this.labelNum);
 		this.computerGateway.create(new Computer(getLaboratory(), getComputerNum(), getLabelNum()));
 		this.computerGateway.save();
 	}
@@ -256,13 +254,11 @@ public class IncidencesController {
 		if (incidences != null) {
 			for (int i = 0; i < incidences.size(); i++) {
 				incidence = incidences.get(i);
-				System.out.println("incidences id: " + incidence.getId());
 				if (incidence.getState() == 0)
 					break;
 			}
 		}
 		if (incidence != null) {
-			System.out.println("incidence id: " + incidence.getId());
 			this.incidenceGateway.find(incidence.getId());
 			this.incidenceGateway.getCurrent().setState(1);
 			this.incidenceGateway.save();

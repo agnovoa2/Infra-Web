@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+	<f:event listener="#{loginController.redirectIfNotIntern()}"
+		type="preRenderView" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h2>Gestión de impresoras</h2>
+	<h3>Alta impresoras</h3>
+	<o:form>
+		<h:outputLabel value="Ubicación" />
+		<h:inputText value="#{printerManagement.ubication}" />
+		<br />
+		<h:outputLabel value="Nº inventario" />
+		<h:inputText value="#{printerManagement.inventoryNumber}" />
+		<br />
+		<h:outputLabel value="Modelo" />
+		<h:selectOneMenu value="#{printerManagement.model}">
+			<f:selectItems value="#{printerManagement.allModel}" var="model"
+				itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
+		</h:selectOneMenu>
+		<br />
+		<h:commandButton action="#{printerManagement.doAddPrinter()}"
+			value="Dar de alta impresora">
+			<f:ajax execute="@form" render="@form printer printerForm" />
+		</h:commandButton>
+	</o:form>
+	<h3>Baja de impresoras</h3>
+	<h:panelGroup id="printer">
+		<o:form id="printerForm">
+			<ui:repeat var="printer" value="#{printerManagement.allPrinter}">
+				<h:outputLabel value="#{printer.model.modelName} #{printer.ubication}" />
+				&nbsp;
+				<h:commandLink
+					action="#{printerManagement.doRemovePrinter(printer.inventoryNumber)}"
+					value="eliminar">
+					<f:ajax render="@form" />
+				</h:commandLink>
+				&nbsp;
+				<h:commandLink
+					action="#{printerManagement.doSetEditPrinter(printer.inventoryNumber)}"
+					value="editar">
+					<f:ajax render="edit editForm" />
+				</h:commandLink>
+				<div></div>
+			</ui:repeat>
+		</o:form>
+	</h:panelGroup>
+	<h3>Editar impresoras</h3>
+	<h:panelGroup id="edit">
+		<o:form id="editForm">
+			<h:outputLabel value="Ubicación" />
+			<h:inputText value="#{printerManagement.newUbication}" />
+			<br />
+			<h:outputLabel value="Modelo" />
+			<h:selectOneMenu value="#{printerManagement.newModel}">
+				<f:selectItems value="#{printerManagement.allModel}" var="model"
+					itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
+			</h:selectOneMenu>
+			<br />
+			<h:commandButton action="#{printerManagement.doEditPrinter()}"
+				value="Editar impresora">
+				<f:ajax execute="@form" render="@form printer printerForm" />
+			</h:commandButton>
+		</o:form>
+	</h:panelGroup>
+</h:body>
+</html>

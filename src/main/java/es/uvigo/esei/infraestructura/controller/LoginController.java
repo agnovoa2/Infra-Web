@@ -240,19 +240,19 @@ public class LoginController {
 			Attribute pass = att.get("userPassword");
 			byte[] passByte = (byte[]) pass.get();
 			finalPass = new String(passByte);
-			if (finalPass.startsWith("{MD5}")) {
-				md5 = ldapMd5ToRealMd5(finalPass.substring(5));
-				Attribute surname = att.get("sn");
-				String[] surnames = surname.get().toString().split(" ");
-				firstSurname = surnames[0];
-				if (surnames.length > 1) {
-					secondSurname = surnames[1];
-					if (surnames.length > 2) {
-						for (int i = 2; i < surnames.length; i++) {
-							secondSurname += " " + surnames[i];
-						}
+			Attribute surname = att.get("sn");
+			String[] surnames = surname.get().toString().split(" ");
+			firstSurname = surnames[0];
+			if (surnames.length > 1) {
+				secondSurname = surnames[1];
+				if (surnames.length > 2) {
+					for (int i = 2; i < surnames.length; i++) {
+						secondSurname += " " + surnames[i];
 					}
 				}
+			}
+			if (finalPass.startsWith("{MD5}")) {
+				md5 = ldapMd5ToRealMd5(finalPass.substring(5));
 			} else if (finalPass.startsWith("{crypt}"))
 				ctx.close();
 			else {
