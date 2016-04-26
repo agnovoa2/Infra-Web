@@ -1,4 +1,5 @@
 package es.uvigo.esei.infraestructura.controller;
+
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -21,7 +22,7 @@ public class PrinterManagementController {
 
 	@Inject
 	private ModelGatewayBean modelGateway;
-	
+
 	@Inject
 	private UserGatewayBean userGateway;
 
@@ -32,7 +33,7 @@ public class PrinterManagementController {
 	private String newModel;
 
 	public void doAddPrinter() {
-		this.printerGateway.create(new Printer(getInventoryNumber(),getUbication()));
+		this.printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
 		this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
 		this.printerGateway.save();
 	}
@@ -40,10 +41,10 @@ public class PrinterManagementController {
 	public void doRemovePrinter(int inventoryNumber) {
 
 		printerGateway.find(inventoryNumber);
-		
-		if(printerGateway.getCurrent() != null){
-			if(printerGateway.getCurrent().getUsers() != null){
-				for(User user : printerGateway.getCurrent().getUsers()){
+
+		if (printerGateway.getCurrent() != null) {
+			if (printerGateway.getCurrent().getUsers() != null) {
+				for (User user : printerGateway.getCurrent().getUsers()) {
 					userGateway.find(user.getLogin());
 					userGateway.getCurrent().getPrinters().remove(printerGateway.getCurrent());
 					userGateway.save();
@@ -56,7 +57,7 @@ public class PrinterManagementController {
 	}
 
 	public void doSetEditPrinter(int inventoryNumber) {
-		
+
 		this.inventoryNumber = inventoryNumber;
 		printerGateway.find(inventoryNumber);
 		setNewModel(printerGateway.getCurrent().getModel().getModelName());
@@ -64,17 +65,17 @@ public class PrinterManagementController {
 	}
 
 	public void doEditPrinter() {
-		
+
 		printerGateway.find(inventoryNumber);
 		printerGateway.getCurrent().setUbication(getNewUbication());
 		printerGateway.getCurrent().setModel(modelGateway.find(getNewModel()));
-		printerGateway.save();		
+		printerGateway.save();
 	}
 
 	public List<Printer> getAllPrinter() {
 		return printerGateway.getAll();
 	}
-	
+
 	public List<Model> getAllModel() {
 		return modelGateway.getAll();
 	}
@@ -119,6 +120,4 @@ public class PrinterManagementController {
 		this.newModel = newModel;
 	}
 
-	
 }
-

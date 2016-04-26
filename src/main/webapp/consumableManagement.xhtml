@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+	<f:event listener="#{loginController.redirectIfNotIntern()}"
+		type="preRenderView" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h2>Gestión de consumibles</h2>
+	<h3>Alta consumible</h3>
+	<o:form>
+		<h:outputLabel value="Nombre del consumible" />
+		<h:inputText value="#{consumableManagement.consumableName}"
+			id="consumableName" />
+		<br />
+		<h:outputLabel value="Descripción" />
+		<h:inputTextarea value="#{consumableManagement.description}"
+			id="description" />
+		<br />
+		<h:outputLabel value="Tipo" />
+		<h:selectOneMenu value="#{consumableManagement.type}" id="type">
+			<f:selectItem itemLabel="Cartucho" itemValue="Cartucho" />
+			<f:selectItem itemLabel="Toner" itemValue="Toner" />
+			<f:selectItem itemLabel="Tambor" itemValue="Tambor" />
+			<f:selectItem itemLabel="Kit de transferencia"
+				itemValue="Kit de transferencia" />
+			<f:selectItem itemLabel="Cinturón de arrastre"
+				itemValue="Cinturón de arrastre" />
+			<f:selectItem itemLabel="Fusor" itemValue="Fusor" />
+			<f:selectItem itemLabel="Recipiente de residuos"
+				itemValue="Recipiente de residuos" />
+		</h:selectOneMenu>
+		<br />
+		<h:outputLabel value="Color" />
+		<h:selectOneMenu value="#{consumableManagement.color}" id="colour">
+			<f:selectItem itemLabel="Negro" itemValue="Negro" />
+			<f:selectItem itemLabel="Negro fotográfico"
+				itemValue="Negro fotográfico" />
+			<f:selectItem itemLabel="Tricolor" itemValue="Tricolor" />
+			<f:selectItem itemLabel="Cyan" itemValue="Cyan" />
+			<f:selectItem itemLabel="Cyan claro" itemValue="Cyan claro" />
+			<f:selectItem itemLabel="Magenta" itemValue="Magenta" />
+			<f:selectItem itemLabel="Magenta claro" itemValue="Magenta claro" />
+			<f:selectItem itemLabel="Amarillo" itemValue="Amarillo" />
+		</h:selectOneMenu>
+		<br />
+		<h:commandButton action="#{consumableManagement.doAddConsumable()}"
+			value="Dar de alta consumible">
+			<f:ajax execute="@form" render="@form consumable consumableForm" />
+		</h:commandButton>
+	</o:form>
+	<h3>Baja consumibles</h3>
+	<h:panelGroup id="consumable">
+		<o:form id="consumableForm">
+			<h4>Consumible negro</h4>
+			<ui:repeat var="consumable"
+				value="#{consumableManagement.allConsumable}">
+				<h:outputLabel value="#{consumable.toString()} " />
+				&nbsp;
+				<h:commandLink
+					action="#{consumableManagement.doRemoveConsumable(consumable.consumableName)}"
+					value="eliminar">
+					<f:ajax render="@form" />
+				</h:commandLink>
+				&nbsp;
+				<h:commandLink
+					action="#{consumableManagement.doSetEditConsumable(consumable.consumableName)}"
+					value="editar">
+					<f:ajax render="edit editForm" />
+				</h:commandLink>
+				<div></div>
+			</ui:repeat>
+		</o:form>
+	</h:panelGroup>
+	<h3>Editar consumible</h3>
+	<h:panelGroup id="edit">
+		<o:form id="editForm">
+			<h:outputLabel value="Nombre del consumible" />
+			<h:inputText value="#{consumableManagement.newConsumableName}"
+				id="consumableName" />
+			<br />
+			<h:outputLabel value="Descripción" />
+			<h:inputTextarea value="#{consumableManagement.description}"
+				id="description" />
+			<br />
+			<h:outputLabel value="Tipo" />
+			<h:selectOneMenu value="#{consumableManagement.type}" id="type">
+				<f:selectItem itemLabel="Cartucho" itemValue="Cartucho" />
+				<f:selectItem itemLabel="Toner" itemValue="Toner" />
+				<f:selectItem itemLabel="Tambor" itemValue="Tambor" />
+				<f:selectItem itemLabel="Kit de transferencia"
+					itemValue="Kit de transferencia" />
+				<f:selectItem itemLabel="Cinturón de arrastre"
+					itemValue="Cinturón de arrastre" />
+				<f:selectItem itemLabel="Fusor" itemValue="Fusor" />
+				<f:selectItem itemLabel="Recipiente de residuos"
+					itemValue="Recipiente de residuos" />
+			</h:selectOneMenu>
+			<br />
+			<h:outputLabel value="Color" />
+			<h:selectOneMenu value="#{consumableManagement.color}" id="colour">
+				<f:selectItem itemLabel="Negro" itemValue="Negro" />
+				<f:selectItem itemLabel="Negro fotográfico"
+					itemValue="Negro fotográfico" />
+				<f:selectItem itemLabel="Tricolor" itemValue="Tricolor" />
+				<f:selectItem itemLabel="Cyan" itemValue="Cyan" />
+				<f:selectItem itemLabel="Cyan claro" itemValue="Cyan claro" />
+				<f:selectItem itemLabel="Magenta" itemValue="Magenta" />
+				<f:selectItem itemLabel="Magenta claro" itemValue="Magenta claro" />
+				<f:selectItem itemLabel="Amarillo" itemValue="Amarillo" />
+			</h:selectOneMenu>
+			<br />
+			<h:commandButton action="#{consumableManagement.doEditConsumable()}"
+				value="Editar software">
+				<f:ajax execute="@form" render="@form software softwareForm" />
+			</h:commandButton>
+		</o:form>
+	</h:panelGroup>
+</h:body>
+</html>

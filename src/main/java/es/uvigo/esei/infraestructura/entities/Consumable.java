@@ -110,8 +110,30 @@ public class Consumable {
 		return consumableType;
 	}
 
-	public void setConsumableType(ConsumableType consumableType) {
-		this.consumableType = consumableType;
+	public void setConsumableType(String consumableType) {
+		switch (consumableType) {
+		case "Cartucho":
+			this.consumableType = ConsumableType.CARTRIDGE;
+			break;
+		case "Toner":
+			this.consumableType = ConsumableType.TONER;
+			break;
+		case "Tambor":
+			this.consumableType = ConsumableType.DRUM;
+			break;
+		case "Kit de transferencia":
+			this.consumableType = ConsumableType.TRANSFER_KIT;
+			break;
+		case "Cinturón de arrastre":
+			this.consumableType = ConsumableType.BELT_UNIT;
+			break;
+		case "Fusor":
+			this.consumableType = ConsumableType.FUSER;
+			break;
+		case "Recipiente de residuos":
+			this.consumableType = ConsumableType.GARBAGE_UNIT;
+			break;
+		}
 	}
 
 	public String getColour() {
@@ -144,6 +166,14 @@ public class Consumable {
 
 	public void setPetitionRows(List<ConsumablePetitionRow> petitionRows) {
 		this.petitionRows = petitionRows;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override

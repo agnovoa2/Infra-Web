@@ -46,7 +46,7 @@ public class ConsumableGatewayBean {
 		this.current = consumable;
 	}
 
-	public void remove(String id) {
+	public void remove(int id) {
 		Consumable ref = this.em.getReference(Consumable.class, id);
 		this.em.remove(ref);
 	}
