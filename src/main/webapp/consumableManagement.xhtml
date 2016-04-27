@@ -76,7 +76,7 @@
 				&nbsp;
 				<h:commandLink
 					action="#{consumableManagement.doSetEditConsumable(consumable.consumableName)}"
-					value="editar">
+					value="editar" rendered="#{!consumable.ordered}">
 					<f:ajax render="edit editForm" />
 				</h:commandLink>
 				<div></div>

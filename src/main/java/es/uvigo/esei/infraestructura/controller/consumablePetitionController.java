@@ -102,6 +102,8 @@ public class ConsumablePetitionController {
 				ConsumablePetitionRow pr = new ConsumablePetitionRow(petition, 
 												 this.consumableGateway.find(printerConsumables.get(i).getConsumableName()),  
 												 Integer.parseInt(quantities.get(i)));
+				this.consumableGateway.getCurrent().setOrdered(true);
+				this.consumableGateway.save();
 				petitionRows.add(pr);
 			}
 		}

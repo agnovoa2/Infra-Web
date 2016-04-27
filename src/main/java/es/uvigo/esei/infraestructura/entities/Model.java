@@ -79,6 +79,14 @@ public class Model {
 		this.printers = printers;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,34 +100,13 @@ public class Model {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		try {
+			if (((Model) obj).getId() == this.getId())
+				return true;
 			return false;
-		if (getClass() != obj.getClass())
+		} catch (Exception e) {
 			return false;
-		Model other = (Model) obj;
-		if (consumables == null) {
-			if (other.consumables != null)
-				return false;
-		} else if (!consumables.equals(other.consumables))
-			return false;
-		if (modelName == null) {
-			if (other.modelName != null)
-				return false;
-		} else if (!modelName.equals(other.modelName))
-			return false;
-		if (printers == null) {
-			if (other.printers != null)
-				return false;
-		} else if (!printers.equals(other.printers))
-			return false;
-		if (tradeMark == null) {
-			if (other.tradeMark != null)
-				return false;
-		} else if (!tradeMark.equals(other.tradeMark))
-			return false;
-		return true;
+		}
 	}
 	
 	

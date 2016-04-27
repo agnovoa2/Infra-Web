@@ -40,7 +40,6 @@ public class ConsumableManagementController {
 	public void doRemoveConsumable(String consumable) {
 
 		consumableGateway.find(consumable);
-
 		if (consumableGateway.getCurrent() != null) {
 			if (consumableGateway.getCurrent().getModels() != null) {
 				for (Model model : consumableGateway.getCurrent().getModels()) {

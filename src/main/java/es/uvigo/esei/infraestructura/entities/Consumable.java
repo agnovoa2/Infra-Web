@@ -48,6 +48,9 @@ public class Consumable {
 	@Column(length = 45)
 	private String colour;
 
+	@Column
+	private boolean ordered;
+	
 	@Column(length = 1000, nullable = false)
 	private String description;
 
@@ -73,6 +76,7 @@ public class Consumable {
 	private void build(String consumableName, String consumableType, String description) {
 		this.consumableName = consumableName;
 		this.description = description;
+		this.ordered = false;
 		switch (consumableType) {
 		case "Cartucho":
 			this.consumableType = ConsumableType.CARTRIDGE;
@@ -176,6 +180,14 @@ public class Consumable {
 		this.id = id;
 	}
 
+	public boolean isOrdered() {
+		return ordered;
+	}
+
+	public void setOrdered(boolean ordered) {
+		this.ordered = ordered;
+	}
+
 	@Override
 	public String toString() {
 		String toRet = "";
@@ -201,36 +213,13 @@ public class Consumable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		try {
+			if (((Consumable) obj).getId() == this.getId())
+				return true;
 			return false;
-		if (getClass() != obj.getClass())
+		} catch (Exception e) {
 			return false;
-		Consumable other = (Consumable) obj;
-		if (colour == null) {
-			if (other.colour != null)
-				return false;
-		} else if (!colour.equals(other.colour))
-			return false;
-		if (consumableName == null) {
-			if (other.consumableName != null)
-				return false;
-		} else if (!consumableName.equals(other.consumableName))
-			return false;
-		if (consumableType != other.consumableType)
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (models == null) {
-			if (other.models != null)
-				return false;
-		} else if (!models.equals(other.models))
-			return false;
-		return true;
+		}
 	}
 
 }
