@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Model")
-@NamedQuery(name = "findAllModels", query="select m from Model m")
+@NamedQuery(name = "findAllModels", query="select m from Model m where m.unused = false")
 public class Model {
 	
 	@Id
@@ -24,12 +24,15 @@ public class Model {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="modelName", length = 100, unique=true)
+	@Column(name="modelName", length = 100, unique=true, nullable=false)
 	private String modelName;
 
 	@Column(length = 45, nullable = false)
 	private String tradeMark;
 
+	@Column(nullable = false)
+	private boolean unused;
+	
 	@ManyToMany
 	@JoinTable(name = "CONS_MODEL", joinColumns = @JoinColumn(name = "modelId", referencedColumnName = "id"), 
 		inverseJoinColumns = @JoinColumn(name = "consumableId", referencedColumnName = "id"))
@@ -42,9 +45,9 @@ public class Model {
 	Model(){}
 	
 	public Model(String modelName, String tradeMark) {
-		super();
 		this.modelName = modelName;
 		this.tradeMark = tradeMark;
+		this.unused = false;
 	}
 
 	public String getModelName() {
@@ -85,6 +88,14 @@ public class Model {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isUnused() {
+		return unused;
+	}
+
+	public void setUnused(boolean unused) {
+		this.unused = unused;
 	}
 
 	@Override

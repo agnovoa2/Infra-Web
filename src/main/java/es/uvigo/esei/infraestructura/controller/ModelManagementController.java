@@ -3,30 +3,38 @@ package es.uvigo.esei.infraestructura.controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
 import es.uvigo.esei.infraestructura.entities.Model;
+import es.uvigo.esei.infraestructura.entities.Printer;
+import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.facade.ConsumableGatewayBean;
 import es.uvigo.esei.infraestructura.facade.ModelGatewayBean;
+import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @ViewScoped
-@ManagedBean(name = "addPrinterModel")
-public class AddPrinterModelController {
+@ManagedBean(name = "modelManagement")
+public class ModelManagementController {
 
-	@Inject
-	private ConsumableGatewayBean consumableGateway;
-	
 	@Inject
 	private ModelGatewayBean modelGateway;
 
-	private String consumableName;
-	private String consumableDescription;
-	private String consumableColor;
-	private String consumableType;
+	@Inject
+	private PrinterGatewayBean printerGateway;
+	
+	@Inject
+	private UserGatewayBean userGateway;
+	
+	@Inject
+	private ConsumableGatewayBean consumableGateway;
+
+	private String newModelName;
+	private String modelName;
+	private String tradeMark;
 	private String blackConsumable;
 	private String photoBlackConsumable;
 	private String yellowConsumable;
@@ -40,59 +48,8 @@ public class AddPrinterModelController {
 	private String transferKit;
 	private String beltUnit;
 	private String fuser;
-	private String modelName;
-	private String tradeMark;
 
-	@PostConstruct
-    public void init() {
-		
-    }
-
-	public String getConsumableName() {
-		return consumableName;
-	}
-
-	public void setConsumableName(String consumableName) {
-		this.consumableName = consumableName;
-	}
-
-	public String getConsumableDescription() {
-		return consumableDescription;
-	}
-
-	public void setConsumableDescription(String consumableDescription) {
-		this.consumableDescription = consumableDescription;
-	}
-
-	public String getConsumableColor() {
-		return consumableColor;
-	}
-
-	public void setConsumableColor(String consumableColor) {
-		this.consumableColor = consumableColor;
-	}
-
-	public String getConsumableType() {
-		return consumableType;
-	}
-
-	public void setConsumableType(String consumableType) {
-		this.consumableType = consumableType;
-	}
-
-	public void doAddConsumable() {
-		if (getConsumableType().equals("Cartucho") || getConsumableType().equals("Toner")) {
-			this.consumableGateway.create(new Consumable(getConsumableName(), getConsumableType(), getConsumableColor(),
-					getConsumableDescription()));
-		} else {
-			this.consumableGateway.create(
-					new Consumable(getConsumableName(), getConsumableType(), getConsumableDescription()));
-		}
-		this.consumableGateway.save();
-//		updateSelectOnMenus();
-	}
-
-	public void doAddModel(){
+	public void doAddModel() {
 		Model model = new Model(getModelName(),getTradeMark());
 		List<Consumable> consumables = fillConsumableList();
 		model.setConsumables(consumables);
@@ -133,6 +90,125 @@ public class AddPrinterModelController {
 		return consumables;
 	}
 	
+	public void doRemoveModel(String modelName) {
+
+		modelGateway.find(modelName);
+		if (modelGateway.getCurrent() != null) {
+			if (modelGateway.getCurrent().getPrinters() != null) {
+				for (Printer printer : modelGateway.getCurrent().getPrinters()) {
+					printerGateway.find(printer.getInventoryNumber());
+					printerGateway.getCurrent().setUnused(true);
+					for(User user : printerGateway.getCurrent().getUsers()){
+						userGateway.find(user.getLogin());
+						userGateway.getCurrent().getPrinters().remove(printer);
+						userGateway.save();
+					}
+					printerGateway.save();
+				}
+			}
+		}
+		modelGateway.getCurrent().setUnused(true);
+		modelGateway.save();
+	}
+
+	public void doSetEditModel(String modelName) {
+
+		newModelName = modelName;
+		modelGateway.find(modelName);
+		setModelName(modelGateway.getCurrent().getModelName());
+		setTradeMark(modelGateway.getCurrent().getTradeMark());
+		for (Consumable consumable : modelGateway.getCurrent().getConsumables()) {
+			switch (consumable.getConsumableType()) {
+			case BELT_UNIT:
+				beltUnit = consumable.getConsumableName();
+				break;
+			case DRUM:
+				drum = consumable.getConsumableName();
+				break;
+			case FUSER:
+				fuser = consumable.getConsumableName();
+				break;
+			case GARBAGE_UNIT:
+				garbageUnit = consumable.getConsumableName();
+				break;
+			case TRANSFER_KIT:
+				transferKit = consumable.getConsumableName();
+				break;
+			case CARTRIDGE:
+			case TONER:
+				switch (consumable.getColour()) {
+				case "Negro":
+					blackConsumable = consumable.getConsumableName();
+					break;
+				case "Negro fotográfico":
+					photoBlackConsumable = consumable.getConsumableName();
+					break;
+				case "Tricolor":
+					tricolorConsumable = consumable.getConsumableName();
+					break;
+				case "Cyan":
+					cyanConsumable = consumable.getConsumableName();
+					break;
+				case "Cyan claro":
+					lightCyanConsumable = consumable.getConsumableName();
+					break;
+				case "Magenta":
+					magentaConsumable = consumable.getConsumableName();
+					break;
+				case "Magenta claro":
+					lightMagentaConsumable = consumable.getConsumableName();
+					break;
+				case "Amarillo":
+					yellowConsumable = consumable.getConsumableName();
+					break;
+				default:
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	public void doEditModel() {
+
+		modelGateway.find(modelName);
+		modelGateway.getCurrent().setModelName(newModelName);
+		modelGateway.getCurrent().setTradeMark(tradeMark);
+		List<Consumable> consumables = fillConsumableList();
+		modelGateway.getCurrent().setConsumables(consumables);
+		modelGateway.save();
+	}
+
+	public String getNewModelName() {
+		return newModelName;
+	}
+
+	public void setNewModelName(String newModelName) {
+		this.newModelName = newModelName;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public String getTradeMark() {
+		return tradeMark;
+	}
+
+	public void setTradeMark(String tradeMark) {
+		this.tradeMark = tradeMark;
+	}
+	
+	public List<Model> getAllModel(){
+		return modelGateway.getAll();
+	}
+	
 	public List<Consumable> getBlackConsumables() {
 		return this.consumableGateway.findAllBlackConsumables();
 	}
@@ -163,6 +239,26 @@ public class AddPrinterModelController {
 
 	public List<Consumable> getTricolorConsumables() {
 		return this.consumableGateway.findAllTricolorConsumables();
+	}
+
+	public List<Consumable> getGarbageUnits() {
+		return this.consumableGateway.findAllGarbageUnitConsumables();
+	}
+
+	public List<Consumable> getDrumUnits() {
+		return this.consumableGateway.findAllDrumConsumables();
+	}
+
+	public List<Consumable> getTransferKitUnits() {
+		return this.consumableGateway.findAllTransferKitConsumables();
+	}
+
+	public List<Consumable> getBeltUnits() {
+		return this.consumableGateway.findAllBeltUnitConsumables();
+	}
+
+	public List<Consumable> getFuserUnits() {
+		return this.consumableGateway.findAllFuserConsumables();
 	}
 
 	public String getBlackConsumable() {
@@ -229,26 +325,6 @@ public class AddPrinterModelController {
 		this.tricolorConsumable = tricolorConsumable;
 	}
 
-	public List<Consumable> getGarbageUnits() {
-		return this.consumableGateway.findAllGarbageUnitConsumables();
-	}
-
-	public List<Consumable> getDrumUnits() {
-		return this.consumableGateway.findAllDrumConsumables();
-	}
-
-	public List<Consumable> getTransferKitUnits() {
-		return this.consumableGateway.findAllTransferKitConsumables();
-	}
-
-	public List<Consumable> getBeltUnits() {
-		return this.consumableGateway.findAllBeltUnitConsumables();
-	}
-
-	public List<Consumable> getFuserUnits() {
-		return this.consumableGateway.findAllFuserConsumables();
-	}
-
 	public String getGarbageUnit() {
 		return garbageUnit;
 	}
@@ -287,21 +363,5 @@ public class AddPrinterModelController {
 
 	public void setFuser(String fuser) {
 		this.fuser = fuser;
-	}
-
-	public String getModelName() {
-		return modelName;
-	}
-
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
-
-	public String getTradeMark() {
-		return tradeMark;
-	}
-
-	public void setTradeMark(String tradeMark) {
-		this.tradeMark = tradeMark;
 	}
 }

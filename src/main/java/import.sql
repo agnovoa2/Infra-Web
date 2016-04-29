@@ -14,7 +14,7 @@ insert into prof_sub values('profesor',1);
 
 insert into sub_soft values(1,1);
 
-insert into model(modelName,tradeMark) values('OKI model 1', 'OKI');
+insert into model(modelName,tradeMark,unused) values('OKI model 1', 'OKI',0);
 
 insert into printer(inventoryNumber, ubication, modelName, unused) values(1, 'Despacho 301', 1, 0);
 

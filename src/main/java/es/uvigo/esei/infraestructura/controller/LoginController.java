@@ -38,6 +38,8 @@ import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 @ManagedBean(name = "loginController")
 public class LoginController {
 
+	private final String LDAP_TIMEOUT = "5000";
+	
 	@Inject
 	private Principal currentUser;
 
@@ -128,6 +130,7 @@ public class LoginController {
 			env.put(Context.SECURITY_AUTHENTICATION, conf.getSecurityAuthentication());
 			env.put(Context.SECURITY_PRINCIPAL, conf.getUserDN());
 			env.put(Context.SECURITY_CREDENTIALS, conf.getLdapPassword());
+			env.put("com.sun.jndi.ldap.read.timeout", LDAP_TIMEOUT);
 			trustSelfSignedSSL();
 			if (existAccount(getLogin(),"alumnos"))
 				;
