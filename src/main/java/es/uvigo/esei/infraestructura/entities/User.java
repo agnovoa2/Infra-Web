@@ -65,7 +65,10 @@ public class User {
 	private List<Printer> printers;
 
 	@OneToMany(mappedBy="user")
-	private List<ConsumablePetition> petitions;
+	private List<ConsumablePetition> consumablePetitions;
+	
+	@OneToMany(mappedBy="user")
+	private List<MaterialPetition> materialPetitions;
 	
 	@OneToMany(mappedBy="user")
 	private List<Incidence> incidences;
@@ -172,11 +175,11 @@ public class User {
 	}
 
 	public List<ConsumablePetition> getPetitions() {
-		return petitions;
+		return consumablePetitions;
 	}
 
 	public void setPetitions(List<ConsumablePetition> petitions) {
-		this.petitions = petitions;
+		this.consumablePetitions = petitions;
 	}
 
 	public List<Incidence> getIncidences() {
