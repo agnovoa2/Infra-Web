@@ -4,22 +4,29 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Material")
-@NamedQuery(name = "findAllMaterials", query = "select m from Material m")
+@NamedQueries({
+		@NamedQuery(name = "findAllMonitors", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.MONITOR and m.unused = false"),
+		@NamedQuery(name = "findAllHardDrive", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.HARD_DRIVE and m.unused = false"),
+		@NamedQuery(name = "findAllRamMemory", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.RAM and m.unused = false"),
+		@NamedQuery(name = "findAllOthers", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.OTHER and m.unused = false") })
 public class Material {
 
 	@Id
-	@Column(name = "materialPetitionNumber")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int materialPetitionNumber;
+	private int id;
 
 	@Column(name = "materialName", length = 45)
 	private String materialName;
@@ -28,8 +35,9 @@ public class Material {
 	private String materialType;
 
 	@Column(name = "material", length = 45)
+	@Enumerated(EnumType.STRING)
 	private MaterialType material;
-	
+
 	@Column(name = "capacity", length = 45)
 	private String capacity;
 
@@ -50,20 +58,23 @@ public class Material {
 
 	@Column(name = "resolution", length = 45)
 	private String resolution;
-	
+
 	@Column(name = "proportion", length = 45)
 	private String proportion;
-	
+
 	@Column(name = "quantity")
 	private int quantity;
-	
-	@OneToMany(mappedBy="material")
+
+	@Column(name = "unused")
+	private boolean unused;
+
+	@OneToMany(mappedBy = "material")
 	private List<MaterialPetitionRow> materialPetitionRows;
 
 	Material() {
 	}
 
-	public Material(String materialName, String materialType, String capacity, String tradeMark, String model){
+	public Material(String materialName, String materialType, String capacity, String tradeMark, String model) {
 		this.materialName = materialName;
 		this.material = MaterialType.HARD_DRIVE;
 		this.materialType = materialType;
@@ -71,9 +82,11 @@ public class Material {
 		this.tradeMark = tradeMark;
 		this.model = model;
 		this.quantity = 0;
+		this.unused = false;
 	}
-	
-	public Material(String materialName, String materialType, String capacity, String speed, String destination, String tradeMark){
+
+	public Material(String materialName, String materialType, String capacity, String speed, String destination,
+			String tradeMark) {
 		this.materialName = materialName;
 		this.material = MaterialType.RAM;
 		this.materialType = materialType;
@@ -82,9 +95,11 @@ public class Material {
 		this.destination = destination;
 		this.tradeMark = tradeMark;
 		this.quantity = 0;
+		this.unused = false;
 	}
-	
-	public Material(String materialName, String size, String proportion, String resolution, String materialType, String tradeMark, String model){
+
+	public Material(String materialName, String size, String proportion, String resolution, String materialType,
+			String tradeMark, String model) {
 		this.materialName = materialName;
 		this.material = MaterialType.MONITOR;
 		this.size = size;
@@ -94,13 +109,32 @@ public class Material {
 		this.tradeMark = tradeMark;
 		this.model = model;
 		this.quantity = 0;
-	}
-	public int getMaterialPetitionNumber() {
-		return materialPetitionNumber;
+		this.unused = false;
 	}
 
-	public void setMaterialPetitionNumber(int materialPetitionNumber) {
-		this.materialPetitionNumber = materialPetitionNumber;
+	public Material(String materialName, String materialType, String capacity, String tradeMark, String model,
+			String speed, String destination, String size, String resolution, String proportion) {
+		this.materialName = materialName;
+		this.materialType = materialType;
+		this.material = MaterialType.OTHER;
+		this.capacity = capacity;
+		this.tradeMark = tradeMark;
+		this.model = model;
+		this.speed = speed;
+		this.destination = destination;
+		this.size = size;
+		this.resolution = resolution;
+		this.proportion = proportion;
+		this.quantity = 0;
+		this.unused = false;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getMaterialName() {
@@ -205,5 +239,21 @@ public class Material {
 
 	public void setMaterialPetitionRows(List<MaterialPetitionRow> materialPetitionRows) {
 		this.materialPetitionRows = materialPetitionRows;
+	}
+
+	public boolean isUnused() {
+		return unused;
+	}
+
+	public void setUnused(boolean unused) {
+		this.unused = unused;
+	}
+
+	@Override
+	public String toString() {
+		return "Material [materialName=" + materialName + ", materialType=" + materialType + ", material=" + material
+				+ ", capacity=" + capacity + ", tradeMark=" + tradeMark + ", model=" + model + ", speed=" + speed
+				+ ", destination=" + destination + ", size=" + size + ", resolution=" + resolution + ", proportion="
+				+ proportion + ", quantity=" + quantity + "]";
 	}
 }

@@ -37,8 +37,8 @@ public class Consumable {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name = "consumableName", length = 100, unique=true)
+
+	@Column(name = "consumableName", length = 100, unique = true)
 	private String consumableName;
 
 	@Column(length = 12, nullable = false)
@@ -50,16 +50,16 @@ public class Consumable {
 
 	@Column
 	private boolean ordered;
-	
+
 	@Column(length = 1000, nullable = false)
 	private String description;
 
 	@ManyToMany(mappedBy = "consumables")
 	private List<Model> models;
 
-	@OneToMany(mappedBy="consumable")
+	@OneToMany(mappedBy = "consumable")
 	private List<ConsumablePetitionRow> petitionRows;
-	
+
 	// Constructor required for JPA framework
 	Consumable() {
 	}
@@ -163,7 +163,7 @@ public class Consumable {
 	public void setModels(List<Model> models) {
 		this.models = models;
 	}
-	
+
 	public List<ConsumablePetitionRow> getPetitionRows() {
 		return petitionRows;
 	}
@@ -191,7 +191,7 @@ public class Consumable {
 	@Override
 	public String toString() {
 		String toRet = "";
-		if(this.getColour() == null)
+		if (this.getColour() == null)
 			toRet = this.getConsumableType().toString();
 		else
 			toRet = this.getColour();

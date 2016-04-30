@@ -7,11 +7,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.persistence.EntityExistsException;
 
-import es.uvigo.esei.infraestructura.ejb.UserEJB;
 import es.uvigo.esei.infraestructura.entities.User;
-import es.uvigo.esei.infraestructura.exception.RegisterException;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @RequestScoped
