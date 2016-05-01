@@ -10,33 +10,38 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "MaterialPetition")
-@NamedQuery(name = "findAllMaterialPetitions", query="select m from MaterialPetition m")
+@NamedQueries({
+		@NamedQuery(name = "findAllMaterialPetitions", query = "select m from MaterialPetition m where m.petitionState = 0"),
+		@NamedQuery(name = "findAllDoneMaterialPetitions", query = "select m from MaterialPetition m where m.petitionState = 1"),
+		@NamedQuery(name = "findAllRetrievedMaterialPetitions", query = "select m from MaterialPetition m where m.petitionState = 2") })
 public class MaterialPetition {
 	@Id
 	@Column(name = "materialPetitionNumber")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int materialPetitionNumber;
-	
+
 	@Column(name = "petitionDate")
 	private Date petitionDate;
 
 	@Column(name = "petitionState")
 	private int petitionState;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "petitioner")
 	private User user;
-	
+
 	@OneToMany(mappedBy = "material")
 	private List<MaterialPetitionRow> petitionRows;
-	
-	MaterialPetition(){}
+
+	MaterialPetition() {
+	}
 
 	public MaterialPetition(Date petitionDate, User user) {
 		this.petitionState = 0;

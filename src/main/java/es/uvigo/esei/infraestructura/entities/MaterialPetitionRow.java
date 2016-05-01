@@ -15,9 +15,9 @@ import javax.persistence.Table;
 @NamedQuery(name = "findAllMaterialPetitionRows", query = "select m from MaterialPetitionRow m")
 public class MaterialPetitionRow {
 	@Id
-	@Column(name = "materialRowPetitionNumber")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int materialRowPetitionNumber;
+	private int id;
 	
 	@Column(name = "quantity")
 	private int quantity;
@@ -38,12 +38,12 @@ public class MaterialPetitionRow {
 		this.material = material;
 	}
 
-	public int getMaterialRowPetitionNumber() {
-		return materialRowPetitionNumber;
+	public int getId() {
+		return id;
 	}
 
-	public void setMaterialRowPetitionNumber(int materialRowPetitionNumber) {
-		this.materialRowPetitionNumber = materialRowPetitionNumber;
+	public void setId(int materialRowPetitionNumber) {
+		this.id = materialRowPetitionNumber;
 	}
 
 	public int getQuantity() {
@@ -69,4 +69,17 @@ public class MaterialPetitionRow {
 	public void setMaterial(Material material) {
 		this.material = material;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			if (((MaterialPetitionRow) obj).getId() == this.getId())
+				return true;
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	
 }

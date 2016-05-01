@@ -16,7 +16,7 @@ import es.uvigo.esei.infraestructura.util.Report;
 
 @ViewScoped
 @ManagedBean(name = "consumablePetitionManagement")
-public class ConsumablePetitionManagerController {
+public class ConsumablePetitionManagementController {
 
 	@Inject
 	Report report;

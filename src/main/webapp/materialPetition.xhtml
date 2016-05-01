@@ -74,6 +74,10 @@
 			<ui:repeat var="materialRow" value="#{materialPetition.petitionRows}">
 				<h:outputLabel
 					value="#{materialRow.material.materialName} #{materialRow.quantity}" />
+				&nbsp;
+				<h:commandLink action="#{materialPetition.doRemoveMaterial(materialRow)}" value="eliminar" >
+					<f:ajax render="petitionList petitionListForm" />
+				</h:commandLink>
 				<br />
 			</ui:repeat>
 			<h:commandButton action="#{materialPetition.doMaterialPetition()}"

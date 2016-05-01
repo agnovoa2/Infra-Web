@@ -27,6 +27,9 @@
 	<h:link value="Petición de toner" outcome="printerList"
 		rendered="#{!loginController.anonymous and loginController.professor}" />
 	<br />
+	<h:link value="Petición de material" outcome="materialPetition"
+		rendered="#{!loginController.anonymous}" />
+	<br />
 	<h:link value="Editar mi perfil" outcome="editProfile?login=#{loginController.currentUser.name}"
 		rendered="#{!loginController.anonymous}" />
 	<br />

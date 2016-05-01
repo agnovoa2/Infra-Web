@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+	<f:event listener="#{loginController.redirectIfNotIntern()}"
+		type="preRenderView" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h2>Gestión de peticiones de material</h2>
+	<h3>Peticiones de material</h3>
+	<h:panelGroup id="petitions">
+		<o:form>
+			<h4>Peticiones pendientes</h4>
+			<ui:repeat var="petition"
+				value="#{materialPetitionManagement.allPetitions}">
+				<h:outputLabel value="#{petition.user.toString()}" />
+				<div />
+				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+					<h:outputLabel value="#{petitionRow.material.toString()}" />
+					<div />
+				</ui:repeat>
+				<h:commandButton
+					action="#{materialPetitionManagement.doConfirmPetition(petition.materialPetitionNumber)}"
+					value="Confirmar petición"
+					rendered="#{petition.petitionState == 0}">
+					<f:ajax render="@form petitions" />
+				</h:commandButton>
+				<div />
+			</ui:repeat>
+		</o:form>
+		<h4>Peticiones realizadas</h4>
+		<ui:repeat var="petition"
+			value="#{materialPetitionManagement.allDonePetitions}">
+			<h:outputLabel value="#{petition.user.toString()}" />
+			<div />
+			<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+				<h:outputLabel value="#{petitionRow.material.toString()}" />
+				&nbsp;
+				<h:outputLabel value="#{petitionRow.quantity}" />
+				<div />
+			</ui:repeat>
+		</ui:repeat>
+	</h:panelGroup>
+</h:body>
+</html>

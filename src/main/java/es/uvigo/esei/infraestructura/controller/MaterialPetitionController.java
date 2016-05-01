@@ -59,14 +59,22 @@ public class MaterialPetitionController {
 	}
 
 	public void doAddMaterial() {
-		petitionRows.add(new MaterialPetitionRow(quantity, petition, materialGateway.find(id)));
+		if (id != 0) {
+			MaterialPetitionRow pr = new MaterialPetitionRow(quantity, petition, materialGateway.find(id));
+			if (petitionRows.contains(pr)) {
+				int oldqQuantity = petitionRows.get(petitionRows.indexOf(pr)).getQuantity();
+				petitionRows.get(petitionRows.indexOf(pr)).setQuantity(quantity + oldqQuantity);
+			} else {
+				petitionRows.add(new MaterialPetitionRow(quantity, petition, materialGateway.find(id)));
+			}
+		}
 		quantity = 0;
 	}
 
-	public void doRemoveMaterial(int id) {
-		petitionRows.remove(materialGateway.find(id));
+	public void doRemoveMaterial(MaterialPetitionRow id) {
+		petitionRows.remove(id);
 	}
-	
+
 	public void doMaterialPetition() {
 		materialPetitionGateway.create(petition);
 		materialPetitionGateway.save();

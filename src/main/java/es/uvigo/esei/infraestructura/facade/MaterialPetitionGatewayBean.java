@@ -49,10 +49,14 @@ public class MaterialPetitionGatewayBean {
 	}
 	
 	public List<MaterialPetition> getAllPetitions(){
-		return em.createNamedQuery("findAllPetitions", MaterialPetition.class).getResultList();
+		return em.createNamedQuery("findAllMaterialPetitions", MaterialPetition.class).getResultList();
 	}
 	
 	public List<MaterialPetition> getAllDonePetitions(){
-		return em.createNamedQuery("findAllDonePetitions", MaterialPetition.class).getResultList();
+		return em.createNamedQuery("findAllDoneMaterialPetitions", MaterialPetition.class).getResultList();
+	}
+	
+	public List<MaterialPetition> getAllRetirevedPetitions(){
+		return em.createNamedQuery("findAllRetrievedMaterialPetitions", MaterialPetition.class).getResultList();
 	}
 }

@@ -251,9 +251,42 @@ public class Material {
 
 	@Override
 	public String toString() {
-		return "Material [materialName=" + materialName + ", materialType=" + materialType + ", material=" + material
-				+ ", capacity=" + capacity + ", tradeMark=" + tradeMark + ", model=" + model + ", speed=" + speed
-				+ ", destination=" + destination + ", size=" + size + ", resolution=" + resolution + ", proportion="
-				+ proportion + ", quantity=" + quantity + "]";
+		String toRet = material.toString() + " ";
+		if (materialName != null && materialName != "") {
+			toRet += "Nombre del material: " + materialName + ". ";
+		}
+		if (materialType != null && materialType != "") {
+			toRet += "Tipo: " + materialType + ". ";
+		}
+		if (capacity != null && capacity != "") {
+			toRet += "Capacidad: " + capacity + ". ";
+		}
+		if (tradeMark != null && tradeMark != "") {
+			toRet += "Marca: " + tradeMark + ". ";
+		}
+		if (model != null && model != "") {
+			toRet += "Modelo: " + model + ". ";
+		}
+		if (speed != null && speed != "") {
+			toRet += "Velocidad: " + speed + ". ";
+		}
+		if (destination != null && destination != "") {
+			toRet += "Dispositivo: " + destination + ". ";
+		}
+		if (size != null && size != "") {
+			toRet += "Tamaño: " + size + ". ";
+		}
+		if (speed != null && speed != "") {
+			toRet += "Velocidad: " + speed + ". ";
+		}
+		if (resolution != null && resolution != "") {
+			toRet += "Resolución: " + resolution + ". ";
+		}
+		if (proportion != null && proportion != "") {
+			toRet += "Proporción: " + proportion + ". ";
+		}
+		toRet += "Cantidad: " + quantity + ". ";
+		
+		return toRet;
 	}
 }
