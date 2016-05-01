@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+</f:metadata>
+<h:head>
+	<title>Infraestructura ESEI</title>
+</h:head>
+<h:body>
+	<h2>Petición de consumible</h2>
+	<h3>Consumibles de impresora</h3>
+	<o:form>
+		<h:selectOneMenu value="#{materialPetition.id}">
+			<f:selectItems value="#{materialPetition.getAllMaterial('monitor')}"
+				var="material" itemValue="#{material.id}"
+				itemLabel="#{material.materialName}" />
+		</h:selectOneMenu>
+		<h:outputText value="Cantidad" />
+		<h:inputText value="#{materialPetition.quantity}" />
+		<br />
+		<h:commandButton action="#{materialPetition.doAddMaterial()}"
+			value="Añadir monitor" />
+	</o:form>
+	<o:form>
+		<h:selectOneMenu value="#{materialPetition.id}">
+			<f:selectItems
+				value="#{materialPetition.getAllMaterial('disco duro')}"
+				var="material" itemValue="#{material.id}"
+				itemLabel="#{material.materialName}" />
+		</h:selectOneMenu>
+		<h:outputText value="Cantidad" />
+		<h:inputText value="#{materialPetition.quantity}" />
+		<br />
+		<h:commandButton action="#{materialPetition.doAddMaterial()}"
+			value="Añadir disco duro" />
+	</o:form>
+	<o:form>
+		<h:selectOneMenu value="#{materialPetition.id}">
+			<f:selectItems value="#{materialPetition.getAllMaterial('ram')}"
+				var="material" itemValue="#{material.id}"
+				itemLabel="#{material.materialName}" />
+		</h:selectOneMenu>
+		<h:outputText value="Cantidad" />
+		<h:inputText value="#{materialPetition.quantity}" />
+		<br />
+		<h:commandButton action="#{materialPetition.doAddMaterial()}"
+			value="Añadir memoria ram" />
+	</o:form>
+	<o:form>
+		<h:selectOneMenu value="#{materialPetition.id}">
+			<f:selectItems value="#{materialPetition.getAllMaterial('otros')}"
+				var="material" itemValue="#{material.id}"
+				itemLabel="#{material.materialName}" />
+		</h:selectOneMenu>
+		<h:outputText value="Cantidad" />
+		<h:inputText value="#{materialPetition.quantity}" />
+		<br />
+		<h:commandButton action="#{materialPetition.doAddMaterial()}"
+			value="Añadir otros">
+			<f:ajax execute="@form" render="@form petitionList petitionListForm" />
+		</h:commandButton>
+	</o:form>
+	<h3>Realizar petición</h3>
+	<h:panelGroup id="petitionList">
+		<o:form id="petitionListForm">
+			<ui:repeat var="materialRow" value="#{materialPetition.petitionRows}">
+				<h:outputLabel
+					value="#{materialRow.material.materialName} #{materialRow.quantity}" />
+				<br />
+			</ui:repeat>
+			<h:commandButton action="#{materialPetition.doMaterialPetition()}"
+				value="Realizar petición de material"/>
+		</o:form>
+	</h:panelGroup>
+</h:body>
+</html>

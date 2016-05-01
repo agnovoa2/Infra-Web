@@ -11,35 +11,35 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
+import es.uvigo.esei.infraestructura.entities.MaterialPetition;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class ConsumablePetitionGatewayBean {
+public class MaterialPetitionGatewayBean {
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private ConsumablePetition current;
+	private MaterialPetition current;
 
-	public ConsumablePetition find(int id) {
-		this.current = this.em.find(ConsumablePetition.class, id);
+	public MaterialPetition find(int id) {
+		this.current = this.em.find(MaterialPetition.class, id);
 		return this.current;
 	}
 
-	public ConsumablePetition getCurrent() {
+	public MaterialPetition getCurrent() {
 		return current;
 	}
 
-	public void create(ConsumablePetition petition) {
+	public void create(MaterialPetition petition) {
 		this.em.persist(petition);
 		this.current = petition;
 	}
 
 	public void remove(int id) {
-		ConsumablePetition ref = this.em.getReference(ConsumablePetition.class, id);
+		MaterialPetition ref = this.em.getReference(MaterialPetition.class, id);
 		this.em.remove(ref);
 	}
 
@@ -48,11 +48,11 @@ public class ConsumablePetitionGatewayBean {
 		// nothing to do
 	}
 	
-	public List<ConsumablePetition> getAllPetitions(){
-		return em.createNamedQuery("findAllPetitions", ConsumablePetition.class).getResultList();
+	public List<MaterialPetition> getAllPetitions(){
+		return em.createNamedQuery("findAllPetitions", MaterialPetition.class).getResultList();
 	}
 	
-	public List<ConsumablePetition> getAllDonePetitions(){
-		return em.createNamedQuery("findAllDonePetitions", ConsumablePetition.class).getResultList();
+	public List<MaterialPetition> getAllDonePetitions(){
+		return em.createNamedQuery("findAllDonePetitions", MaterialPetition.class).getResultList();
 	}
 }

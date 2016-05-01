@@ -1,6 +1,7 @@
 package es.uvigo.esei.infraestructura.entities;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +32,9 @@ public class MaterialPetition {
 	@ManyToOne
 	@JoinColumn(name = "petitioner")
 	private User user;
+	
+	@OneToMany(mappedBy = "material")
+	private List<MaterialPetitionRow> petitionRows;
 	
 	MaterialPetition(){}
 
@@ -69,5 +74,13 @@ public class MaterialPetition {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<MaterialPetitionRow> getPetitionRows() {
+		return petitionRows;
+	}
+
+	public void setPetitionRows(List<MaterialPetitionRow> petitionRows) {
+		this.petitionRows = petitionRows;
 	}
 }

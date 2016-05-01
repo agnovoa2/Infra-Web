@@ -8,6 +8,10 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:o="http://xmlns.jcp.org/jsf/html">
 <f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+	<f:event listener="#{loginController.redirectIfNotIntern()}"
+		type="preRenderView" />
 	<f:viewParam name="material" value="#{materialManagement.material}" />
 	<f:event listener="#{materialManagement.redirectIfNotMaterial()}"
 		type="preRenderView" />
@@ -84,7 +88,7 @@
 			<h:outputLabel value="Marca" />
 			<h:inputText value="#{materialManagement.tradeMark}" />
 			<br />
-			<h:commandButton action="#{materialManagement.doAddMonitor()}"
+			<h:commandButton action="#{materialManagement.doAddHardDrive()}"
 				value="Dar de alta disco duro">
 				<f:ajax execute="@form" render="@form material materialForm" />
 			</h:commandButton>
@@ -119,7 +123,7 @@
 			<h:outputLabel value="Marca" />
 			<h:inputText value="#{materialManagement.tradeMark}" />
 			<br />
-			<h:commandButton action="#{materialManagement.doAddMonitor()}"
+			<h:commandButton action="#{materialManagement.doAddMemory()}"
 				value="Dar de alta memoria RAM">
 				<f:ajax execute="@form" render="@form material materialForm" />
 			</h:commandButton>
@@ -164,7 +168,7 @@
 				<f:selectItem itemValue="16:9" itemLabel="16:9" />
 			</h:selectOneMenu>
 			<br />
-			<h:commandButton action="#{materialManagement.doAddMonitor()}"
+			<h:commandButton action="#{materialManagement.doAddOther()}"
 				value="Dar de alta otros">
 				<f:ajax execute="@form" render="@form material materialForm" />
 			</h:commandButton>

@@ -33,7 +33,6 @@ public class MaterialPetitionRow {
 	MaterialPetitionRow(){}
 
 	public MaterialPetitionRow(int quantity, MaterialPetition materialPetition, Material material) {
-		super();
 		this.quantity = quantity;
 		this.materialPetition = materialPetition;
 		this.material = material;

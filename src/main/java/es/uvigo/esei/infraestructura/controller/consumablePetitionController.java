@@ -20,7 +20,7 @@ import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 import es.uvigo.esei.infraestructura.facade.ConsumableGatewayBean;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
-import es.uvigo.esei.infraestructura.facade.PetitionRowGatewayBean;
+import es.uvigo.esei.infraestructura.facade.ConsumablePetitionRowGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 import es.uvigo.esei.infraestructura.util.Mail;
@@ -46,7 +46,7 @@ public class ConsumablePetitionController {
 	private ConsumablePetitionGatewayBean petitionGateway;
 	
 	@Inject
-	private PetitionRowGatewayBean petitionRowGateway;
+	private ConsumablePetitionRowGatewayBean petitionRowGateway;
 
 	@Inject
 	private Mail mail;

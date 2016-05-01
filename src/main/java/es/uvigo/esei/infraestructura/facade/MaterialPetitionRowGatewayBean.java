@@ -9,35 +9,35 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
-import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
+import es.uvigo.esei.infraestructura.entities.MaterialPetitionRow;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class PetitionRowGatewayBean {
+public class MaterialPetitionRowGatewayBean {
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 
 	@EJB
 	private UserAuthorizationEJB auth;
 
-	private ConsumablePetitionRow current;
+	private MaterialPetitionRow current;
 
-	public ConsumablePetitionRow find(String id) {
-		this.current = this.em.find(ConsumablePetitionRow.class, id);
+	public MaterialPetitionRow find(String id) {
+		this.current = this.em.find(MaterialPetitionRow.class, id);
 		return this.current;
 	}
 
-	public ConsumablePetitionRow getCurrent() {
+	public MaterialPetitionRow getCurrent() {
 		return current;
 	}
 
-	public void create(ConsumablePetitionRow user) {
-		this.em.persist(user);
-		this.current = user;
+	public void create(MaterialPetitionRow materialPetitionRow) {
+		this.em.persist(materialPetitionRow);
+		this.current = materialPetitionRow;
 	}
 
-	public void remove(String id) {
-		ConsumablePetitionRow ref = this.em.getReference(ConsumablePetitionRow.class, id);
+	public void remove(int id) {
+		MaterialPetitionRow ref = this.em.getReference(MaterialPetitionRow.class, id);
 		this.em.remove(ref);
 	}
 
