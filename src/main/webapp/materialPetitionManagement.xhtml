@@ -34,14 +34,37 @@
 					action="#{materialPetitionManagement.doConfirmPetition(petition.materialPetitionNumber)}"
 					value="Confirmar petición"
 					rendered="#{petition.petitionState == 0}">
-					<f:ajax render="@form petitions" />
+					<f:ajax render="@form petitionsDone petitions" />
 				</h:commandButton>
 				<div />
 			</ui:repeat>
 		</o:form>
-		<h4>Peticiones realizadas</h4>
+	</h:panelGroup>
+	<h4>Peticiones realizadas</h4>
+	<h:panelGroup id="petitionsDone">
+		<o:form>
+			<ui:repeat var="petition"
+				value="#{materialPetitionManagement.allDonePetitions}">
+				<h:outputLabel value="#{petition.user.toString()}" />
+				<div />
+				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+					<h:outputLabel value="#{petitionRow.material.toString()}" />
+				&nbsp;
+				<h:outputLabel value="#{petitionRow.quantity}" />
+					<div />
+				</ui:repeat>
+				<h:commandButton
+					action="#{materialPetitionManagement.doRetrievePetition(petition.materialPetitionNumber)}"
+					value="Material devuelto" rendered="#{petition.petitionState == 1}">
+					<f:ajax render="@form petitions petitionsDone petitionRetrieved" />
+				</h:commandButton>
+			</ui:repeat>
+		</o:form>
+	</h:panelGroup>
+	<h4>Peticiones devueltas</h4>
+	<h:panelGroup id="petitionRetrieved">
 		<ui:repeat var="petition"
-			value="#{materialPetitionManagement.allDonePetitions}">
+			value="#{materialPetitionManagement.allRetrievedPetitions}">
 			<h:outputLabel value="#{petition.user.toString()}" />
 			<div />
 			<ui:repeat var="petitionRow" value="#{petition.petitionRows}">

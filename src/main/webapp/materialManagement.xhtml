@@ -117,7 +117,7 @@
 			<h:selectOneMenu value="#{materialManagement.destination}">
 				<f:selectItem itemValue="Sobremesa" itemLabel="Sobremesa" />
 				<f:selectItem itemValue="Portatil" itemLabel="Portatil" />
-				<f:selectItem itemValue="Portatil" itemLabel="Universal" />
+				<f:selectItem itemValue="Universal" itemLabel="Universal" />
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
@@ -147,7 +147,7 @@
 			<h:selectOneMenu value="#{materialManagement.destination}">
 				<f:selectItem itemValue="Sobremesa" itemLabel="Sobremesa" />
 				<f:selectItem itemValue="Portatil" itemLabel="Portatil" />
-				<f:selectItem itemValue="Portatil" itemLabel="Universal" />
+				<f:selectItem itemValue="Universal" itemLabel="Universal" />
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
@@ -324,16 +324,11 @@
 			<h:outputLabel value="Nombre material" />
 			<h:inputText value="#{materialManagement.materialName}" />
 			<br />
+			<h:outputLabel value="tipo material" />
+			<h:inputText value="#{materialManagement.materialType}" />
+			<br />
 			<h:outputLabel value="Capacidad" />
 			<h:inputText value="#{materialManagement.capacity}" />
-			<br />
-			<h:outputLabel value="Tipo" />
-			<h:selectOneMenu value="#{materialManagement.materialType}">
-				<f:selectItem itemValue="DDR" itemLabel="DDR" />
-				<f:selectItem itemValue="DDR2" itemLabel="DDR2" />
-				<f:selectItem itemValue="DDR3" itemLabel="DDR3" />
-				<f:selectItem itemValue="DDR4" itemLabel="DDR4" />
-			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Velocidad" />
 			<h:inputText value="#{materialManagement.speed}" />
@@ -342,11 +337,26 @@
 			<h:selectOneMenu value="#{materialManagement.destination}">
 				<f:selectItem itemValue="Sobremesa" itemLabel="Sobremesa" />
 				<f:selectItem itemValue="Portatil" itemLabel="Portatil" />
-				<f:selectItem itemValue="Portatil" itemLabel="Universal" />
+				<f:selectItem itemValue="Universal" itemLabel="Universal" />
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
 			<h:inputText value="#{materialManagement.tradeMark}" />
+			<br />
+			<h:outputLabel value="Modelo" />
+			<h:inputText value="#{materialManagement.model}" />
+			<br />
+			<h:outputLabel value="Tamaño" />
+			<h:inputText value="#{materialManagement.size}" />
+			<br />
+			<h:outputLabel value="Resolución" />
+			<h:inputText value="#{materialManagement.resolution}" />
+			<br />
+			<h:outputLabel value="Proporción" />
+			<h:selectOneMenu value="#{materialManagement.materialType}">
+				<f:selectItem itemValue="4:3" itemLabel="4:3" />
+				<f:selectItem itemValue="16:9" itemLabel="16:9" />
+			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Cantidad" />
 			<h:inputText value="#{materialManagement.quantity}" />
