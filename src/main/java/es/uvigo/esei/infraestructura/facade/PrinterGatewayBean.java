@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -33,9 +34,14 @@ public class PrinterGatewayBean {
 		return current;
 	}
 
-	public void create(Printer printer) {
-		this.em.persist(printer);
-		this.current = printer;
+	public void create(Printer printer) throws SQLException{
+		if (this.find(printer.getInventoryNumber()) == null) {
+			this.em.persist(printer);
+			this.current = printer;
+		}
+		else{
+			throw new SQLException();
+		}
 	}
 
 	public void remove(int id) {
@@ -47,8 +53,8 @@ public class PrinterGatewayBean {
 	public void save() {
 		// nothing to do
 	}
-	
-	public List<Printer> getAll(){
+
+	public List<Printer> getAll() {
 		return em.createNamedQuery("findAllPrinters", Printer.class).getResultList();
 	}
 }

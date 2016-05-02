@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -33,9 +34,13 @@ public class PrinterManagementController {
 	private String newModel;
 
 	public void doAddPrinter() {
+		try{
 		this.printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
 		this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
 		this.printerGateway.save();
+		} catch (SQLException e) {
+			//TODO hacer cosas cuando sea duplicado
+		}
 	}
 
 	public void doRemovePrinter(int inventoryNumber) {
