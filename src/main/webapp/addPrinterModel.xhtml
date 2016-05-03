@@ -61,20 +61,25 @@
 			<br />
 			<h:commandButton action="#{addPrinterModel.doAddConsumable()}"
 				value="Añadir consumible">
-				<f:ajax render="@form model modelForm"
-					execute="@form" />
+				<f:ajax render="@form model modelForm" execute="@form" />
 			</h:commandButton>
 			<br />
-			</o:form>
-		</h:panelGroup>
-		<h:panelGroup id="model">
-			<o:form id="modelForm">
+		</o:form>
+	</h:panelGroup>
+	<h:panelGroup id="model">
+		<o:form id="modelForm">
 			<h2>Nuevo modelo de impresora</h2>
 			<h:outputLabel value="Nombre" />
-			<h:inputText value="#{addPrinterModel.modelName}" />
+			<h:inputText value="#{addPrinterModel.modelName}" id="modelName"
+				a:placeholder="Nombre del modelo" required="true"
+				requiredMessage="Debe especificar una nombre para el modelo" />
+			<h:message id="m3" for="modelName" style="color:red" />
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{addPrinterModel.tradeMark}" />
+			<h:inputText value="#{addPrinterModel.tradeMark}" id="modelTrademark"
+				a:placeholder="Marca del modelo" required="true"
+				requiredMessage="Debe especificar una marca para el modelo" />
+			<h:message id="m4" for="modelTrademark" style="color:red" />
 			<br />
 			<h:outputLabel value="Consumible Negro" />
 			<h:selectOneMenu value="#{addPrinterModel.blackConsumable}">
@@ -180,7 +185,9 @@
 					itemLabel="#{consumable.consumableName}" />
 			</h:selectOneMenu>
 			<h:commandButton action="#{addPrinterModel.doAddModel()}"
-				value="Añadir modelo" />
+				value="Añadir modelo">
+				<f:ajax render="@form" execute="@form" />
+			</h:commandButton>
 			<br />
 		</o:form>
 	</h:panelGroup>

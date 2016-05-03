@@ -108,12 +108,13 @@ public class AddPrinterModelController {
 			Model model = new Model(getModelName(), getTradeMark());
 			List<Consumable> consumables = fillConsumableList();
 			if (consumables == null) {
-				context.redirect("addPrinterModel.xhtml?error=true");
+				throw new SQLException("El modelo debe contener algún consumible.");
 			} else {
 				model.setConsumables(consumables);
 				this.modelGateway.create(model);
 				this.modelGateway.save();
 			}
+			context.redirect("addPrinter.xhtml");
 		} catch (SQLException e) {
 			context.redirect("addPrinterModel.xhtml?error=true");
 		}

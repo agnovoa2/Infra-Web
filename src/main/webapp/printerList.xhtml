@@ -27,21 +27,23 @@
 				&nbsp;
 				<h:link
 					outcome="consumablePetition?invnum=#{printer.inventoryNumber}"
-					value="Petición de consumibles"/>
+					value="Petición de consumibles" />
 				<br />
 			</ui:repeat>
+			<h:panelGroup rendered="#{printerList.notProfessorPrinters.size() != 0}">
+				<h2>Comparto impresora con</h2>
 
-			<h2>Comparto impresora con</h2>
-
-			<h:selectOneMenu value="#{printerList.printer}" id="existingPrinter">
-				<f:selectItems value="#{printerList.notProfessorPrinters}" var="printer"
-					itemValue="#{printer.inventoryNumber}"
-					itemLabel="#{printer.model.modelName}&nbsp;#{printer.ubication}" />
-			</h:selectOneMenu>
-			<br />
-			<h:commandButton action="#{printerList.doAddExistingPrinter()}" value="Añadir impresora" >
-				<f:ajax execute="existingPrinter" render="printers"/>
-			</h:commandButton>
+				<h:selectOneMenu value="#{printerList.printer}" id="existingPrinter">
+					<f:selectItems value="#{printerList.notProfessorPrinters}"
+						var="printer" itemValue="#{printer.inventoryNumber}"
+						itemLabel="#{printer.model.modelName}&nbsp;#{printer.ubication}" />
+				</h:selectOneMenu>
+				<br />
+				<h:commandButton action="#{printerList.doAddExistingPrinter()}"
+					value="Añadir impresora">
+					<f:ajax execute="existingPrinter" render="printers" />
+				</h:commandButton>
+			</h:panelGroup>
 		</h:form>
 	</h:panelGroup>
 	<h2>Añadir nueva impresora</h2>

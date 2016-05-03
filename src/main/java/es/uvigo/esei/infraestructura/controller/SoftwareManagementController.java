@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -28,17 +29,21 @@ public class SoftwareManagementController {
 	private int type;
 
 	public void doAddSoftware() {
-		softwareGateway.create(new Software(getSoftwareName(), getType(), getDownloadURL()));
-		softwareGateway.save();
+		try {
+			softwareGateway.create(new Software(getSoftwareName(), getType(), getDownloadURL()));
+			softwareGateway.save();
+		} catch (SQLException e) {
+			//TODO hacer cosas con error
+		}
 	}
 
 	public void doRemoveSoftware(String softwareName) {
 
 		softwareGateway.find(softwareName);
-		
-		if(softwareGateway.getCurrent() != null){
-			if(softwareGateway.getCurrent().getSubjects() != null){
-				for(Subject subject : softwareGateway.getCurrent().getSubjects()){
+
+		if (softwareGateway.getCurrent() != null) {
+			if (softwareGateway.getCurrent().getSubjects() != null) {
+				for (Subject subject : softwareGateway.getCurrent().getSubjects()) {
 					subjectGateway.findByCode(subject.getCode());
 					subjectGateway.getCurrent().getSoftwares().remove(softwareGateway.getCurrent());
 					subjectGateway.save();
@@ -51,7 +56,7 @@ public class SoftwareManagementController {
 	}
 
 	public void doSetEditSoftware(String softwareName) {
-		
+
 		softwareGateway.find(softwareName);
 		setSoftwareName(softwareGateway.getCurrent().getSoftwareName());
 		setNewSoftwareName(softwareGateway.getCurrent().getSoftwareName());
@@ -63,12 +68,12 @@ public class SoftwareManagementController {
 	}
 
 	public void doEditSoftware() {
-		
+
 		softwareGateway.find(getSoftwareName());
 		softwareGateway.getCurrent().setSoftwareName(getNewSoftwareName());
 		softwareGateway.getCurrent().setDownloadURL(getDownloadURL());
 		softwareGateway.getCurrent().setType(getType());
-		softwareGateway.save();		
+		softwareGateway.save();
 	}
 
 	public List<Software> getAllSoftware() {

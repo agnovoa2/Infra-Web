@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import es.uvigo.esei.infraestructura.entities.MaterialPetition;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionGatewayBean;
 import es.uvigo.esei.infraestructura.util.Mail;
-import es.uvigo.esei.infraestructura.util.Report;
 
 @ViewScoped
 @ManagedBean(name = "materialPetitionManagement")

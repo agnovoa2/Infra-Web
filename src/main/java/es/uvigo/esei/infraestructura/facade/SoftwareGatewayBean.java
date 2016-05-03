@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -40,9 +41,14 @@ public class SoftwareGatewayBean {
         return current;
     }
 	
-	public void create(Software software){
-        this.em.persist(software);
-        this.current = software;
+	public void create(Software software) throws SQLException{
+		if (this.find(software.getSoftwareName()) == null) {
+			this.em.persist(software);
+			this.current = software;
+		}
+		else{
+			throw new SQLException();
+		}
     }
 	
 	public void remove(int id){
