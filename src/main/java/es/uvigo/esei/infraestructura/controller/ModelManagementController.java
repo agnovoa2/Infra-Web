@@ -1,10 +1,14 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
@@ -20,6 +24,8 @@ import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 @ManagedBean(name = "modelManagement")
 public class ModelManagementController {
 
+	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+	
 	@Inject
 	private ModelGatewayBean modelGateway;
 
@@ -49,12 +55,16 @@ public class ModelManagementController {
 	private String beltUnit;
 	private String fuser;
 
-	public void doAddModel() {
+	public void doAddModel() throws IOException {
+		try{
 		Model model = new Model(getModelName(),getTradeMark());
 		List<Consumable> consumables = fillConsumableList();
 		model.setConsumables(consumables);
 		this.modelGateway.create(model);
 		this.modelGateway.save();
+		} catch(SQLException e){
+			context.redirect("modelManagement.xhtml?error=true");
+		}
 	}
 	
 	private List<Consumable> fillConsumableList(){ 

@@ -5,7 +5,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
 
 <h:head>
 	<title>Infraestructura ESEI</title>
@@ -13,7 +14,7 @@
 <h:body>
 	<h2>Nuevo consumible</h2>
 	<h:panelGroup id="consumables">
-		<h:form>
+		<o:form id="consumablesForm">
 			<h:outputLabel value="Nombre del consumible" />
 			<h:inputText value="#{addPrinterModel.consumableName}"
 				id="consumableName" a:placeholder="Nombre del consumible"
@@ -60,10 +61,14 @@
 			<br />
 			<h:commandButton action="#{addPrinterModel.doAddConsumable()}"
 				value="Añadir consumible">
-				<f:ajax render="consumables"
-					execute="consumableName type colour description" />
+				<f:ajax render="@form model modelForm"
+					execute="@form" />
 			</h:commandButton>
 			<br />
+			</o:form>
+		</h:panelGroup>
+		<h:panelGroup id="model">
+			<o:form id="modelForm">
 			<h2>Nuevo modelo de impresora</h2>
 			<h:outputLabel value="Nombre" />
 			<h:inputText value="#{addPrinterModel.modelName}" />
@@ -177,7 +182,7 @@
 			<h:commandButton action="#{addPrinterModel.doAddModel()}"
 				value="Añadir modelo" />
 			<br />
-		</h:form>
+		</o:form>
 	</h:panelGroup>
 
 </h:body>

@@ -1,9 +1,13 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
@@ -22,19 +26,25 @@ public class ConsumableManagementController {
 	@Inject
 	private ConsumableGatewayBean consumableGateway;
 
+	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+	
 	private String newConsumableName;
 	private String consumableName;
 	private String description;
 	private String type;
 	private String color;
 
-	public void doAddConsumable() {
-		if (type.equals("Toner") || type.equals("Cartucho"))
-			this.consumableGateway.create(new Consumable(consumableName, type, color, description));
-		else {
-			this.consumableGateway.create(new Consumable(consumableName, type, description));
+	public void doAddConsumable() throws IOException {
+		try {
+			if (type.equals("Toner") || type.equals("Cartucho"))
+				this.consumableGateway.create(new Consumable(consumableName, type, color, description));
+			else {
+				this.consumableGateway.create(new Consumable(consumableName, type, description));
+			}
+			this.consumableGateway.save();
+		} catch (SQLException e) {
+			context.redirect("consumableManagement.xhtml?error=true");
 		}
-		this.consumableGateway.save();
 	}
 
 	public void doRemoveConsumable(String consumable) {

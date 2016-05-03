@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -40,9 +41,14 @@ public class ConsumableGatewayBean {
 		return current;
 	}
 
-	public void create(Consumable consumable) {
-		this.em.persist(consumable);
-		this.current = consumable;
+	public void create(Consumable consumable) throws SQLException{
+		if (this.find(consumable.getConsumableName()) == null) {
+			this.em.persist(consumable);
+			this.current = consumable;
+		}
+		else{
+			throw new SQLException("Ya existe un consumible en la base de datos con ese nombre.");
+		}
 	}
 
 	public void remove(int id) {

@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -26,9 +27,9 @@ public class ModelGatewayBean {
 	private Model current;
 
 	public Model find(String id) {
-		Query query = em.createQuery("SELECT m FROM Model m WHERE m.modelName=:modelName",Model.class);
+		Query query = em.createQuery("SELECT m FROM Model m WHERE m.modelName=:modelName", Model.class);
 		query.setParameter("modelName", id);
-		if(query.getResultList().size() == 0){
+		if (query.getResultList().size() == 0) {
 			this.current = null;
 			return null;
 		}
@@ -40,9 +41,14 @@ public class ModelGatewayBean {
 		return current;
 	}
 
-	public void create(Model model) {
-		this.em.persist(model);
-		this.current = model;
+	public void create(Model model) throws SQLException {
+		if (this.find(model.getModelName()) == null) {
+			this.em.persist(model);
+			this.current = model;
+		}
+		else {
+			throw new SQLException("Ya existe un modelo con ese nombre en la base de datos.");
+		}
 	}
 
 	public void remove(String id) {
@@ -54,8 +60,8 @@ public class ModelGatewayBean {
 	public void save() {
 		// nothing to do
 	}
-	
-	public List<Model> getAll(){
+
+	public List<Model> getAll() {
 		return em.createNamedQuery("findAllModels", Model.class).getResultList();
 	}
 }
