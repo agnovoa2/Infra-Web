@@ -2,6 +2,7 @@ package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -41,8 +43,11 @@ public class IncidencesController {
 	@Inject
 	private Mail mail;
 
+	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+
 	private int computerNum;
 	private int labelNum;
+	private int selectedLabelNum;
 	private Integer[] auxArray;
 	private String[] types;
 	private String laboratory;
@@ -94,11 +99,18 @@ public class IncidencesController {
 	public void doSelectComputer(int num) {
 		this.computerNum = num;
 		this.computerGateway.find(getComputerNum(), getLaboratory());
+		if (computerGateway.getCurrent() != null) {
+			selectedLabelNum = computerGateway.getCurrent().getLabelNum();
+		}
 	}
 
-	public void doAddComputer() {
-		this.computerGateway.create(new Computer(getLaboratory(), getComputerNum(), getLabelNum()));
-		this.computerGateway.save();
+	public void doAddComputer() throws IOException {
+		try {
+			this.computerGateway.create(new Computer(getLaboratory(), getComputerNum(), getLabelNum()));
+			this.computerGateway.save();
+		} catch (SQLException e) {
+			context.redirect("incidences.xhtml?lab=" + laboratory + "&error=true");
+		}
 	}
 
 	public void doRemoveComputer() {
@@ -107,36 +119,44 @@ public class IncidencesController {
 		this.computerGateway.save();
 	}
 
-	public void doAddIncidence() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = new Date();
-		dateFormat.format(date);
-		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		Incidence incidence = new Incidence(this.getDescription(), sqlDate);
-		this.userGateway.find(currentUser.getName());
-		this.computerGateway.find(getComputerNum(), getLaboratory());
-		incidence.setUser(this.userGateway.getCurrent());
-		incidence.setComputer(this.computerGateway.getCurrent());
-		List<IncidenceType> typeList = new LinkedList<IncidenceType>();
-		for (String incidenceType : this.types) {
-			typeList.add(new IncidenceType(incidenceType));
+	public void doAddIncidence() throws IOException {
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			Date date = new Date();
+			dateFormat.format(date);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			Incidence incidence = new Incidence(this.getDescription(), sqlDate);
+			this.userGateway.find(currentUser.getName());
+			this.computerGateway.find(getComputerNum(), getLaboratory());
+			incidence.setUser(this.userGateway.getCurrent());
+			incidence.setComputer(this.computerGateway.getCurrent());
+			List<IncidenceType> typeList = new LinkedList<IncidenceType>();
+			if (types.length > 0) {
+				for (String incidenceType : this.types) {
+					typeList.add(new IncidenceType(incidenceType));
+				}
+			} else {
+				throw new SQLException();
+			}
+			incidence.setTypes(typeList);
+			this.incidenceGateway.create(incidence);
+			if (this.userGateway.getCurrent().getIncidences() == null) {
+				this.userGateway.getCurrent().setIncidences(new LinkedList<Incidence>());
+			}
+			this.userGateway.getCurrent().getIncidences().add(incidence);
+			if (this.computerGateway.getCurrent().getIncidences() == null) {
+				this.computerGateway.getCurrent().setIncidences(new LinkedList<Incidence>());
+			}
+			this.computerGateway.getCurrent().getIncidences().add(incidence);
+			this.computerGateway.getCurrent().setState(State.INCIDENCE);
+			this.incidenceGateway.save();
+			this.userGateway.save();
+			this.computerGateway.save();
+			this.setTextMessage();
+			this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva incidencia en " + getLaboratory());
+		} catch (SQLException e) {
+			context.redirect("incidences.xhtml?lab=" + laboratory + "&error=true");
 		}
-		incidence.setTypes(typeList);
-		this.incidenceGateway.create(incidence);
-		if (this.userGateway.getCurrent().getIncidences() == null) {
-			this.userGateway.getCurrent().setIncidences(new LinkedList<Incidence>());
-		}
-		this.userGateway.getCurrent().getIncidences().add(incidence);
-		if (this.computerGateway.getCurrent().getIncidences() == null) {
-			this.computerGateway.getCurrent().setIncidences(new LinkedList<Incidence>());
-		}
-		this.computerGateway.getCurrent().getIncidences().add(incidence);
-		this.computerGateway.getCurrent().setState(State.INCIDENCE);
-		this.incidenceGateway.save();
-		this.userGateway.save();
-		this.computerGateway.save();
-		this.setTextMessage();
-		this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva incidencia en " + getLaboratory());
 	}
 
 	private void fillArray(int c) {
@@ -194,10 +214,14 @@ public class IncidencesController {
 	}
 
 	public boolean isHasIncidence() {
+		System.out.println(getComputerNum());
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 		if (this.computerGateway.getCurrent() != null
-				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE)
+				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE){
+			System.out.println("TENGO INCIDENCIA");
 			return true;
+		}
+		System.out.println("NO TENGO INCIDENCIA");
 		return false;
 	}
 
@@ -222,12 +246,12 @@ public class IncidencesController {
 
 	public void setTextClose() {
 		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
-				+ "Se ha solucionado la incidencia reportada sobre el ordenador " + getLabelNum() + " en " + getLaboratory() + "\n"
-				+ "Le agradecemos la molestia de reportar dicha incidencia \n" 
+				+ "Se ha solucionado la incidencia reportada sobre el ordenador " + getLabelNum() + " en "
+				+ getLaboratory() + "\n" + "Le agradecemos la molestia de reportar dicha incidencia \n"
 				+ "Un saludo. Atte: Equipo de infraestructura de la ESEI");
-				
+
 	}
-	
+
 	public void setTextMessage() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
@@ -357,5 +381,13 @@ public class IncidencesController {
 
 	public String getTextMessage() {
 		return textMessage;
+	}
+
+	public int getSelectedLabelNum() {
+		return selectedLabelNum;
+	}
+
+	public void setSelectedLabelNum(int selectedLabelNum) {
+		this.selectedLabelNum = selectedLabelNum;
 	}
 }

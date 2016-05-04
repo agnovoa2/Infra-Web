@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -26,11 +27,12 @@ public class ComputerGatewayBean {
 	private Computer current;
 
 	public Computer find(int num, String laboratory) {
-		
-		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = :num", Computer.class);
+
+		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = :num",
+				Computer.class);
 		query.setParameter("laboratory", laboratory);
 		query.setParameter("num", num);
-		if(query.getResultList().size() == 0){
+		if (query.getResultList().size() == 0) {
 			this.current = null;
 			return null;
 		}
@@ -42,9 +44,22 @@ public class ComputerGatewayBean {
 		return current;
 	}
 
-	public void create(Computer computer) {
-		this.em.persist(computer);
-		this.current = computer;
+	public void create(Computer computer) throws SQLException {
+		if (findByLabel(computer.getLabelNum()) == null) {
+			this.em.persist(computer);
+			this.current = computer;
+		} else {
+			throw new SQLException("Ya existe ese número de etiqueta, por favor introduzca otra etiqueta o de antes de baja el pc que posea esta etiqueta.");
+		}
+	}
+
+	public Computer findByLabel(int labelNum) {
+		Query query = em.createQuery("Select c From Computer c Where c.labelNum=:labelNum", Computer.class);
+		query.setParameter("labelNum", labelNum);
+		if (query.getResultList().size() == 0) {
+			return null;
+		}
+		return (Computer) query.getResultList().get(0);
 	}
 
 	public void remove(int id) {
@@ -56,13 +71,14 @@ public class ComputerGatewayBean {
 	public void save() {
 		// nothing to do
 	}
-	
-	public List<Computer> getAll(){
+
+	public List<Computer> getAll() {
 		return em.createNamedQuery("findAllComputers", Computer.class).getResultList();
 	}
-	
-	public List<Computer> getAllLaboratoryComputers(String laboratory){
-		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = 0", Computer.class);
+
+	public List<Computer> getAllLaboratoryComputers(String laboratory) {
+		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = 0",
+				Computer.class);
 		query.setParameter("laboratory", laboratory);
 		return query.getResultList();
 	}
