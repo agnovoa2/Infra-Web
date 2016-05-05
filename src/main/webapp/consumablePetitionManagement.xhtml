@@ -25,13 +25,13 @@
 			<ui:repeat var="petition"
 				value="#{consumablePetitionManagement.allPetitions}">
 				<h:outputLabel value="#{petition.printer.model.modelName}" />
-			&nbsp;
-			<h:outputLabel value="#{petition.user.toString()}" />
+				&nbsp;
+				<h:outputLabel value="#{petition.user.toString()}" />
 				<div />
 				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
 					<h:outputLabel value="#{petitionRow.consumable.toString()}" />
-				&nbsp;
-				<h:outputLabel value="#{petitionRow.quantity}" />
+					&nbsp;
+					<h:outputLabel value="#{petitionRow.quantity}" />
 					<div />
 				</ui:repeat>
 				<h:outputText value="#{subject.description}" />

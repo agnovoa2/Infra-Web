@@ -40,7 +40,7 @@ public class ConsumablePetition {
 	@JoinColumn(name = "printer")
 	private Printer printer;
 
-	@OneToMany(mappedBy = "consumable")
+	@OneToMany(mappedBy = "petition")
 	private List<ConsumablePetitionRow> petitionRows;
 
 	ConsumablePetition() {

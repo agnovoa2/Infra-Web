@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import com.itextpdf.text.DocumentException;
 
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
 import es.uvigo.esei.infraestructura.util.Report;
 
@@ -22,14 +23,14 @@ public class ConsumablePetitionManagementController {
 	Report report;
 
 	@Inject
-	ConsumablePetitionGatewayBean petitionGateway;
+	ConsumablePetitionGatewayBean consumablePetitionGateway;
 
 	public void doConfirmPetition(int petitionNum) {
 		try {
-			petitionGateway.find(petitionNum);
-			petitionGateway.getCurrent().setPetitionState(1);
-			petitionGateway.save();
-			report.doRetrievePDF(petitionGateway.getCurrent());
+			consumablePetitionGateway.find(petitionNum);
+			consumablePetitionGateway.getCurrent().setPetitionState(1);
+			consumablePetitionGateway.save();
+			report.doRetrievePDF(consumablePetitionGateway.getCurrent());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,10 +44,10 @@ public class ConsumablePetitionManagementController {
 	}
 
 	public List<ConsumablePetition> getAllPetitions() {
-		return petitionGateway.getAllPetitions();
+		return consumablePetitionGateway.getAllPetitions();
 	}
 
 	public List<ConsumablePetition> getAllDonePetitions() {
-		return petitionGateway.getAllDonePetitions();
+		return consumablePetitionGateway.getAllDonePetitions();
 	}
 }

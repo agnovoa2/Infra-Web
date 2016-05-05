@@ -20,7 +20,7 @@ public class ConsumablePetitionRow {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "petition")
+	@JoinColumn(name = "petitionNumber")
 	private ConsumablePetition petition;
 	
 	@ManyToOne
