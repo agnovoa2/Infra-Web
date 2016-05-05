@@ -43,4 +43,9 @@ public class ProfessorSubjectsController {
 		this.subjectGateway.findByCode(code);
 		return this.subjectGateway.getCurrent().getPetitionState() > 0;
 	}
+	
+	public boolean isPetitionAccepted(String code){
+		this.subjectGateway.findByCode(code);
+		return this.subjectGateway.getCurrent().getPetitionState() > 1;
+	}
 }

@@ -36,7 +36,9 @@
 				</ui:repeat>
 				<h:outputText value="#{subject.description}" />
 				<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de solicitud</a>
-				<h:commandButton action="#{consumablePetitionManagement.doConfirmPetition(petition.petitionNumber)}" value="Confirmar petición"
+				<h:commandButton
+					action="#{consumablePetitionManagement.doConfirmPetition(petition.petitionNumber)}"
+					value="Confirmar petición"
 					rendered="#{petition.petitionState == 0}">
 					<f:ajax render="@form petitions" />
 				</h:commandButton>

@@ -34,12 +34,13 @@
 				&nbsp;
 				<h:link value="Petición de software"
 					outcome="softwarePetition?code=#{subject.code}"
-					rendered="#{!proffessorSubjects.isPetitionDone(subject.code)}" />
+					rendered="#{!proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
 				&nbsp;
 				<h:link value="Editar petición de software"
 					outcome="softwarePetition?code=#{subject.code}"
-					rendered="#{proffessorSubjects.isPetitionDone(subject.code)}" />
+					rendered="#{proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
 				<br />
+				<h:outputLabel value="Solicitud aprobada." rendered="#{proffessorSubjects.isPetitionAccepted(subject.code)}" />
 			</ui:repeat>
 		</h:form>
 	</h:panelGroup>
