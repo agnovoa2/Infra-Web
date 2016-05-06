@@ -22,7 +22,9 @@
 	<o:form>
 		<h:outputLabel value="Nombre del consumible" />
 		<h:inputText value="#{consumableManagement.consumableName}"
-			id="consumableName" />
+			id="consumableName" required="true"
+			requiredMessage="Debe introducir un nombre de consumible." />
+		<h:message id="m1" for="consumableName" style="color:red" />
 		<br />
 		<h:outputLabel value="Descripción" />
 		<h:inputTextarea value="#{consumableManagement.description}"
@@ -88,7 +90,9 @@
 		<o:form id="editForm">
 			<h:outputLabel value="Nombre del consumible" />
 			<h:inputText value="#{consumableManagement.newConsumableName}"
-				id="consumableName" />
+				id="consumableNameEdit" required="true"
+				requiredMessage="Debe introducir un nombre de consumible." />
+			<h:message id="m2" for="consumableNameEdit" style="color:red" />
 			<br />
 			<h:outputLabel value="Descripción" />
 			<h:inputTextarea value="#{consumableManagement.description}"

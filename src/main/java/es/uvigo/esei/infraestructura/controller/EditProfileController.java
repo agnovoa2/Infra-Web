@@ -6,12 +6,14 @@ import java.security.Principal;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
+import es.uvigo.esei.infraestructura.util.PasswordUtil;
 
 @ViewScoped
 @ManagedBean(name = "editProfile")
@@ -26,6 +28,8 @@ public class EditProfileController {
 	@Inject
 	private UserGatewayBean userGateway;
 
+	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+	
 	private String login;
 	private String name;
 	private String mail;
@@ -50,13 +54,17 @@ public class EditProfileController {
 		userGateway.getCurrent().setEmail(getMail());
 		if (!auth.getCurrentUser().getRole().equals(Role.INTERN)) {
 			if (getOldPassword() != null && !getOldPassword().equals("")) {
-				if (getOldPassword().equals(userGateway.getCurrent().getPassword())) {
+				if (PasswordUtil.diggestPassword(getOldPassword()).equals(userGateway.getCurrent().getPassword())) {
 					userGateway.getCurrent().setPassword(getNewPassword());
 				}
+				else{
+					context.redirect("editProfile.xhtml?login=" + login + "&error=true");
+				}
 			}
-		}
-		else{
-			userGateway.getCurrent().setPassword(getNewPassword());
+		} else {
+			if (newPassword != null && !newPassword.equals("")) {
+				userGateway.getCurrent().setPassword(getNewPassword());
+			}
 		}
 		userGateway.save();
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");

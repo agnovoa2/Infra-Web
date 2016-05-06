@@ -1,10 +1,13 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Model;
@@ -27,19 +30,21 @@ public class PrinterManagementController {
 	@Inject
 	private UserGatewayBean userGateway;
 
+	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+	
 	private String newUbication;
 	private String ubication;
 	private int inventoryNumber;
 	private String model;
 	private String newModel;
 
-	public void doAddPrinter() {
+	public void doAddPrinter() throws IOException {
 		try{
 		this.printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
 		this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
 		this.printerGateway.save();
 		} catch (SQLException e) {
-			//TODO hacer cosas cuando sea duplicado
+			context.redirect("printerManagement.xhtml");
 		}
 	}
 

@@ -21,10 +21,16 @@
 	<h3>Alta modelo</h3>
 	<o:form>
 		<h:outputLabel value="Nombre modelo" />
-		<h:inputText value="#{modelManagement.modelName}" />
+		<h:inputText id="modelName" value="#{modelManagement.modelName}"
+			required="true"
+			requiredMessage="Debe introducir un nombre de modelo." />
+		<h:message id="m1" for="modelName" style="color:red" />
 		<br />
 		<h:outputLabel value="Marca" />
-		<h:inputText value="#{modelManagement.tradeMark}" />
+		<h:inputText id="modelTradeMark" value="#{modelManagement.tradeMark}"
+			required="true"
+			requiredMessage="Debe introducir una marca de modelo." />
+		<h:message id="m2" for="modelTradeMark" style="color:red" />
 		<br />
 		<h:outputLabel value="Consumible Negro" />
 		<h:selectOneMenu value="#{modelManagement.blackConsumable}">
@@ -165,10 +171,16 @@
 	<h:panelGroup id="edit">
 		<o:form id="editForm">
 			<h:outputLabel value="Nombre modelo" />
-			<h:inputText value="#{modelManagement.newModelName}" />
+			<h:inputText id="modelNameEdit"
+				value="#{modelManagement.newModelName}" required="true"
+				requiredMessage="Debe introducir un nombre de modelo." />
+			<h:message id="m3" for="modelNameEdit" style="color:red" />
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{modelManagement.tradeMark}" />
+			<h:inputText id="modelTrademarkEdit"
+				value="#{modelManagement.tradeMark}" required="true"
+				requiredMessage="Debe introducir una marca de modelo." />
+			<h:message id="m4" for="modelTrademarkEdit" style="color:red" />
 			<br />
 			<h:outputLabel value="Consumible Negro" />
 			<h:selectOneMenu value="#{modelManagement.blackConsumable}">

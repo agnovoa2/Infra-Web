@@ -24,28 +24,55 @@
 	</h2>
 	<o:form includeViewParams="true">
 		<h:outputLabel value="Nombre: " />
-		<h:inputText value="#{editProfile.name}" />
+		<h:inputText id="name" value="#{editProfile.name}"
+			a:placeholder="Nombre" required="true"
+			requiredMessage="Debe especificar un nombre" />
+		<h:message id="m1" for="name" style="color:red" />
 		<br />
 		<h:outputLabel value="Primer apellido: " />
-		<h:inputText value="#{editProfile.firstSurname}" />
+		<h:inputText id="firstSurname" value="#{editProfile.firstSurname}"
+			a:placeholder="Primer apellido" required="true"
+			requiredMessage="Debe especificar su primer apellido" />
+		<h:message id="m2" for="firstSurname" style="color:red" />
 		<br />
 		<h:outputLabel value="Segundo apellido: " />
 		<h:inputText value="#{editProfile.secondSurname}" />
 		<br />
 		<h:outputLabel value="Correo: " />
-		<h:inputText value="#{editProfile.mail}" />
+		<h:inputText id="email" value="#{editProfile.mail}"
+			a:placeholder="Correo electrónico" required="true"
+			requiredMessage="Debe especificar un correo electrónico"
+			validatorMessage="El email que ha introducido es incorrecto">
+			<f:validateRegex pattern="(.+@.+\..+)" />
+		</h:inputText>
+		<h:message id="m3" for="email" style="color:red" />
 		<br />
 		<h:panelGroup rendered="#{!editProfile.intern}">
 			<h:outputLabel value="Contraseña antigua: " />
-			<h:inputText value="#{editProfile.oldPassword}" />
+			<h:inputText id="oldPassword" value="#{editProfile.oldPassword}"
+				validatorMessage="La contraseña debe de tener un mínimo de 6 caracteres">
+				<f:validateRegex pattern="^$|^[A-Za-z-_./\s]{6,50}$" />
+			</h:inputText>
+			<h:message id="m4" for="oldPassword" style="color:red" />
 			<br />
 		</h:panelGroup>
 		<h:outputLabel value="Nueva contraseña: " />
-		<h:inputText value="#{editProfile.newPassword}" />
+		<h:inputSecret id="password" value="#{editProfile.newPassword}"
+			a:placeholder="Contraseña" validatorMessage="El valor del campo tiene que contener un mínimo de 6 carácteres ">
+			<f:validator validatorId="passwordValidator" />
+			<f:attribute name="confirmPassword" value="#{confirmPassword}" />
+			<f:validateRegex pattern="^$|^[A-Za-z-_./\s]{6,50}$" />
+		</h:inputSecret>
+		<h:message id="m5" for="password" style="color:red" />
 		<br />
-		<h:outputLabel value="Repita la contraseña: " />
-		<h:inputText value="#{editProfile.newPassword}" />
-		<br />
+		<h:outputLabel value="Repita su contraseña: " />
+		<h:inputSecret id="confirmPassword"
+			a:placeholder="Repita la contraseña" binding="#{confirmPassword}"
+			validatorMessage="El valor del campo tiene que contener un mínimo de 6 carácteres ">
+			<f:validateRegex pattern="^$|^[A-Za-z-_./\s]{6,50}$" />
+		</h:inputSecret>
+		<h:message id="m6" for="confirmPassword" style="color:red" />
+		<br/>
 		<h:commandButton action="#{editProfile.doEdit()}"
 			value="Editar perfil" />
 	</o:form>

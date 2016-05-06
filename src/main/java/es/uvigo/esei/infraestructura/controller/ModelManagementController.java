@@ -25,16 +25,16 @@ import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 public class ModelManagementController {
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	
+
 	@Inject
 	private ModelGatewayBean modelGateway;
 
 	@Inject
 	private PrinterGatewayBean printerGateway;
-	
+
 	@Inject
 	private UserGatewayBean userGateway;
-	
+
 	@Inject
 	private ConsumableGatewayBean consumableGateway;
 
@@ -56,50 +56,83 @@ public class ModelManagementController {
 	private String fuser;
 
 	public void doAddModel() throws IOException {
-		try{
-		Model model = new Model(getModelName(),getTradeMark());
-		List<Consumable> consumables = fillConsumableList();
-		model.setConsumables(consumables);
-		this.modelGateway.create(model);
-		this.modelGateway.save();
-		} catch(SQLException e){
+		try {
+			Model model = new Model(getModelName(), getTradeMark());
+			List<Consumable> consumables = fillConsumableList();
+			if (consumables == null) {
+				throw new SQLException("El modelo debe contener algún consumible.");
+			} else {
+				model.setConsumables(consumables);
+				this.modelGateway.create(model);
+				this.modelGateway.save();
+			}
+		} catch (SQLException e) {
 			context.redirect("modelManagement.xhtml?error=true");
 		}
 	}
-	
-	private List<Consumable> fillConsumableList(){ 
-		
-		List<Consumable> consumables= new LinkedList<Consumable>();
-		if(!blackConsumable.equals("N/A"))
+
+	private List<Consumable> fillConsumableList() {
+		boolean empty = true;
+		List<Consumable> consumables = new LinkedList<Consumable>();
+		if (!blackConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(blackConsumable));
-		if(!photoBlackConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!photoBlackConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(photoBlackConsumable));
-		if(!yellowConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!yellowConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(yellowConsumable));
-		if(!magentaConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!magentaConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(magentaConsumable));
-		if(!lightMagentaConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!lightMagentaConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(lightMagentaConsumable));
-		if(!cyanConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!cyanConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(cyanConsumable));
-		if(!lightCyanConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!lightCyanConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(lightCyanConsumable));
-		if(!tricolorConsumable.equals("N/A"))
+			empty = false;
+		}
+		if (!tricolorConsumable.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(tricolorConsumable));
-		if(!garbageUnit.equals("N/A"))
+			empty = false;
+		}
+		if (!garbageUnit.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(garbageUnit));
-		if(!drum.equals("N/A"))
+			empty = false;
+		}
+		if (!drum.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(drum));
-		if(!transferKit.equals("N/A"))
+			empty = false;
+		}
+		if (!transferKit.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(transferKit));
-		if(!beltUnit.equals("N/A"))
+			empty = false;
+		}
+		if (!beltUnit.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(beltUnit));
-		if(!fuser.equals("N/A"))
+			empty = false;
+		}
+		if (!fuser.equals("N/A")) {
 			consumables.add(this.consumableGateway.find(fuser));
-		
+			empty = false;
+		}
+
+		if (empty == true) {
+			return null;
+		}
 		return consumables;
 	}
-	
+
 	public void doRemoveModel(String modelName) {
 
 		modelGateway.find(modelName);
@@ -108,7 +141,7 @@ public class ModelManagementController {
 				for (Printer printer : modelGateway.getCurrent().getPrinters()) {
 					printerGateway.find(printer.getInventoryNumber());
 					printerGateway.getCurrent().setUnused(true);
-					for(User user : printerGateway.getCurrent().getUsers()){
+					for (User user : printerGateway.getCurrent().getUsers()) {
 						userGateway.find(user.getLogin());
 						userGateway.getCurrent().getPrinters().remove(printer);
 						userGateway.save();
@@ -181,14 +214,17 @@ public class ModelManagementController {
 		}
 	}
 
-	public void doEditModel() {
-
-		modelGateway.find(modelName);
-		modelGateway.getCurrent().setModelName(newModelName);
-		modelGateway.getCurrent().setTradeMark(tradeMark);
-		List<Consumable> consumables = fillConsumableList();
-		modelGateway.getCurrent().setConsumables(consumables);
-		modelGateway.save();
+	public void doEditModel() throws IOException {
+		try {
+			modelGateway.find(modelName);
+			modelGateway.getCurrent().setModelName(newModelName);
+			modelGateway.getCurrent().setTradeMark(tradeMark);
+			List<Consumable> consumables = fillConsumableList();
+			modelGateway.getCurrent().setConsumables(consumables);
+			modelGateway.save();
+		} catch (Exception e) {
+			context.redirect("modelManagement.xhtml?error=true");
+		}
 	}
 
 	public String getNewModelName() {
@@ -214,11 +250,11 @@ public class ModelManagementController {
 	public void setTradeMark(String tradeMark) {
 		this.tradeMark = tradeMark;
 	}
-	
-	public List<Model> getAllModel(){
+
+	public List<Model> getAllModel() {
 		return modelGateway.getAll();
 	}
-	
+
 	public List<Consumable> getBlackConsumables() {
 		return this.consumableGateway.findAllBlackConsumables();
 	}

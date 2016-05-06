@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
+import es.uvigo.esei.infraestructura.util.PasswordUtil;
+
 @Entity
 @Table(name = "User")
 @NamedQueries({
@@ -81,7 +83,7 @@ public class User {
 	public User(String login, String email, String password, String name, String firstSurname, String secondSurname) {
 		this.login = login;
 		this.email = email;
-		diggestPassword(password);
+		this.password = PasswordUtil.diggestPassword(password);
 		this.name = name;
 		this.firstSurname = firstSurname;
 		this.secondSurname = secondSurname;
@@ -111,7 +113,8 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		
+		this.password = PasswordUtil.diggestPassword(password);
 	}
 
 	public String getName() {
@@ -198,18 +201,4 @@ public class User {
 	public String toString() {
 		return name + " " + firstSurname + " " + secondSurname;
 	}
-	
-	private void diggestPassword(String password){
-		MessageDigest passwordDigester;
-		HexBinaryAdapter adapter = new HexBinaryAdapter();
-		try {
-			passwordDigester = MessageDigest.getInstance("MD5");
-			this.password = adapter.marshal(passwordDigester.digest(password.getBytes())).toLowerCase();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
 }

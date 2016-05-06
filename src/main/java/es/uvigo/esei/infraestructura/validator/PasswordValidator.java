@@ -31,7 +31,7 @@ public class PasswordValidator implements Validator {
 	  if (!password.equals(confirmPassword)) {
 		uiInputConfirmPassword.setValid(false);
 		throw new ValidatorException(new FacesMessage(
-			"La contraseña tiene que coincidir con el campo repetir contraseña."));
+			"La contraseña tiene que coincidir con el campo repetir contraseña y tener un mínimo de 6 caracteres."));
 	  }
 
 	}

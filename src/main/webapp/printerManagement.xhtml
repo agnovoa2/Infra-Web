@@ -19,12 +19,23 @@
 <h:body>
 	<h2>Gestión de impresoras</h2>
 	<h3>Alta impresoras</h3>
-	<o:form>
+	<o:form rendered="#{printerManagement.allModel.size() > 0}">
 		<h:outputLabel value="Ubicación" />
-		<h:inputText value="#{printerManagement.ubication}" />
+		<h:inputText id="printerUbication"
+			value="#{printerManagement.ubication}" required="true"
+			a:placeholder="Ubicación de la impresora"
+			requiredMessage="Debe especificar la ubicación de la impresora" />
+		<h:message id="m1" for="printerUbication" style="color:red" />
 		<br />
 		<h:outputLabel value="Nº inventario" />
-		<h:inputText value="#{printerManagement.inventoryNumber}" />
+		<h:inputText id="inventoryNumber"
+			value="#{printerManagement.inventoryNumber}" required="true"
+			a:placeholder="Nº de inventario de la impresora"
+			requiredMessage="Debe especificar el número de inventario de la impresora"
+			validatorMessage="Introduzca un número de inventario válido">
+			<f:validateLongRange maximum="65536" minimum="0" />
+		</h:inputText>
+		<h:message id="m2" for="inventoryNumber" style="color:red" />
 		<br />
 		<h:outputLabel value="Modelo" />
 		<h:selectOneMenu value="#{printerManagement.model}">
@@ -41,7 +52,8 @@
 	<h:panelGroup id="printer">
 		<o:form id="printerForm">
 			<ui:repeat var="printer" value="#{printerManagement.allPrinter}">
-				<h:outputLabel value="#{printer.model.modelName} #{printer.ubication}" />
+				<h:outputLabel
+					value="#{printer.model.modelName} #{printer.ubication}" />
 				&nbsp;
 				<h:commandLink
 					action="#{printerManagement.doRemovePrinter(printer.inventoryNumber)}"
@@ -57,10 +69,10 @@
 				<h4>Usuarios de impresora</h4>
 				<ui:repeat var="user" value="#{printer.users}">
 					<h:outputLabel value="#{user.toString()}" />
-					<div/>
+					<div />
 				</ui:repeat>
-				
-				
+
+
 				<div></div>
 			</ui:repeat>
 		</o:form>
@@ -69,7 +81,10 @@
 	<h:panelGroup id="edit">
 		<o:form id="editForm">
 			<h:outputLabel value="Ubicación" />
-			<h:inputText value="#{printerManagement.newUbication}" />
+			<h:inputText id="editUbication" value="#{printerManagement.newUbication}" required="true"
+			a:placeholder="Ubicación de la impresora"
+			requiredMessage="Debe especificar la ubicación de la impresora"/>
+			<h:message id="m3" for="editUbication" style="color:red" />
 			<br />
 			<h:outputLabel value="Modelo" />
 			<h:selectOneMenu value="#{printerManagement.newModel}">

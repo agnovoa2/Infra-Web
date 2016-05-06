@@ -34,8 +34,7 @@
 		<h:outputLabel value="Escriba su contraseña: " />
 		<h:inputSecret id="password" value="#{signUpController.password}"
 			a:placeholder="Contraseña" required="true"
-			requiredMessage="Debe especificar su contraseña"
-			>
+			requiredMessage="Debe especificar su contraseña">
 			<f:validateLength minimum="6" />
 			<f:validator validatorId="passwordValidator" />
 			<f:attribute name="confirmPassword" value="#{confirmPassword}" />

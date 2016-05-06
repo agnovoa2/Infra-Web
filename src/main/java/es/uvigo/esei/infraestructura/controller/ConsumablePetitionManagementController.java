@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import com.itextpdf.text.DocumentException;
 
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
-import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
 import es.uvigo.esei.infraestructura.util.Report;
 

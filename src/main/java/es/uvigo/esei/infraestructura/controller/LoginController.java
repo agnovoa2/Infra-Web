@@ -1,8 +1,6 @@
 package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -25,7 +23,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Configuration;
@@ -33,6 +30,7 @@ import es.uvigo.esei.infraestructura.entities.Role;
 import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.facade.ConfigurationGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
+import es.uvigo.esei.infraestructura.util.PasswordUtil;
 
 @RequestScoped
 @ManagedBean(name = "loginController")
@@ -96,7 +94,7 @@ public class LoginController {
 		HttpServletRequest request = null;
 		try {
 			request = (HttpServletRequest) context.getRequest();
-			this.password = diggestPassword(password);
+			this.password = PasswordUtil.diggestPassword(password);
 			request.login(this.getLogin(), this.getPassword());
 			this.error = false;
 			this.userGateway.find(this.getLogin());
@@ -188,19 +186,6 @@ public class LoginController {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
-	private String diggestPassword(String password) {
-		MessageDigest passwordDigester;
-		HexBinaryAdapter adapter = new HexBinaryAdapter();
-		try {
-			passwordDigester = MessageDigest.getInstance("MD5");
-			return adapter.marshal(passwordDigester.digest(password.getBytes())).toLowerCase();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
 	private void trustSelfSignedSSL() {
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");
@@ -259,7 +244,7 @@ public class LoginController {
 			} else if (finalPass.startsWith("{crypt}"))
 				ctx.close();
 			else {
-				md5 = diggestPassword(finalPass);
+				md5 = PasswordUtil.diggestPassword(finalPass);
 			}
 			if (md5.equals(getPassword())) {
 				Role role;
