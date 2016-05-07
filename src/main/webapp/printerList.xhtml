@@ -31,7 +31,7 @@
 				<br />
 			</ui:repeat>
 			<h:panelGroup rendered="#{printerList.notProfessorPrinters.size() != 0}">
-				<h2>Comparto impresora con</h2>
+				<h2>Impresoras existentes</h2>
 
 				<h:selectOneMenu value="#{printerList.printer}" id="existingPrinter">
 					<f:selectItems value="#{printerList.notProfessorPrinters}"

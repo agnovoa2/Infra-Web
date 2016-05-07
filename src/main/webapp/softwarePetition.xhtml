@@ -66,8 +66,8 @@
 			<f:selectItem itemLabel="Sistema operativo" itemValue="1" />
 		</h:selectOneMenu>
 		<br />
-		<h:outputLabel id="url" value="URL de descarga: " />
-		<h:inputText value="#{softwarePetition.dowloadURL}" />
+		<h:outputLabel value="URL de descarga: " />
+		<h:inputText value="#{softwarePetition.dowloadURL}" a:placeholder="URL de descarga"/>
 		<br />
 		<h:commandButton value="Dar de alta"
 			action="#{softwarePetition.doAddSoftware()}">

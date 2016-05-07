@@ -3,8 +3,8 @@ package es.uvigo.esei.infraestructura.controller;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +46,7 @@ public class MaterialPetitionController {
 	private int id;
 	private int quantity;
 	private MaterialPetition petition;
-	private List<MaterialPetitionRow> petitionRows = new LinkedList<MaterialPetitionRow>();
+	private List<MaterialPetitionRow> petitionRows = new ArrayList<MaterialPetitionRow>();
 	private String textMessage;
 
 	@PostConstruct
@@ -59,20 +59,21 @@ public class MaterialPetitionController {
 	}
 
 	public void doAddMaterial() {
-		if (id != 0) {
-			MaterialPetitionRow pr = new MaterialPetitionRow(quantity, petition, materialGateway.find(id));
-			if (petitionRows.contains(pr)) {
-				int oldqQuantity = petitionRows.get(petitionRows.indexOf(pr)).getQuantity();
-				petitionRows.get(petitionRows.indexOf(pr)).setQuantity(quantity + oldqQuantity);
-			} else {
-				petitionRows.add(new MaterialPetitionRow(quantity, petition, materialGateway.find(id)));
-			}
+		MaterialPetitionRow pr = new MaterialPetitionRow(quantity, petition, materialGateway.find(id));
+		if (!petitionRows.contains(pr)) {
+			petitionRows.add(pr);
 		}
-		quantity = 0;
 	}
 
 	public void doRemoveMaterial(MaterialPetitionRow id) {
 		petitionRows.remove(id);
+	}
+
+	public void doChangeQuantity(MaterialPetitionRow id, int quantity) {
+		int temp = petitionRows.get(petitionRows.indexOf(id)).getQuantity();
+		if (temp != 0 && quantity != -1) {
+			petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
+		}
 	}
 
 	public void doMaterialPetition() {

@@ -28,7 +28,7 @@
 			value="#{consumablePetition.printerConsumables}" varStatus="status">
 			<h:outputLabel value="#{consumable.consumableName}" />
 			&nbsp;
-			<h:outputLabel value="#{consumable.consumableType}" />
+			<h:outputLabel value="#{consumable.consumableType.toString()}" />
 			&nbsp;
 			<h:inputText value="#{consumablePetition.quantities[status.index]}" />
 			<br />

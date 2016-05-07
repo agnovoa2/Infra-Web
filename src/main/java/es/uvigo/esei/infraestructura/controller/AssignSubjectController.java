@@ -29,7 +29,6 @@ public class AssignSubjectController {
 	@PostConstruct
 	void init(){
 		this.userGateway.find(currentUser.getName());
-		System.out.println(this.userGateway.getCurrent().getLogin());
 	}
 	
 	public void assignSubjectToProfessor(String subject) throws IOException{

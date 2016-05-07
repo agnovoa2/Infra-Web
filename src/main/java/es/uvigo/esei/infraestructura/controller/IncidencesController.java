@@ -214,14 +214,11 @@ public class IncidencesController {
 	}
 
 	public boolean isHasIncidence() {
-		System.out.println(getComputerNum());
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 		if (this.computerGateway.getCurrent() != null
 				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE){
-			System.out.println("TENGO INCIDENCIA");
 			return true;
 		}
-		System.out.println("NO TENGO INCIDENCIA");
 		return false;
 	}
 

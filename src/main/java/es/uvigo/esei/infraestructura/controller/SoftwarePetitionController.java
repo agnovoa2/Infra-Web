@@ -41,7 +41,7 @@ public class SoftwarePetitionController {
 	private Mail mail;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	
+
 	private String software;
 	private int softwareType;
 	private String dowloadURL;
@@ -128,12 +128,17 @@ public class SoftwarePetitionController {
 	}
 
 	public void doPetition() throws IOException {
-		this.subjectGateway.getCurrent().setPetitionState(1);
-		this.subjectGateway.getCurrent().setDescription(getDescription());
-		this.subjectGateway.save();
-		this.setTextMessage();
-		this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de software");
-		FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
+		if (!subjectGateway.getCurrent().getSoftwares().isEmpty()) {
+			this.subjectGateway.getCurrent().setPetitionState(1);
+			this.subjectGateway.getCurrent().setDescription(getDescription());
+			this.subjectGateway.save();
+			this.setTextMessage();
+			this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de software");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
+		}
+		else{
+			FacesContext.getCurrentInstance().getExternalContext().redirect("softwarePetition.xhtml?code=" + code + "&error=true");
+		}
 	}
 
 	public String getDescription() {

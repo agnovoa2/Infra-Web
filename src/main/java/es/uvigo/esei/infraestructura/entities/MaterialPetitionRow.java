@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MaterialPetitionRow")
-@NamedQuery(name = "findAllMaterialPetitionRows", query = "select m from MaterialPetitionRow m")
+@NamedQuery(name = "findAllMaterialPetitionRows", query = "select m from MaterialPetitionRow m order by m.material.materialName")
 public class MaterialPetitionRow {
 	@Id
 	@Column(name = "id")
@@ -71,15 +71,27 @@ public class MaterialPetitionRow {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + quantity;
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		try {
-			if (((MaterialPetitionRow) obj).getId() == this.getId())
+			if (((MaterialPetitionRow) obj).getMaterial().getId() == this.getMaterial().getId() && 
+					((MaterialPetitionRow) obj).getMaterialPetition().getMaterialPetitionNumber() == this.getMaterialPetition().getMaterialPetitionNumber())
 				return true;
 			return false;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+	
+	
 	
 	
 }

@@ -6,7 +6,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:o="http://xmlns.jcp.org/jsf/html">
+	xmlns:o="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <f:metadata>
 	<f:event listener="#{loginController.redirectIfAnonymous()}"
 		type="preRenderView" />
@@ -34,13 +35,20 @@
 	<h:panelGroup rendered="#{materialManagement.material == 'monitor'}">
 		<o:form>
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre del monitor" required="true"
+				requiredMessage="Debe especificar un nombre para el monitor" />
+			<h:message id="m1" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Tamaño" />
-			<h:inputText value="#{materialManagement.size}" />
+			<h:inputText id="materialSize" value="#{materialManagement.size}"
+				a:placeholder="Tamaño del monitor en pulgadas" required="true"
+				requiredMessage="Debe especificar el tamaño del monitor" />
+			<h:message id="m2" for="materialSize" style="color:red" />
 			<br />
 			<h:outputLabel value="Proporción" />
-			<h:selectOneMenu value="#{materialManagement.materialType}">
+			<h:selectOneMenu value="#{materialManagement.proportion}">
 				<f:selectItem itemValue="4:3" itemLabel="4:3" />
 				<f:selectItem itemValue="16:9" itemLabel="16:9" />
 			</h:selectOneMenu>
@@ -54,13 +62,24 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Resolución" />
-			<h:inputText value="#{materialManagement.resolution}" />
+			<h:inputText id="materialResolution"
+				value="#{materialManagement.resolution}"
+				a:placeholder="Resolución del monitor" required="true"
+				requiredMessage="Debe especificar la resolución del monitor" />
+			<h:message id="m3" for="materialResolution" style="color:red" />
 			<br />
 			<h:outputLabel value="Modelo" />
-			<h:inputText value="#{materialManagement.model}" />
+			<h:inputText id="materialModel" value="#{materialManagement.model}"
+				a:placeholder="Modelo del monitor" required="true"
+				requiredMessage="Debe especificar el modelo del monitor" />
+			<h:message id="m4" for="materialModel" style="color:red" />
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTradeMark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca del monitor" required="true"
+				requiredMessage="Debe especificar la marca del monitor" />
+			<h:message id="m5" for="materialTradeMark" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doAddMonitor()}"
 				value="Dar de alta monitor">
@@ -71,10 +90,18 @@
 	<h:panelGroup rendered="#{materialManagement.material == 'disco duro'}">
 		<o:form>
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre del disco duro" required="true"
+				requiredMessage="Debe especificar un nombre para el disco duro" />
+			<h:message id="m1" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Capacidad" />
-			<h:inputText value="#{materialManagement.capacity}" />
+			<h:inputText id="materialCapacity"
+				value="#{materialManagement.capacity}"
+				a:placeholder="Capacidad del disco duro" required="true"
+				requiredMessage="Debe especificar la capacidad del disco duro" />
+			<h:message id="m2" for="materialCapacity" style="color:red" />
 			<br />
 			<h:outputLabel value="Tipo" />
 			<h:selectOneMenu value="#{materialManagement.materialType}">
@@ -83,10 +110,17 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Modelo" />
-			<h:inputText value="#{materialManagement.model}" />
+			<h:inputText id="materialModel" value="#{materialManagement.model}"
+				a:placeholder="Modelo del disco duro" required="true"
+				requiredMessage="Debe especificar el modelo del disco duro" />
+			<h:message id="m3" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTradeMark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca del material" required="true"
+				requiredMessage="Debe especificar la marca del disco duro" />
+			<h:message id="m4" for="materialName" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doAddHardDrive()}"
 				value="Dar de alta disco duro">
@@ -97,10 +131,18 @@
 	<h:panelGroup rendered="#{materialManagement.material == 'ram'}">
 		<o:form>
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre de la memoria RAM" required="true"
+				requiredMessage="Debe especificar un nombre para la memoria RAM" />
+			<h:message id="m1" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Capacidad" />
-			<h:inputText value="#{materialManagement.capacity}" />
+			<h:inputText id="materialCapacity"
+				value="#{materialManagement.capacity}"
+				a:placeholder="Capacidad de la memoria RAM" required="true"
+				requiredMessage="Debe especificar la capacidad de la memoria RAM" />
+			<h:message id="m2" for="materialCapacity" style="color:red" />
 			<br />
 			<h:outputLabel value="Tipo" />
 			<h:selectOneMenu value="#{materialManagement.materialType}">
@@ -111,7 +153,10 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Velocidad" />
-			<h:inputText value="#{materialManagement.speed}" />
+			<h:inputText id="materialSpeed" value="#{materialManagement.speed}"
+				a:placeholder="Velocidad de la memoria RAM" required="true"
+				requiredMessage="Debe la velocidad de la memoria RAM" />
+			<h:message id="m3" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Dispositivo" />
 			<h:selectOneMenu value="#{materialManagement.destination}">
@@ -121,7 +166,11 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTrademark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca de la memoria RAM" required="true"
+				requiredMessage="Debe especificar la marca de la memoria RAM" />
+			<h:message id="m4" for="materialName" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doAddMemory()}"
 				value="Dar de alta memoria RAM">
@@ -132,15 +181,23 @@
 	<h:panelGroup rendered="#{materialManagement.material == 'otros'}">
 		<o:form>
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre del material" required="true"
+				requiredMessage="Debe especificar un nombre para el material" />
+			<h:message id="m1" for="materialName" style="color:red" />
 			<br />
-			<h:outputLabel value="tipo material" />
-			<h:inputText value="#{materialManagement.materialType}" />
+			<h:outputLabel value="Tipo material"
+				a:placeholder="Tipo del material" />
+			<h:inputText id="materialType"
+				value="#{materialManagement.materialType}" />
 			<br />
-			<h:outputLabel value="Capacidad" />
+			<h:outputLabel value="Capacidad"
+				a:placeholder="Capacidad del material" />
 			<h:inputText value="#{materialManagement.capacity}" />
 			<br />
-			<h:outputLabel value="Velocidad" />
+			<h:outputLabel value="Velocidad"
+				a:placeholder="Velocidad del material" />
 			<h:inputText value="#{materialManagement.speed}" />
 			<br />
 			<h:outputLabel value="Dispositivo" />
@@ -151,19 +208,29 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTradeMark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca del material" required="true"
+				requiredMessage="Debe especificar una marca para el material" />
+			<h:message id="m2" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Modelo" />
-			<h:inputText value="#{materialManagement.model}" />
+			<h:inputText id="materialModel" value="#{materialManagement.model}"
+				a:placeholder="Modelo del material" required="true"
+				requiredMessage="Debe especificar un modelo para el material" />
+			<h:message id="m3" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Tamaño" />
-			<h:inputText value="#{materialManagement.size}" />
+			<h:inputText value="#{materialManagement.size}"
+				a:placeholder="Tamaño del material" />
 			<br />
 			<h:outputLabel value="Resolución" />
-			<h:inputText value="#{materialManagement.resolution}" />
+			<h:inputText value="#{materialManagement.resolution}"
+				a:placeholder="Resolución del material" />
 			<br />
 			<h:outputLabel value="Proporción" />
 			<h:selectOneMenu value="#{materialManagement.materialType}">
+				<f:selectItem itemValue="" itemLabel="" />
 				<f:selectItem itemValue="4:3" itemLabel="4:3" />
 				<f:selectItem itemValue="16:9" itemLabel="16:9" />
 			</h:selectOneMenu>
@@ -174,7 +241,8 @@
 			</h:commandButton>
 		</o:form>
 	</h:panelGroup>
-	<h:panelGroup id="material" rendered="#{materialManagement.material != null}">
+	<h:panelGroup id="material"
+		rendered="#{materialManagement.material != null}">
 		<h3>Baja de material</h3>
 		<o:form id="materialForm">
 			<ui:repeat var="material" value="#{materialManagement.allMaterial}">
@@ -186,18 +254,17 @@
 					<f:ajax render="@form" />
 				</h:commandLink>
 				&nbsp;
-				<h:commandLink
-					action="#{materialManagement.doSetEdit(material.id)}"
+				<h:commandLink action="#{materialManagement.doSetEdit(material.id)}"
 					value="editar">
-					<f:ajax render="editMonitor editHardDrive editRam editOther editMonitorForm editHardDriveForm editRamForm editOtherForm" />
+					<f:ajax
+						render="editMonitor editHardDrive editRam editOther editMonitorForm editHardDriveForm editRamForm editOtherForm" />
 				</h:commandLink>
-				<h4>Usuarios de impresora</h4>
 				<ui:repeat var="user" value="#{printer.users}">
 					<h:outputLabel value="#{user.toString()}" />
-					<div/>
+					<div />
 				</ui:repeat>
-				
-				
+
+
 				<div></div>
 			</ui:repeat>
 		</o:form>
@@ -212,13 +279,20 @@
 		rendered="#{materialManagement.material == 'monitor'}">
 		<o:form id="editMonitorForm">
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre del monitor" required="true"
+				requiredMessage="Debe especificar un nombre para el monitor" />
+			<h:message id="m6" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Tamaño" />
-			<h:inputText value="#{materialManagement.size}" />
+			<h:inputText id="materialSize" value="#{materialManagement.size}"
+				a:placeholder="Tamaño del monitor en pulgadas" required="true"
+				requiredMessage="Debe especificar el tamaño del monitor" />
+			<h:message id="m7" for="materialSize" style="color:red" />
 			<br />
 			<h:outputLabel value="Proporción" />
-			<h:selectOneMenu value="#{materialManagement.materialType}">
+			<h:selectOneMenu value="#{materialManagement.proportion}">
 				<f:selectItem itemValue="4:3" itemLabel="4:3" />
 				<f:selectItem itemValue="16:9" itemLabel="16:9" />
 			</h:selectOneMenu>
@@ -232,16 +306,32 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Resolución" />
-			<h:inputText value="#{materialManagement.resolution}" />
+			<h:inputText id="materialResolution"
+				value="#{materialManagement.resolution}"
+				a:placeholder="Resolución del monitor" required="true"
+				requiredMessage="Debe especificar la resolución del monitor" />
+			<h:message id="m8" for="materialResolution" style="color:red" />
 			<br />
 			<h:outputLabel value="Modelo" />
-			<h:inputText value="#{materialManagement.model}" />
+			<h:inputText id="materialModel" value="#{materialManagement.model}"
+				a:placeholder="Modelo del monitor" required="true"
+				requiredMessage="Debe especificar el modelo del monitor" />
+			<h:message id="m9" for="materialModel" style="color:red" />
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTradeMark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca del monitor" required="true"
+				requiredMessage="Debe especificar la marca del monitor" />
+			<h:message id="m10" for="materialTradeMark" style="color:red" />
 			<br />
 			<h:outputLabel value="Cantidad" />
-			<h:inputText value="#{materialManagement.quantity}" />
+			<h:inputText id="materialQuantity"
+				value="#{materialManagement.quantity}" required="true"
+				requiredMessage="Debe especificar la nueva cantidad">
+				<f:validateLongRange maximum="999999999" minimum="0" />
+			</h:inputText>
+			<h:message id="m11" for="materialQuantity" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
 				value="Editar monitor">
@@ -253,10 +343,18 @@
 		rendered="#{materialManagement.material == 'disco duro'}">
 		<o:form id="editHardDriveForm">
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre del disco duro" required="true"
+				requiredMessage="Debe especificar un nombre para el disco duro" />
+			<h:message id="m5" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Capacidad" />
-			<h:inputText value="#{materialManagement.capacity}" />
+			<h:inputText id="materialCapacity"
+				value="#{materialManagement.capacity}"
+				a:placeholder="Capacidad del disco duro" required="true"
+				requiredMessage="Debe especificar la capacidad del disco duro" />
+			<h:message id="m6" for="materialCapacity" style="color:red" />
 			<br />
 			<h:outputLabel value="Tipo" />
 			<h:selectOneMenu value="#{materialManagement.materialType}">
@@ -265,14 +363,25 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Modelo" />
-			<h:inputText value="#{materialManagement.model}" />
+			<h:inputText id="materialModel" value="#{materialManagement.model}"
+				a:placeholder="Modelo del disco duro" required="true"
+				requiredMessage="Debe especificar el modelo del disco duro" />
+			<h:message id="m7" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTradeMark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca del material" required="true"
+				requiredMessage="Debe especificar la marca del disco duro" />
+			<h:message id="m8" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Cantidad" />
-			<h:inputText value="#{materialManagement.quantity}" />
-			<br />
+			<h:inputText id="materialQuantity"
+				value="#{materialManagement.quantity}" required="true"
+				requiredMessage="Debe especificar la nueva cantidad">
+				<f:validateLongRange maximum="999999999" minimum="0" />
+			</h:inputText>
+			<h:message id="m9" for="materialQuantity" style="color:red" />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
 				value="Editar monitor">
 				<f:ajax execute="@form" render="@form material materialForm" />
@@ -283,10 +392,18 @@
 		rendered="#{materialManagement.material == 'ram'}">
 		<o:form id="editRamForm">
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre de la memoria RAM" required="true"
+				requiredMessage="Debe especificar un nombre para la memoria RAM" />
+			<h:message id="m5" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Capacidad" />
-			<h:inputText value="#{materialManagement.capacity}" />
+			<h:inputText id="materialCapacity"
+				value="#{materialManagement.capacity}"
+				a:placeholder="Capacidad de la memoria RAM" required="true"
+				requiredMessage="Debe especificar la capacidad de la memoria RAM" />
+			<h:message id="m6" for="materialCapacity" style="color:red" />
 			<br />
 			<h:outputLabel value="Tipo" />
 			<h:selectOneMenu value="#{materialManagement.materialType}">
@@ -297,20 +414,32 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Velocidad" />
-			<h:inputText value="#{materialManagement.speed}" />
+			<h:inputText id="materialSpeed" value="#{materialManagement.speed}"
+				a:placeholder="Velocidad de la memoria RAM" required="true"
+				requiredMessage="Debe la velocidad de la memoria RAM" />
+			<h:message id="m7" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Dispositivo" />
 			<h:selectOneMenu value="#{materialManagement.destination}">
 				<f:selectItem itemValue="Sobremesa" itemLabel="Sobremesa" />
 				<f:selectItem itemValue="Portatil" itemLabel="Portatil" />
-				<f:selectItem itemValue="Portatil" itemLabel="Universal" />
+				<f:selectItem itemValue="Universal" itemLabel="Universal" />
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTrademark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca de la memoria RAM" required="true"
+				requiredMessage="Debe especificar la marca de la memoria RAM" />
+			<h:message id="m8" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Cantidad" />
-			<h:inputText value="#{materialManagement.quantity}" />
+			<h:inputText id="materialQuantity"
+				value="#{materialManagement.quantity}" required="true"
+				requiredMessage="Debe especificar la nueva cantidad">
+				<f:validateLongRange maximum="999999999" minimum="0" />
+			</h:inputText>
+			<h:message id="m9" for="materialQuantity" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
 				value="Editar ram">
@@ -322,15 +451,23 @@
 		rendered="#{materialManagement.material == 'otros'}">
 		<o:form id="editOtherForm">
 			<h:outputLabel value="Nombre material" />
-			<h:inputText value="#{materialManagement.materialName}" />
+			<h:inputText id="materialName"
+				value="#{materialManagement.materialName}"
+				a:placeholder="Nombre del material" required="true"
+				requiredMessage="Debe especificar un nombre para el material" />
+			<h:message id="m4" for="materialName" style="color:red" />
 			<br />
-			<h:outputLabel value="tipo material" />
-			<h:inputText value="#{materialManagement.materialType}" />
+			<h:outputLabel value="Tipo material"
+				a:placeholder="Tipo del material" />
+			<h:inputText id="materialType"
+				value="#{materialManagement.materialType}" />
 			<br />
-			<h:outputLabel value="Capacidad" />
+			<h:outputLabel value="Capacidad"
+				a:placeholder="Capacidad del material" />
 			<h:inputText value="#{materialManagement.capacity}" />
 			<br />
-			<h:outputLabel value="Velocidad" />
+			<h:outputLabel value="Velocidad"
+				a:placeholder="Velocidad del material" />
 			<h:inputText value="#{materialManagement.speed}" />
 			<br />
 			<h:outputLabel value="Dispositivo" />
@@ -341,25 +478,40 @@
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Marca" />
-			<h:inputText value="#{materialManagement.tradeMark}" />
+			<h:inputText id="materialTradeMark"
+				value="#{materialManagement.tradeMark}"
+				a:placeholder="Marca del material" required="true"
+				requiredMessage="Debe especificar una marca para el material" />
+			<h:message id="m5" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Modelo" />
-			<h:inputText value="#{materialManagement.model}" />
+			<h:inputText id="materialModel" value="#{materialManagement.model}"
+				a:placeholder="Modelo del material" required="true"
+				requiredMessage="Debe especificar un modelo para el material" />
+			<h:message id="m6" for="materialName" style="color:red" />
 			<br />
 			<h:outputLabel value="Tamaño" />
-			<h:inputText value="#{materialManagement.size}" />
+			<h:inputText value="#{materialManagement.size}"
+				a:placeholder="Tamaño del material" />
 			<br />
 			<h:outputLabel value="Resolución" />
-			<h:inputText value="#{materialManagement.resolution}" />
+			<h:inputText value="#{materialManagement.resolution}"
+				a:placeholder="Resolución del material" />
 			<br />
 			<h:outputLabel value="Proporción" />
 			<h:selectOneMenu value="#{materialManagement.materialType}">
+				<f:selectItem itemValue="" itemLabel="" />
 				<f:selectItem itemValue="4:3" itemLabel="4:3" />
 				<f:selectItem itemValue="16:9" itemLabel="16:9" />
 			</h:selectOneMenu>
 			<br />
 			<h:outputLabel value="Cantidad" />
-			<h:inputText value="#{materialManagement.quantity}" />
+			<h:inputText id="materialQuantity"
+				value="#{materialManagement.quantity}" required="true"
+				requiredMessage="Debe especificar la nueva cantidad">
+				<f:validateLongRange maximum="999999999" minimum="0" />
+			</h:inputText>
+			<h:message id="m9" for="materialQuantity" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
 				value="Editar">

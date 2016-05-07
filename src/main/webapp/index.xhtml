@@ -11,7 +11,7 @@
 </h:head>
 <h:body>
 	<h2>Infraestructura ESEI</h2>
-	<h:outputLabel value="Wellcome #{loginController.currentUser.name}" rendered="#{!loginController.anonymous}"/>
+	<h:outputLabel value="Bienvenido #{loginController.currentUser.name}" rendered="#{!loginController.anonymous}"/>
 	<h:link value="Sign up" outcome="signup"
 		rendered="#{loginController.anonymous}" />
 	<br />
@@ -24,7 +24,7 @@
 	<h:link value="Petición de software" outcome="professorSubjects"
 		rendered="#{!loginController.anonymous and loginController.professor}" />
 	<br />
-	<h:link value="Petición de toner" outcome="printerList"
+	<h:link value="Petición de consumibles" outcome="printerList"
 		rendered="#{!loginController.anonymous and loginController.professor}" />
 	<br />
 	<h:link value="Petición de material" outcome="materialPetition"
