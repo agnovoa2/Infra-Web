@@ -9,8 +9,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.entities.Computer;
 import es.uvigo.esei.infraestructura.entities.Incidence;
 
 @Stateful
@@ -50,5 +52,13 @@ public class IncidenceGatewayBean {
 	
 	public List<Incidence> getAll(){
 		return em.createNamedQuery("findAllIncidences", Incidence.class).getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Incidence> getAllUnsolvedIncidences(Computer computer){
+		Query query = em.createQuery("Select i From Incidence i Where i.computer.id = :computer and i.state < 2",
+				Incidence.class);
+		query.setParameter("computer", computer.getId());
+		return query.getResultList();
 	}
 }

@@ -76,6 +76,7 @@ public class ComputerGatewayBean {
 		return em.createNamedQuery("findAllComputers", Computer.class).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Computer> getAllLaboratoryComputers(String laboratory) {
 		Query query = em.createQuery("Select c From Computer c Where c.laboratory = :laboratory AND c.num = 0",
 				Computer.class);

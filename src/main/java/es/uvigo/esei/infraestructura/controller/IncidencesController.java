@@ -154,6 +154,7 @@ public class IncidencesController {
 			this.computerGateway.save();
 			this.setTextMessage();
 			this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva incidencia en " + getLaboratory());
+			context.redirect("incidences.xhtml?lab=" + laboratory + "&success=true");
 		} catch (SQLException e) {
 			context.redirect("incidences.xhtml?lab=" + laboratory + "&error=true");
 		}
@@ -288,7 +289,17 @@ public class IncidencesController {
 		this.computerGateway.save();
 	}
 
-	public void doFinishIncidence() {
+	public void doFinishIncidences() {
+		this.computerGateway.find(getComputerNum(), getLaboratory());
+		for (Incidence incidence : this.incidenceGateway.getAllUnsolvedIncidences(computerGateway.getCurrent())) {
+			incidence.setState(2);
+			this.setTextClose();
+			mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
+		}
+		this.incidenceGateway.save();
+		this.computerGateway.getCurrent().setState(State.OK);
+		this.computerGateway.save();
+		/*
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
 		Incidence incidence = null;
@@ -308,20 +319,12 @@ public class IncidencesController {
 		this.computerGateway.save();
 		this.setTextClose();
 		mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
+		*/
 	}
 
-	public String incidenceToString() {
+	public List<Incidence> unresolvedIncidences() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
-		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
-		Incidence incidence = null;
-		if (incidences != null) {
-			for (int i = 0; i < incidences.size(); i++) {
-				incidence = incidences.get(i);
-				if (incidence.getState() == 1 || incidence.getState() == 0)
-					break;
-			}
-		}
-		return incidence.toString();
+		return this.incidenceGateway.getAllUnsolvedIncidences(computerGateway.getCurrent());
 	}
 
 	private void redirectToIndex() throws IOException {

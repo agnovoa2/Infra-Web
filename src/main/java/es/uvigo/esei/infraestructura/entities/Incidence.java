@@ -27,7 +27,7 @@ public class Incidence {
 	@Column(name = "description")
 	private String description;
 
-	// 0 petition done, 1 petition in process, 2 petition resolved
+	// 0 incidence done, 1 incidence in process, 2 incidence resolved
 	@Column(name = "state")
 	private int state;
 
