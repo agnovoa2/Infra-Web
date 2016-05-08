@@ -207,6 +207,12 @@ public class MaterialManagementController {
 		this.quantity = quantity;
 	}
 
+	public void doModifiyQuantity(Material material, int quantity){
+		materialGateway.find(material.getId());
+		materialGateway.getCurrent().setQuantity(quantity);
+		materialGateway.save();
+	}
+	
 	public void redirectIfNotMaterial() throws IOException {
 		if (this.material != null && !this.material.toLowerCase().equals("monitor")
 				&& !this.material.toLowerCase().equals("disco duro") && !this.material.toLowerCase().equals("ram")

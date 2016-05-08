@@ -63,4 +63,20 @@ public class MaterialGatewayBean {
 	public List<Material> getAllOthers() {
 		return em.createNamedQuery("findAllOthers", Material.class).getResultList();
 	}
+	
+	public List<Material> getAllLendableMonitors() {
+		return em.createNamedQuery("findAllLendableMonitors", Material.class).getResultList();
+	}
+
+	public List<Material> getAllLendableHardDrives() {
+		return em.createNamedQuery("findAllLendableHardDrive", Material.class).getResultList();
+	}
+
+	public List<Material> getAllLendableRamMemories() {
+		return em.createNamedQuery("findAllLendableRamMemory", Material.class).getResultList();
+	}
+
+	public List<Material> getAllLendableOthers() {
+		return em.createNamedQuery("findAllLendableOthers", Material.class).getResultList();
+	}
 }

@@ -1,7 +1,5 @@
 package es.uvigo.esei.infraestructura.entities;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,7 +14,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import es.uvigo.esei.infraestructura.util.PasswordUtil;
 

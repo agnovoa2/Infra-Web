@@ -20,7 +20,11 @@ import javax.persistence.Table;
 		@NamedQuery(name = "findAllMonitors", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.MONITOR and m.unused = false"),
 		@NamedQuery(name = "findAllHardDrive", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.HARD_DRIVE and m.unused = false"),
 		@NamedQuery(name = "findAllRamMemory", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.RAM and m.unused = false"),
-		@NamedQuery(name = "findAllOthers", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.OTHER and m.unused = false") })
+		@NamedQuery(name = "findAllOthers", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.OTHER and m.unused = false"),
+		@NamedQuery(name = "findAllLendableMonitors", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.MONITOR and m.unused = false and m.quantity > 0"),
+		@NamedQuery(name = "findAllLendableHardDrive", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.HARD_DRIVE and m.unused = false and m.quantity > 0"),
+		@NamedQuery(name = "findAllLendableRamMemory", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.RAM and m.unused = false and m.quantity > 0"),
+		@NamedQuery(name = "findAllLendableOthers", query = "select m from Material m where m.material = es.uvigo.esei.infraestructura.entities.MaterialType.OTHER and m.unused = false and m.quantity > 0")})
 public class Material {
 
 	@Id
@@ -285,7 +289,6 @@ public class Material {
 		if (proportion != null && proportion != "") {
 			toRet += "Proporción: " + proportion + ". ";
 		}
-		toRet += "Cantidad: " + quantity + ". ";
 		
 		return toRet;
 	}

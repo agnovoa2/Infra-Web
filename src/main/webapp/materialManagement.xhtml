@@ -248,6 +248,16 @@
 			<ui:repeat var="material" value="#{materialManagement.allMaterial}">
 				<h:outputLabel value="#{material.toString()}" />
 				&nbsp;
+				<h:outputLabel value="Cantidad" />
+				<h:inputText id="materialQuantity"
+					value="#{material.quantity}" required="true"
+					requiredMessage="Debe especificar la nueva cantidad">
+					<f:validateLongRange maximum="999999999" minimum="0" />
+				</h:inputText>
+				<h:commandLink action="#{materialManagement.doModifiyQuantity(material,material.quantity)}" value="Modificar cantidad">
+					<f:ajax execute="materialQuantity" render="@form" />
+				</h:commandLink>
+				&nbsp;
 				<h:commandLink
 					action="#{materialManagement.doRemoveMaterial(material.id)}"
 					value="eliminar">
@@ -263,8 +273,6 @@
 					<h:outputLabel value="#{user.toString()}" />
 					<div />
 				</ui:repeat>
-
-
 				<div></div>
 			</ui:repeat>
 		</o:form>
@@ -325,12 +333,6 @@
 				requiredMessage="Debe especificar la marca del monitor" />
 			<h:message id="m10" for="materialTradeMark" style="color:red" />
 			<br />
-			<h:outputLabel value="Cantidad" />
-			<h:inputText id="materialQuantity"
-				value="#{materialManagement.quantity}" required="true"
-				requiredMessage="Debe especificar la nueva cantidad">
-				<f:validateLongRange maximum="999999999" minimum="0" />
-			</h:inputText>
 			<h:message id="m11" for="materialQuantity" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
@@ -375,12 +377,6 @@
 				requiredMessage="Debe especificar la marca del disco duro" />
 			<h:message id="m8" for="materialName" style="color:red" />
 			<br />
-			<h:outputLabel value="Cantidad" />
-			<h:inputText id="materialQuantity"
-				value="#{materialManagement.quantity}" required="true"
-				requiredMessage="Debe especificar la nueva cantidad">
-				<f:validateLongRange maximum="999999999" minimum="0" />
-			</h:inputText>
 			<h:message id="m9" for="materialQuantity" style="color:red" />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
 				value="Editar monitor">
@@ -433,12 +429,6 @@
 				requiredMessage="Debe especificar la marca de la memoria RAM" />
 			<h:message id="m8" for="materialName" style="color:red" />
 			<br />
-			<h:outputLabel value="Cantidad" />
-			<h:inputText id="materialQuantity"
-				value="#{materialManagement.quantity}" required="true"
-				requiredMessage="Debe especificar la nueva cantidad">
-				<f:validateLongRange maximum="999999999" minimum="0" />
-			</h:inputText>
 			<h:message id="m9" for="materialQuantity" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"
@@ -505,12 +495,6 @@
 				<f:selectItem itemValue="16:9" itemLabel="16:9" />
 			</h:selectOneMenu>
 			<br />
-			<h:outputLabel value="Cantidad" />
-			<h:inputText id="materialQuantity"
-				value="#{materialManagement.quantity}" required="true"
-				requiredMessage="Debe especificar la nueva cantidad">
-				<f:validateLongRange maximum="999999999" minimum="0" />
-			</h:inputText>
 			<h:message id="m9" for="materialQuantity" style="color:red" />
 			<br />
 			<h:commandButton action="#{materialManagement.doEditMaterial()}"

@@ -71,8 +71,20 @@ public class MaterialPetitionController {
 
 	public void doChangeQuantity(MaterialPetitionRow id, int quantity) {
 		int temp = petitionRows.get(petitionRows.indexOf(id)).getQuantity();
-		if (temp != 0 && quantity != -1) {
-			petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
+		switch (quantity) {
+			case -1:
+				if (temp > 0){
+					petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
+				}
+				break;
+	
+			case 1:
+				if(temp < petitionRows.get(petitionRows.indexOf(id)).getMaterial().getQuantity())
+					petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
+				break;
+	
+			default:
+				break;
 		}
 	}
 
@@ -129,13 +141,13 @@ public class MaterialPetitionController {
 	public List<Material> getAllMaterial(String material) {
 		switch (material) {
 		case "monitor":
-			return materialGateway.getAllMonitors();
+			return materialGateway.getAllLendableMonitors();
 		case "ram":
-			return materialGateway.getAllRamMemories();
+			return materialGateway.getAllLendableRamMemories();
 		case "disco duro":
-			return materialGateway.getAllHardDrives();
+			return materialGateway.getAllLendableHardDrives();
 		case "otros":
-			return materialGateway.getAllOthers();
+			return materialGateway.getAllLendableOthers();
 		default:
 			return null;
 		}
