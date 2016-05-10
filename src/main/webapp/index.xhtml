@@ -5,37 +5,46 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
+<f:metadata>
+	<f:event listener="#{loginController.redirectIfAnonymous()}"
+		type="preRenderView" />
+</f:metadata>
 <h:head>
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Infraestructura ESEI</h2>
-	<h:outputLabel value="Bienvenido #{loginController.currentUser.name}" rendered="#{!loginController.anonymous}"/>
-	<h:link value="Sign up" outcome="signup"
-		rendered="#{loginController.anonymous}" />
-	<br />
-	<h:link value="Login" outcome="login"
-		rendered="#{loginController.anonymous}" />
-	<br />
-	<h:link value="Zona becarios" outcome="zonaBecario"
-		rendered="#{!loginController.anonymous and loginController.intern}" />
-	<br />
-	<h:link value="Petición de software" outcome="professorSubjects"
-		rendered="#{!loginController.anonymous and loginController.professor}" />
-	<br />
-	<h:link value="Petición de consumibles" outcome="printerList"
-		rendered="#{!loginController.anonymous and loginController.professor}" />
-	<br />
-	<h:link value="Petición de material" outcome="materialPetition"
-		rendered="#{!loginController.anonymous}" />
-	<br />
-	<h:link value="Editar mi perfil" outcome="editProfile?login=#{loginController.currentUser.name}"
-		rendered="#{!loginController.anonymous}" />
-	<br />
-	<h:form>
-		<h:commandLink action="#{loginController.doLogout()}" value="Logout"
-			rendered="#{!loginController.anonymous}" />
-	</h:form>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h2>Infraestructura ESEI</h2>
+			<h:outputLabel value="Bienvenido #{loginController.currentUser.name}"
+				rendered="#{!loginController.anonymous}" />
+			<h:link value="Sign up" outcome="signup"
+				rendered="#{loginController.anonymous}" />
+			<br />
+			<h:link value="Login" outcome="login"
+				rendered="#{loginController.anonymous}" />
+			<br />
+			<h:link value="Zona becarios" outcome="zonaBecario"
+				rendered="#{!loginController.anonymous and loginController.intern}" />
+			<br />
+			<h:link value="Petición de software" outcome="professorSubjects"
+				rendered="#{!loginController.anonymous and loginController.professor}" />
+			<br />
+			<h:link value="Petición de consumibles" outcome="printerList"
+				rendered="#{!loginController.anonymous and loginController.professor}" />
+			<br />
+			<h:link value="Petición de material" outcome="materialPetition"
+				rendered="#{!loginController.anonymous}" />
+			<br />
+			<h:link value="Editar mi perfil"
+				outcome="editProfile?login=#{loginController.currentUser.name}"
+				rendered="#{!loginController.anonymous}" />
+			<br />
+			<h:form>
+				<h:commandLink action="#{loginController.doLogout()}" value="Logout"
+					rendered="#{!loginController.anonymous}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

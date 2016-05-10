@@ -144,7 +144,7 @@ public class LoginController {
 	public void doLogout() throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		request.logout();
-		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+		FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
 	}
 
 	public Principal getCurrentUser() {
@@ -171,7 +171,17 @@ public class LoginController {
 		if (this.isAnonymous())
 			redirectToIndex();
 	}
+	
+	public void redirectIfNotAnonymous() throws IOException {
+		if (!this.isAnonymous())
+			redirectToIndex();
+	}
 
+	public void redirectToLogin() throws IOException {
+		if (this.isAnonymous())
+			FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+	}
+	
 	public void redirectIfStudent() throws IOException {
 		if (this.isStudent())
 			redirectToIndex();
@@ -182,7 +192,7 @@ public class LoginController {
 			redirectToIndex();
 	}
 
-	private void redirectToIndex() throws IOException {
+	public void redirectToIndex() throws IOException {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
