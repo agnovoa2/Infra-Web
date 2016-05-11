@@ -17,87 +17,167 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Configuración del servidor</h2>
-	<h:panelGroup id="configuration">
-		<o:form>
-			<h3>Configuración correo</h3>
-			<h:outputLabel value="Correo de la aplicación" />
-			<h:inputText value="#{configurationManagement.mailSource}"
-				id="emailSource" a:placeholder="Correo de la aplicación"
-				required="true"
-				requiredMessage="Debe especificar un correo para la aplicación"
-				validatorMessage="El email que ha introducido es incorrecto">
-				<f:validateRegex pattern="(.+@.+\..+)" />
-			</h:inputText>
-			<h:message id="m1" for="emailSource" style="color:red" />
-			<br />
-			<h:outputLabel value="Correo de destino de la aplicación" />
-			<h:inputText value="#{configurationManagement.mailDestination}"
-				id="emailDestination" a:placeholder="Correo destino" required="true"
-				requiredMessage="Debe especificar un correo de destino para la aplicación"
-				validatorMessage="El email que ha introducido es incorrecto">
-				<f:validateRegex pattern="(.+@.+\..+)" />
-			</h:inputText>
-			<h:message id="m2" for="emailDestination" style="color:red" />
-			<br />
-			<h:outputLabel value="Contraseña del correo" />
-			<h:inputSecret id="emailPassword"
-				value="#{configurationManagement.mailPassword}" >
-				<f:validator validatorId="passwordValidator" />
-				<f:attribute name="confirmPassword" value="#{emailConfirmPassword}" />
-			</h:inputSecret>
-			<h:message id="m3" for="emailPassword" style="color:red" />
-			<br />
-			<h:outputLabel value="Repita contraseña del correo" />
-			<h:inputSecret id="emailConfirmPassword"
-				a:placeholder="Repita la contraseña"
-				binding="#{emailConfirmPassword}"  />
-			<h:message id="m4" for="emailConfirmPassword" style="color:red" />
-			<br />
-			<h3>Configuración servidor ldap</h3>
-			<h:outputLabel value="Host" />
-			<h:inputText value="#{configurationManagement.host}" />
-			<br />
-			<h:outputLabel value="Puerto" />
-			<h:inputText id="port" value="#{configurationManagement.port}" validatorMessage="Introduzca un número de puerto válido.">
-				<f:validateLongRange maximum="65536" minimum="0" />
-			</h:inputText>
-			<h:message id="m5" for="port" style="color:red" />
-			<br />
-			<h:outputLabel value="Base DN" />
-			<h:inputText value="#{configurationManagement.baseDN}" />
-			<br />
-			<h:outputLabel value="User DN" />
-			<h:inputText value="#{configurationManagement.userDN}" />
-			<br />
-			<h:outputLabel value="Contraseña LDAP" />
-			<h:inputSecret id="ldapPassword"
-				value="#{configurationManagement.ldapPassword}"
-				a:placeholder="Contraseña">
-				<f:validator validatorId="passwordValidator" />
-				<f:attribute name="confirmPassword" value="#{ldapConfirmPassword}" />
-			</h:inputSecret>
-			<h:message id="m6" for="ldapPassword" style="color:red" />
-			<br />
-			<h:outputLabel value="Repita contraseña LDAP" />
-			<h:inputSecret id="ldapConfirmPassword"
-				a:placeholder="Repita la contraseña" 
-				binding="#{ldapConfirmPassword}"/>
-			<h:message id="m7" for="ldapConfirmPassword" style="color:red" />
-			<br />
-			<h:outputLabel value="Método de autenticación" />
-			<h:inputText
-				value="#{configurationManagement.securityAuthentication}" />
-			<br />
-			<h:outputLabel value="Protocolo de seguridad" />
-			<h:inputText value="#{configurationManagement.securityProtocol}" />
-			<br />
-			<h:commandButton
-				action="#{configurationManagement.doChangeConfiguration()}"
-				value="Realizar cambios">
-				<f:ajax execute="@form" render="configuration" />
-			</h:commandButton>
-		</o:form>
-	</h:panelGroup>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<h:panelGroup id="configuration">
+							<o:form>
+								<div class="box-body">
+									<h4>Configuración correo</h4>
+									<div class="form-group">
+										<h:outputLabel value="Correo de la aplicación" />
+										<h:inputText value="#{configurationManagement.mailSource}"
+											id="emailSource" a:placeholder="Correo de la aplicación"
+											required="true"
+											requiredMessage="Debe especificar un correo para la aplicación"
+											validatorMessage="El email que ha introducido es incorrecto"
+											class="form-control" a:data-toggle="tooltip"
+											a:title="Correo que utilizará la aplicación para mandar los correos.">
+											<f:validateRegex pattern="(.+@.+\..+)" />
+										</h:inputText>
+										<h:message id="m1" for="emailSource" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Correo de destino de la aplicación" />
+										<h:inputText
+											value="#{configurationManagement.mailDestination}"
+											id="emailDestination" a:placeholder="Correo destino"
+											required="true"
+											requiredMessage="Debe especificar un correo de destino para la aplicación"
+											validatorMessage="El email que ha introducido es incorrecto"
+											class="form-control" a:data-toggle="tooltip"
+											a:title="El grupo de correo de infraestrucura.">
+											<f:validateRegex pattern="(.+@.+\..+)" />
+										</h:inputText>
+									</div>
+									<div class="form-group">
+										<h:message id="m2" for="emailDestination" style="color:red" />
+										<h:outputLabel value="Contraseña del correo" />
+										<h:inputSecret id="emailPassword"
+											a:placeholder="Contraseña del correo"
+											value="#{configurationManagement.mailPassword}"
+											class="form-control">
+											<f:validator validatorId="passwordValidator" />
+											<f:attribute name="confirmPassword"
+												value="#{emailConfirmPassword}" />
+										</h:inputSecret>
+										<h:message id="m3" for="emailPassword" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Repita contraseña del correo" />
+										<h:inputSecret id="emailConfirmPassword"
+											a:placeholder="Repita la contraseña"
+											binding="#{emailConfirmPassword}" class="form-control" />
+										<h:message id="m4" for="emailConfirmPassword"
+											style="color:red" />
+									</div>
+									<h4>Configuración servidor ldap</h4>
+									<div class="form-group">
+										<h:outputLabel value="Host" />
+										<h:inputText value="#{configurationManagement.host}"
+											class="form-control" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Puerto" />
+										<h:inputText id="port" value="#{configurationManagement.port}"
+											validatorMessage="Introduzca un número de puerto válido."
+											class="form-control">
+											<f:validateLongRange maximum="65536" minimum="0" />
+										</h:inputText>
+										<h:message id="m5" for="port" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Base DN" />
+										<h:inputText value="#{configurationManagement.baseDN}"
+											class="form-control" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="User DN" />
+										<h:inputText value="#{configurationManagement.userDN}"
+											class="form-control" />
+									</div>
+									<div class="form-group">
+
+										<h:outputLabel value="Contraseña LDAP" />
+										<h:inputSecret id="ldapPassword"
+											value="#{configurationManagement.ldapPassword}"
+											a:placeholder="Contraseña" class="form-control">
+											<f:validator validatorId="passwordValidator" />
+											<f:attribute name="confirmPassword"
+												value="#{ldapConfirmPassword}" />
+										</h:inputSecret>
+										<h:message id="m6" for="ldapPassword" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Repita contraseña LDAP" />
+										<h:inputSecret id="ldapConfirmPassword"
+											a:placeholder="Repita la contraseña"
+											binding="#{ldapConfirmPassword}" class="form-control" />
+										<h:message id="m7" for="ldapConfirmPassword" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Método de autenticación" />
+										<h:inputText
+											value="#{configurationManagement.securityAuthentication}"
+											class="form-control" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Protocolo de seguridad" />
+										<h:inputText
+											value="#{configurationManagement.securityProtocol}"
+											class="form-control" />
+									</div>
+									<h:commandButton
+										action="#{configurationManagement.doChangeConfiguration()}"
+										value="Realizar cambios" class="btn btn-primary">
+										<f:ajax execute="@form" render="configuration" />
+									</h:commandButton>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">FAQ</h3>
+						</div>
+						<h:panelGroup id="text">
+							<o:form>
+								<div class="box-body">
+									<h4>¿Para que sirve esteformulario?</h4>
+									<p>Con este formulario podrás cambiar la configuración del
+										servidor. Se puede personalizar tanto el correo que empleará
+										la aplicación, como el correo al que la aplicación mandará los
+										correos.</p>
+									<br />
+									<h4>¿Que es un servidor LDAP?</h4>
+									<p>LDAP son las siglas de Lightweight Directory Access
+										Protocol (en español Protocolo Ligero/Simplificado de Acceso a
+										Directorios) que hacen referencia a un protocolo a nivel de
+										aplicación que permite el acceso a un servicio de directorio.
+										Se emplea en la actualidad en la ESEI, y esta aplicación hace
+										uso de él para que los usuarios no tengan que registrarse en
+										la aplicación directamente.</p>
+									<br />
+									<h4>¿Que pasa cuando se cambie el servidor o ya no exista?</h4>
+									<p>
+										En caso de que no exista el servidor no pasa nada, la
+										aplicación contiene un método de respaldo para la gestión de
+										usuarios. En caso de que cambie el servidor, para éso existe
+										este formulario <i class="fa fa-smile-o" />
+									</p>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

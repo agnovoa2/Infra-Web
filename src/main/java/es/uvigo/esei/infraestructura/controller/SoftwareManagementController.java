@@ -26,6 +26,7 @@ public class SoftwareManagementController {
 	private String newSoftwareName;
 	private String softwareName;
 	private String downloadURL;
+	private boolean editable = false;
 	private int type;
 
 	public void doAddSoftware() {
@@ -33,7 +34,7 @@ public class SoftwareManagementController {
 			softwareGateway.create(new Software(getSoftwareName(), getType(), getDownloadURL()));
 			softwareGateway.save();
 		} catch (SQLException e) {
-			//TODO hacer cosas con error
+			// TODO hacer cosas con error
 		}
 	}
 
@@ -56,7 +57,6 @@ public class SoftwareManagementController {
 	}
 
 	public void doSetEditSoftware(String softwareName) {
-
 		softwareGateway.find(softwareName);
 		setSoftwareName(softwareGateway.getCurrent().getSoftwareName());
 		setNewSoftwareName(softwareGateway.getCurrent().getSoftwareName());
@@ -65,15 +65,20 @@ public class SoftwareManagementController {
 			setType(0);
 		if (softwareGateway.getCurrent().getType().equals(SoftwareType.OPERATIVE_SYSTEM))
 			setType(1);
+		editable = true;
 	}
 
 	public void doEditSoftware() {
-
-		softwareGateway.find(getSoftwareName());
-		softwareGateway.getCurrent().setSoftwareName(getNewSoftwareName());
-		softwareGateway.getCurrent().setDownloadURL(getDownloadURL());
-		softwareGateway.getCurrent().setType(getType());
-		softwareGateway.save();
+		if (editable) {
+			softwareGateway.find(getSoftwareName());
+			softwareGateway.getCurrent().setSoftwareName(getNewSoftwareName());
+			softwareGateway.getCurrent().setDownloadURL(getDownloadURL());
+			softwareGateway.getCurrent().setType(getType());
+			softwareGateway.save();
+			setNewSoftwareName("");
+			setDownloadURL("");
+			editable = false;
+		}
 	}
 
 	public List<Software> getAllSoftware() {
@@ -110,5 +115,13 @@ public class SoftwareManagementController {
 
 	public void setNewSoftwareName(String newSoftwareName) {
 		this.newSoftwareName = newSoftwareName;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 }

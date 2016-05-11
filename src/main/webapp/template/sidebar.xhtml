@@ -2,199 +2,200 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html">
-<ui:composition>
-    <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-            <!-- Sidebar user panel -->
-            <!-- /.search form -->
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="header">Navegación principal</li>
-                <li class="treeview">
-                    <a href="#"> <i class="fa fa-exclamation-triangle" /> <span>Incidencias</span> <i class="fa fa-angle-left pull-right" />
-                    </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o" /> Sótano -1 <i class="fa fa-angle-left pull-right" /> </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="incidences.xhtml?lab=libre%20acceso"><i class="fa fa-circle-o" /> Libre acceso </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=s01"><i class="fa fa-circle-o" /> Sótano 1 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=s02"><i class="fa fa-circle-o" /> Sótano 2 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=s03"><i class="fa fa-circle-o" /> Sótano 3 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=s04"><i class="fa fa-circle-o" /> Sótano 4 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=s05"><i class="fa fa-circle-o" /> Sótano 5 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=s06"><i class="fa fa-circle-o" /> Sótano 6 </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o" /> Planta 2 <i class="fa fa-angle-left pull-right" /> </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="incidences.xhtml?lab=aula%202.1"><i class="fa fa-circle-o" /> Aula 2.1 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=aula%202.2"><i class="fa fa-circle-o" /> Aula 2.2 </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o" /> Planta 3 <i class="fa fa-angle-left pull-right" /> </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Aula 3.1 </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Aula 3.2 </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 37 </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 38 </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 39 </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 30.A </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 31.A </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 31.B </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <!-- Incidencias -->
-                <h:panelGroup rendered="#{!loginController.intern}">
-                    <li class="treeview">
-                        <a href="materialPetition.xhtml"> <i class="fa fa-briefcase" /> <span>Peticiones de material</span>
-                        </a>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.professor}">
-                    <li class="treeview">
-                        <a href="printerList.xhtml"> <i class="fa fa-print" /> <span>Peticiones de consumibles</span>
-                        </a>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.professor}">
-                    <li class="treeview">
-                        <a href="professorSubjects.xhtml"> <i class="fa fa-television" /> <span>Peticiones de software</span>
-                        </a>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.intern}">
-                    <li class="treeview">
-                        <a href="configurationManagement.xhtml">
-                            <i class="fa fa-gear" /> <span>Configuración del servidor</span>
-                        </a>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.intern}">
-                    <li class="treeview">
-                        <a href="#"> <i class="fa fa-tv" /> <span>Peticiones
-						de software</span> <i class="fa fa-angle-left pull-right" />
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="treeview">
-                                <a href="softwareManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de software</span>
-                                </a>
-                            </li>
-                            <li class="treeview">
-                                <a href="subjectManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de asignaturas</span>
-                                </a>
-                            </li>
-                            <li class="treeview">
-                                <a href="softwarePetition.xhtml"> <i class="fa fa-circle-o" /> <span>Peticiones</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.intern}">
-                    <li class="treeview">
-                        <a href="#"> <i class="fa fa-print" /> <span>Peticiones
-						de consumibles</span> <i class="fa fa-angle-left pull-right" />
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="treeview">
-                                <a href="consumableManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de consumibles</span>
-                                </a>
-                            </li>
-                            <li class="treeview">
-                                <a href="modelManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de modelos</span>
-                                </a>
-                            </li>
-                            <li class="treeview">
-                                <a href="printerManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de impresoras</span>
-                                </a>
-                            </li>
-                            <li class="treeview">
-                                <a href="consumablePetitionManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Peticiones</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.intern}">
-                    <li class="treeview">
-                        <a href="userManagement.xhtml">
-                            <i class="fa fa-users" /> <span>Gestión de usuarios</span>
-                        </a>
-                    </li>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{loginController.intern}">
-                    <li class="treeview">
-                        <a href="#"> <i class="fa fa-dropbox" /> <span>Materiales cedibles</span> <i class="fa fa-angle-left pull-right" />
-                        </a>
-                        <ul class="treeview-menu">
-                            <li>
-                            <a href="#"><i class="fa fa-circle-o" />Gestión de materiales<i class="fa fa-angle-left pull-right" /> </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Monitores </a>
-                                </li>
-                                <li>
-                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Discos duros </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Memorias RAM </a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o" /> Otros </a>
-                                </li>
-                            </ul>
-                        </li>
-                            <li class="treeview">
-                                <a href="modelManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Peticiones</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </h:panelGroup>
-            </ul>
-        </section>
-        <!-- /.sidebar -->
-    </aside>
-</ui:composition>
-
+	<h:body>
+		<ui:composition>
+		    <aside class="main-sidebar">
+		        <!-- sidebar: style can be found in sidebar.less -->
+		        <section class="sidebar">
+		            <!-- Sidebar user panel -->
+		            <!-- /.search form -->
+		            <!-- sidebar menu: : style can be found in sidebar.less -->
+		            <ul class="sidebar-menu">
+		                <li class="header">Navegación principal</li>
+		                <li class="treeview">
+		                    <a href="#"> <i class="fa fa-exclamation-triangle" /> <span>Incidencias</span> <i class="fa fa-angle-left pull-right" />
+		                    </a>
+		                    <ul class="treeview-menu">
+		                        <li>
+		                            <a href="#"><i class="fa fa-circle-o" /> Sótano -1 <i class="fa fa-angle-left pull-right" /> </a>
+		                            <ul class="treeview-menu">
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=libre%20acceso"><i class="fa fa-circle-o" /> Libre acceso </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=s01"><i class="fa fa-circle-o" /> Sótano 1 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=s02"><i class="fa fa-circle-o" /> Sótano 2 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=s03"><i class="fa fa-circle-o" /> Sótano 3 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=s04"><i class="fa fa-circle-o" /> Sótano 4 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=s05"><i class="fa fa-circle-o" /> Sótano 5 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=s06"><i class="fa fa-circle-o" /> Sótano 6 </a>
+		                                </li>
+		                            </ul>
+		                        </li>
+		                        <li>
+		                            <a href="#"><i class="fa fa-circle-o" /> Planta 2 <i class="fa fa-angle-left pull-right" /> </a>
+		                            <ul class="treeview-menu">
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=aula%202.1"><i class="fa fa-circle-o" /> Aula 2.1 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=aula%202.2"><i class="fa fa-circle-o" /> Aula 2.2 </a>
+		                                </li>
+		                            </ul>
+		                        </li>
+		                        <li>
+		                            <a href="#"><i class="fa fa-circle-o" /> Planta 3 <i class="fa fa-angle-left pull-right" /> </a>
+		                            <ul class="treeview-menu">
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Aula 3.1 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Aula 3.2 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 37 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 38 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 39 </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 30.A </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 31.A </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Laboratorio 31.B </a>
+		                                </li>
+		                            </ul>
+		                        </li>
+		                    </ul>
+		                </li>
+		                <!-- Incidencias -->
+		                <h:panelGroup rendered="#{!loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="materialPetition.xhtml"> <i class="fa fa-briefcase" /> <span>Peticiones de material</span>
+		                        </a>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.professor}">
+		                    <li class="treeview">
+		                        <a href="printerList.xhtml"> <i class="fa fa-print" /> <span>Peticiones de consumibles</span>
+		                        </a>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.professor}">
+		                    <li class="treeview">
+		                        <a href="professorSubjects.xhtml"> <i class="fa fa-television" /> <span>Peticiones de software</span>
+		                        </a>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="configurationManagement.xhtml">
+		                            <i class="fa fa-gear" /> <span>Configuración del servidor</span>
+		                        </a>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="#"> <i class="fa fa-tv" /> <span>Peticiones
+								de software</span> <i class="fa fa-angle-left pull-right" />
+		                        </a>
+		                        <ul class="treeview-menu">
+		                            <li class="treeview">
+		                                <a href="softwareManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de software</span>
+		                                </a>
+		                            </li>
+		                            <li class="treeview">
+		                                <a href="subjectManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de asignaturas</span>
+		                                </a>
+		                            </li>
+		                            <li class="treeview">
+		                                <a href="softwarePetition.xhtml"> <i class="fa fa-circle-o" /> <span>Peticiones</span>
+		                                </a>
+		                            </li>
+		                        </ul>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="#"> <i class="fa fa-print" /> <span>Peticiones
+								de consumibles</span> <i class="fa fa-angle-left pull-right" />
+		                        </a>
+		                        <ul class="treeview-menu">
+		                            <li class="treeview">
+		                                <a href="consumableManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de consumibles</span>
+		                                </a>
+		                            </li>
+		                            <li class="treeview">
+		                                <a href="modelManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de modelos</span>
+		                                </a>
+		                            </li>
+		                            <li class="treeview">
+		                                <a href="printerManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Gestión de impresoras</span>
+		                                </a>
+		                            </li>
+		                            <li class="treeview">
+		                                <a href="consumablePetitionManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Peticiones</span>
+		                                </a>
+		                            </li>
+		                        </ul>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="userManagement.xhtml">
+		                            <i class="fa fa-users" /> <span>Gestión de usuarios</span>
+		                        </a>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="#"> <i class="fa fa-dropbox" /> <span>Materiales cedibles</span> <i class="fa fa-angle-left pull-right" />
+		                        </a>
+		                        <ul class="treeview-menu">
+		                            <li>
+		                            <a href="#"><i class="fa fa-circle-o" />Gestión de materiales<i class="fa fa-angle-left pull-right" /> </a>
+		                            <ul class="treeview-menu">
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Monitores </a>
+		                                </li>
+		                                <li>
+		                                    <a href="incidences.xhtml?lab=aula%203.2"><i class="fa fa-circle-o" /> Discos duros </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Memorias RAM </a>
+		                                </li>
+		                                <li>
+		                                    <a href="#"><i class="fa fa-circle-o" /> Otros </a>
+		                                </li>
+		                            </ul>
+		                        </li>
+		                            <li class="treeview">
+		                                <a href="modelManagement.xhtml"> <i class="fa fa-circle-o" /> <span>Peticiones</span>
+		                                </a>
+		                            </li>
+		                        </ul>
+		                    </li>
+		                </h:panelGroup>
+		            </ul>
+		        </section>
+		        <!-- /.sidebar -->
+		    </aside>
+		</ui:composition>
+	</h:body>
 </html>

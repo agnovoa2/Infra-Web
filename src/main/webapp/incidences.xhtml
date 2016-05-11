@@ -19,98 +19,86 @@
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="content">
-
-			<h1>
-				Incidencias
-				<h:outputFormat value="{0}"
-					rendered="#{incidences.laboratory != null}">
-					<f:param value="#{incidences.laboratory}" />
-				</h:outputFormat>
-			</h1>
-			<h:panelGroup rendered="#{incidences.laboratory == null}">
-				<a href="incidences.xhtml?lab=libre%20acceso">Libre acceso</a>
-				<br />
-				<a href="incidences.xhtml?lab=s01">s01</a>
-				<br />
-				<a href="incidences.xhtml?lab=s02">s02</a>
-				<br />
-				<a href="incidences.xhtml?lab=s03">s03</a>
-				<br />
-				<a href="incidences.xhtml?lab=s04">s04</a>
-				<br />
-				<a href="incidences.xhtml?lab=s05">s05</a>
-				<br />
-				<a href="incidences.xhtml?lab=s06">s06</a>
-				<br />
-				<a href="incidences.xhtml?lab=aula%202.1">aula 2.1</a>
-				<br />
-				<a href="incidences.xhtml?lab=aula%202.2">aula 2.2</a>
-				<br />
-				<a href="incidences.xhtml?lab=aula%203.1">aula 3.1</a>
-				<br />
-				<a href="incidences.xhtml?lab=aula%203.2">aula 3.2</a>
-			</h:panelGroup>
-			<h:panelGroup id="computer"
+			<div class="row">
+				<div class="col-xs-12">
+					<h2 class="page-header">
+						<i class="fa fa-wrench"></i> Incidencias
+						<h:outputFormat value="{0}"
+							rendered="#{incidences.laboratory != null}">
+							<f:param value="#{incidences.laboratory}" />
+						</h:outputFormat>
+						<small class="pull-right">Date: 2/10/2014</small>
+					</h2>
+				</div>
+				<!-- /.col -->
+			</div>
+			<div class="row">
+				<div class="col-xs-12 table table-hover">
+					<div class="box-body table-responsive no-padding">
+						<h:panelGroup id="computer"
+							rendered="#{incidences.laboratory != null}">
+							<o:form id="computerForm">
+								<!-- aulas -->
+								<h:commandLink action="#{incidences.doSelectComputer(0)}"
+									rendered="#{incidences.laboratory == 'aula 2.1' or incidences.laboratory == 'aula 2.2'  or incidences.laboratory == 'aula 3.1'  or incidences.laboratory == 'aula 3.2' }">
+									<h:graphicImage value="resources/img/computer_no.png"
+										rendered="#{incidences.isNoPc(num)}" />
+									<h:graphicImage value="resources/img/computer_ok.png"
+										rendered="#{incidences.isPcOk(num)}" />
+									<h:graphicImage value="resources/img/computer_rep.png"
+										rendered="#{incidences.isPcRepair(num)}" />
+									<h:graphicImage value="resources/img/computer_warn.png"
+										rendered="#{incidences.isHasIncidence(num)}" />
+									<f:ajax render="manage manageForm incidence incidenceForm" />
+								</h:commandLink>
+								<!-- libre acceso -->
+								<ui:repeat var="num" value="#{incidences.auxArray}"
+									rendered="#{incidences.laboratory == 'libre acceso'}">
+									<h:commandLink
+										action="#{incidences.doSelectComputer(num.intValue())}">
+										<h:graphicImage value="resources/img/computer_no.png"
+											rendered="#{incidences.isNoPc(num)}" />
+										<h:graphicImage value="resources/img/computer_ok.png"
+											rendered="#{incidences.isPcOk(num)}" />
+										<h:graphicImage value="resources/img/computer_rep.png"
+											rendered="#{incidences.isPcRepair(num)}" />
+										<h:graphicImage value="resources/img/computer_warn.png"
+											rendered="#{incidences.isHasIncidence(num)}" />
+										<f:ajax render="manage manageForm incidence incidenceForm" />
+										<ui:fragment
+											rendered="#{num.intValue() == 7 or num.intValue() == 15 or num.intValue() == 23 or num.intValue() == 31 or num.intValue() == 39}">
+											<div></div>
+										</ui:fragment>
+									</h:commandLink>
+								</ui:repeat>
+								<!-- sotanos -->
+								<ui:repeat var="num" value="#{incidences.auxArray}"
+									rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
+									<h:commandLink
+										action="#{incidences.doSelectComputer(num.intValue())}">
+										<h:graphicImage value="resources/img/computer_no.png"
+											rendered="#{incidences.isNoPc(num)}" />
+										<h:graphicImage value="resources/img/computer_ok.png"
+											rendered="#{incidences.isPcOk(num)}" />
+										<h:graphicImage value="resources/img/computer_rep.png"
+											rendered="#{incidences.isPcRepair(num)}" />
+										<h:graphicImage value="resources/img/computer_warn.png"
+											rendered="#{incidences.isHasIncidence(num)}" />
+										<f:ajax render="manage manageForm incidence incidenceForm" />
+										<ui:fragment
+											rendered="#{num.intValue() == 0 or num.intValue() == 7 or num.intValue() == 14 or num.intValue() == 21}">
+											<div></div>
+										</ui:fragment>
+									</h:commandLink>
+								</ui:repeat>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+				<!-- ./ computer col -->
+			</div>
+			<!-- /. row --> <h:panelGroup id="manage"
 				rendered="#{incidences.laboratory != null}">
-				<o:form id="computerForm">
-					<!-- aulas -->
-
-					<h:commandLink action="#{incidences.doSelectComputer(0)}"
-						rendered="#{incidences.laboratory == 'aula 2.1' or incidences.laboratory == 'aula 2.2'  or incidences.laboratory == 'aula 3.1'  or incidences.laboratory == 'aula 3.2' }">
-						<h:graphicImage value="resources/img/computer_no.png"
-							rendered="#{incidences.isNoPc(num)}" />
-						<h:graphicImage value="resources/img/computer_ok.png"
-							rendered="#{incidences.isPcOk(num)}" />
-						<h:graphicImage value="resources/img/computer_rep.png"
-							rendered="#{incidences.isPcRepair(num)}" />
-						<h:graphicImage value="resources/img/computer_warn.png"
-							rendered="#{incidences.isHasIncidence(num)}" />
-						<f:ajax render="manage manageForm incidence incidenceForm" />
-					</h:commandLink>
-					<!-- libre acceso -->
-					<ui:repeat var="num" value="#{incidences.auxArray}"
-						rendered="#{incidences.laboratory == 'libre acceso'}">
-						<h:commandLink
-							action="#{incidences.doSelectComputer(num.intValue())}">
-							<h:graphicImage value="resources/img/computer_no.png"
-								rendered="#{incidences.isNoPc(num)}" />
-							<h:graphicImage value="resources/img/computer_ok.png"
-								rendered="#{incidences.isPcOk(num)}" />
-							<h:graphicImage value="resources/img/computer_rep.png"
-								rendered="#{incidences.isPcRepair(num)}" />
-							<h:graphicImage value="resources/img/computer_warn.png"
-								rendered="#{incidences.isHasIncidence(num)}" />
-							<f:ajax render="manage manageForm incidence incidenceForm" />
-							<ui:fragment
-								rendered="#{num.intValue() == 7 or num.intValue() == 15 or num.intValue() == 23 or num.intValue() == 31 or num.intValue() == 39}">
-								<div></div>
-							</ui:fragment>
-						</h:commandLink>
-					</ui:repeat>
-					<!-- sotanos -->
-					<ui:repeat var="num" value="#{incidences.auxArray}"
-						rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
-						<h:commandLink
-							action="#{incidences.doSelectComputer(num.intValue())}">
-							<h:graphicImage value="resources/img/computer_no.png"
-								rendered="#{incidences.isNoPc(num)}" />
-							<h:graphicImage value="resources/img/computer_ok.png"
-								rendered="#{incidences.isPcOk(num)}" />
-							<h:graphicImage value="resources/img/computer_rep.png"
-								rendered="#{incidences.isPcRepair(num)}" />
-							<h:graphicImage value="resources/img/computer_warn.png"
-								rendered="#{incidences.isHasIncidence(num)}" />
-							<f:ajax render="manage manageForm incidence incidenceForm" />
-							<ui:fragment
-								rendered="#{num.intValue() == 0 or num.intValue() == 7 or num.intValue() == 14 or num.intValue() == 21}">
-								<div></div>
-							</ui:fragment>
-						</h:commandLink>
-					</ui:repeat>
-				</o:form>
-			</h:panelGroup>
-			<div></div>
-			<h:panelGroup id="manage" rendered="#{incidences.laboratory != null}">
 				<o:form id="manageForm">
 					<h:panelGroup
 						rendered="#{loginController.intern and (incidences.hasIncidence or incidences.pcRepair)}">
