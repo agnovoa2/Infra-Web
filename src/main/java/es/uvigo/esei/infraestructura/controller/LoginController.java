@@ -37,7 +37,7 @@ import es.uvigo.esei.infraestructura.util.PasswordUtil;
 public class LoginController {
 
 	private final String LDAP_TIMEOUT = "5000";
-	
+
 	@Inject
 	private Principal currentUser;
 
@@ -98,10 +98,7 @@ public class LoginController {
 			request.login(this.getLogin(), this.getPassword());
 			this.error = false;
 			this.userGateway.find(this.getLogin());
-			if (auth.getCurrentUser().getRole().equals(Role.INTERN))
-				FacesContext.getCurrentInstance().getExternalContext().redirect("zonaBecario.xhtml");
-			else
-				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
 		} catch (ServletException e) {
 			if (ldapLogin(request)) {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
@@ -111,6 +108,14 @@ public class LoginController {
 				context.redirect("index.xhtml?login=error");
 			}
 		}
+	}
+
+	public String getFullName() {
+		return userGateway.find(currentUser.getName()).toString();
+	}
+
+	public String getRole() {
+		return userGateway.find(currentUser.getName()).getRole().toString();
 	}
 
 	public boolean ldapLogin(HttpServletRequest request) {
@@ -130,9 +135,9 @@ public class LoginController {
 			env.put(Context.SECURITY_CREDENTIALS, conf.getLdapPassword());
 			env.put("com.sun.jndi.ldap.read.timeout", LDAP_TIMEOUT);
 			trustSelfSignedSSL();
-			if (existAccount(getLogin(),"alumnos"))
+			if (existAccount(getLogin(), "alumnos"))
 				;
-			else if (existAccount(getLogin(),"profesores"))
+			else if (existAccount(getLogin(), "profesores"))
 				;
 			request.login(this.getLogin(), this.getPassword());
 			return true;
@@ -171,7 +176,7 @@ public class LoginController {
 		if (this.isAnonymous())
 			redirectToIndex();
 	}
-	
+
 	public void redirectIfNotAnonymous() throws IOException {
 		if (!this.isAnonymous())
 			redirectToIndex();
@@ -181,7 +186,7 @@ public class LoginController {
 		if (this.isAnonymous())
 			FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
 	}
-	
+
 	public void redirectIfStudent() throws IOException {
 		if (this.isStudent())
 			redirectToIndex();
@@ -258,10 +263,9 @@ public class LoginController {
 			}
 			if (md5.equals(getPassword())) {
 				Role role;
-				if(user.equals("alumnos")){
+				if (user.equals("alumnos")) {
 					role = Role.STUDENT;
-				}
-				else{
+				} else {
 					role = Role.PROFESSOR;
 				}
 				userGateway.create(new User(getLogin(), getLogin() + "@esei.uvigo.es", md5,

@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
 	<ui:composition>
 		<header class="main-header">
             <!-- Logo -->
@@ -22,22 +23,25 @@
                     <ul class="nav navbar-nav">
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="hidden-xs">Alexander Pierce</span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="hidden-xs"><h:outputFormat value="#{loginController.fullName}"/></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <!-- User image -->
                                 <li class="user-header">
-                                    <p>Alexander Pierce - Web Developer</p>
+                                    <p><h:outputFormat value="#{loginController.fullName} #{loginController.role}" /></p>
                                 </li>
                                 <!-- Menu Body -->
                                 <li class="user-body"></li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    	<h:link value="Perfil"
+											outcome="editProfile?login=#{loginController.currentUser.name}"
+											rendered="#{!loginController.anonymous}" class="btn btn-default btn-flat"/>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    	<o:form>
+                                    		<h:commandLink action="#{loginController.doLogout()}" value="Cerrar sesión" class="btn btn-default btn-flat"/>
+                                    	</o:form>
                                     </div>
                                 </li>
                             </ul>

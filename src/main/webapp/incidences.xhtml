@@ -17,158 +17,166 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h1>
-		Incidencias
-		<h:outputFormat value="{0}"
-			rendered="#{incidences.laboratory != null}">
-			<f:param value="#{incidences.laboratory}" />
-		</h:outputFormat>
-	</h1>
-	<h:panelGroup rendered="#{incidences.laboratory == null}">
-		<a href="incidences.xhtml?lab=libre%20acceso">Libre acceso</a>
-		<br />
-		<a href="incidences.xhtml?lab=s01">s01</a>
-		<br />
-		<a href="incidences.xhtml?lab=s02">s02</a>
-		<br />
-		<a href="incidences.xhtml?lab=s03">s03</a>
-		<br />
-		<a href="incidences.xhtml?lab=s04">s04</a>
-		<br />
-		<a href="incidences.xhtml?lab=s05">s05</a>
-		<br />
-		<a href="incidences.xhtml?lab=s06">s06</a>
-		<br />
-		<a href="incidences.xhtml?lab=aula%202.1">aula 2.1</a>
-		<br />
-		<a href="incidences.xhtml?lab=aula%202.2">aula 2.2</a>
-		<br />
-		<a href="incidences.xhtml?lab=aula%203.1">aula 3.1</a>
-		<br />
-		<a href="incidences.xhtml?lab=aula%203.2">aula 3.2</a>
-	</h:panelGroup>
-	<h:panelGroup id="computer" rendered="#{incidences.laboratory != null}">
-		<o:form id="computerForm">
-			<!-- aulas -->
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
 
-			<h:commandLink action="#{incidences.doSelectComputer(0)}"
-				rendered="#{incidences.laboratory == 'aula 2.1' or incidences.laboratory == 'aula 2.2'  or incidences.laboratory == 'aula 3.1'  or incidences.laboratory == 'aula 3.2' }">
-				<h:graphicImage value="resources/img/computer_no.png"
-					rendered="#{incidences.isNoPc(num)}" />
-				<h:graphicImage value="resources/img/computer_ok.png"
-					rendered="#{incidences.isPcOk(num)}" />
-				<h:graphicImage value="resources/img/computer_rep.png"
-					rendered="#{incidences.isPcRepair(num)}" />
-				<h:graphicImage value="resources/img/computer_warn.png"
-					rendered="#{incidences.isHasIncidence(num)}" />
-				<f:ajax render="manage manageForm incidence incidenceForm" />
-			</h:commandLink>
-			<!-- libre acceso -->
-			<ui:repeat var="num" value="#{incidences.auxArray}"
-				rendered="#{incidences.laboratory == 'libre acceso'}">
-				<h:commandLink
-					action="#{incidences.doSelectComputer(num.intValue())}">
-					<h:graphicImage value="resources/img/computer_no.png"
-						rendered="#{incidences.isNoPc(num)}" />
-					<h:graphicImage value="resources/img/computer_ok.png"
-						rendered="#{incidences.isPcOk(num)}" />
-					<h:graphicImage value="resources/img/computer_rep.png"
-						rendered="#{incidences.isPcRepair(num)}" />
-					<h:graphicImage value="resources/img/computer_warn.png"
-						rendered="#{incidences.isHasIncidence(num)}" />
-					<f:ajax render="manage manageForm incidence incidenceForm" />
-					<ui:fragment
-						rendered="#{num.intValue() == 7 or num.intValue() == 15 or num.intValue() == 23 or num.intValue() == 31 or num.intValue() == 39}">
-						<div></div>
-					</ui:fragment>
-				</h:commandLink>
-			</ui:repeat>
-			<!-- sotanos -->
-			<ui:repeat var="num" value="#{incidences.auxArray}"
-				rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
-				<h:commandLink
-					action="#{incidences.doSelectComputer(num.intValue())}">
-					<h:graphicImage value="resources/img/computer_no.png"
-						rendered="#{incidences.isNoPc(num)}" />
-					<h:graphicImage value="resources/img/computer_ok.png"
-						rendered="#{incidences.isPcOk(num)}" />
-					<h:graphicImage value="resources/img/computer_rep.png"
-						rendered="#{incidences.isPcRepair(num)}" />
-					<h:graphicImage value="resources/img/computer_warn.png"
-						rendered="#{incidences.isHasIncidence(num)}" />
-					<f:ajax render="manage manageForm incidence incidenceForm" />
-					<ui:fragment
-						rendered="#{num.intValue() == 0 or num.intValue() == 7 or num.intValue() == 14 or num.intValue() == 21}">
-						<div></div>
-					</ui:fragment>
-				</h:commandLink>
-			</ui:repeat>
-		</o:form>
-	</h:panelGroup>
-	<div></div>
-	<h:panelGroup id="manage" rendered="#{incidences.laboratory != null}">
-		<o:form id="manageForm">
-			<h:panelGroup
-				rendered="#{loginController.intern and (incidences.hasIncidence or incidences.pcRepair)}">
-				<h2>Incidencias</h2>
-				<ui:repeat var="incidence" value="#{incidences.unresolvedIncidences()}">
-					<h:outputLabel value="#{incidence.toString()}" />
-				</ui:repeat>
+			<h1>
+				Incidencias
+				<h:outputFormat value="{0}"
+					rendered="#{incidences.laboratory != null}">
+					<f:param value="#{incidences.laboratory}" />
+				</h:outputFormat>
+			</h1>
+			<h:panelGroup rendered="#{incidences.laboratory == null}">
+				<a href="incidences.xhtml?lab=libre%20acceso">Libre acceso</a>
+				<br />
+				<a href="incidences.xhtml?lab=s01">s01</a>
+				<br />
+				<a href="incidences.xhtml?lab=s02">s02</a>
+				<br />
+				<a href="incidences.xhtml?lab=s03">s03</a>
+				<br />
+				<a href="incidences.xhtml?lab=s04">s04</a>
+				<br />
+				<a href="incidences.xhtml?lab=s05">s05</a>
+				<br />
+				<a href="incidences.xhtml?lab=s06">s06</a>
+				<br />
+				<a href="incidences.xhtml?lab=aula%202.1">aula 2.1</a>
+				<br />
+				<a href="incidences.xhtml?lab=aula%202.2">aula 2.2</a>
+				<br />
+				<a href="incidences.xhtml?lab=aula%203.1">aula 3.1</a>
+				<br />
+				<a href="incidences.xhtml?lab=aula%203.2">aula 3.2</a>
 			</h:panelGroup>
-			<h:panelGroup id="incidence"
-				rendered="#{!incidences.noPc and !incidences.pcRepair}">
-				<o:form id="incidenceForm">
-					<h2>Nueva incidencia</h2>
-					<h:outputLabel value="Descripción:" />
-					<h:inputTextarea id="description" value="#{incidences.description}" />
-					<br />
-					<h:selectManyCheckbox id="types" value="#{incidences.types}">
-						<f:selectItem itemValue="Monitor" itemLabel="Monitor" />
-						<f:selectItem itemValue="Cpu" itemLabel="Cpu" />
-						<f:selectItem itemValue="Teclado" itemLabel="Teclado" />
-						<f:selectItem itemValue="Raton" itemLabel="Ratón" />
-						<f:selectItem itemValue="Red" itemLabel="Red" />
-						<f:selectItem itemValue="Inicio de sesión"
-							itemLabel="Inicio de sesión" />
-						<f:selectItem itemValue="Software"
-							itemLabel="Software (Especificar)" />
-						<f:selectItem itemValue="Otros" itemLabel="Otros (Especificar)" />
-						<f:selectItem itemValue="Windows" itemLabel="Windows" />
-						<f:selectItem itemValue="Linux" itemLabel="Linux" />
-					</h:selectManyCheckbox>
-					<h:commandButton action="#{incidences.doAddIncidence()}"
-						value="Mandar incidencia">
-						<f:ajax execute="description types"
-							render="computer computerForm manage manageForm" />
-					</h:commandButton>
+			<h:panelGroup id="computer"
+				rendered="#{incidences.laboratory != null}">
+				<o:form id="computerForm">
+					<!-- aulas -->
+
+					<h:commandLink action="#{incidences.doSelectComputer(0)}"
+						rendered="#{incidences.laboratory == 'aula 2.1' or incidences.laboratory == 'aula 2.2'  or incidences.laboratory == 'aula 3.1'  or incidences.laboratory == 'aula 3.2' }">
+						<h:graphicImage value="resources/img/computer_no.png"
+							rendered="#{incidences.isNoPc(num)}" />
+						<h:graphicImage value="resources/img/computer_ok.png"
+							rendered="#{incidences.isPcOk(num)}" />
+						<h:graphicImage value="resources/img/computer_rep.png"
+							rendered="#{incidences.isPcRepair(num)}" />
+						<h:graphicImage value="resources/img/computer_warn.png"
+							rendered="#{incidences.isHasIncidence(num)}" />
+						<f:ajax render="manage manageForm incidence incidenceForm" />
+					</h:commandLink>
+					<!-- libre acceso -->
+					<ui:repeat var="num" value="#{incidences.auxArray}"
+						rendered="#{incidences.laboratory == 'libre acceso'}">
+						<h:commandLink
+							action="#{incidences.doSelectComputer(num.intValue())}">
+							<h:graphicImage value="resources/img/computer_no.png"
+								rendered="#{incidences.isNoPc(num)}" />
+							<h:graphicImage value="resources/img/computer_ok.png"
+								rendered="#{incidences.isPcOk(num)}" />
+							<h:graphicImage value="resources/img/computer_rep.png"
+								rendered="#{incidences.isPcRepair(num)}" />
+							<h:graphicImage value="resources/img/computer_warn.png"
+								rendered="#{incidences.isHasIncidence(num)}" />
+							<f:ajax render="manage manageForm incidence incidenceForm" />
+							<ui:fragment
+								rendered="#{num.intValue() == 7 or num.intValue() == 15 or num.intValue() == 23 or num.intValue() == 31 or num.intValue() == 39}">
+								<div></div>
+							</ui:fragment>
+						</h:commandLink>
+					</ui:repeat>
+					<!-- sotanos -->
+					<ui:repeat var="num" value="#{incidences.auxArray}"
+						rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
+						<h:commandLink
+							action="#{incidences.doSelectComputer(num.intValue())}">
+							<h:graphicImage value="resources/img/computer_no.png"
+								rendered="#{incidences.isNoPc(num)}" />
+							<h:graphicImage value="resources/img/computer_ok.png"
+								rendered="#{incidences.isPcOk(num)}" />
+							<h:graphicImage value="resources/img/computer_rep.png"
+								rendered="#{incidences.isPcRepair(num)}" />
+							<h:graphicImage value="resources/img/computer_warn.png"
+								rendered="#{incidences.isHasIncidence(num)}" />
+							<f:ajax render="manage manageForm incidence incidenceForm" />
+							<ui:fragment
+								rendered="#{num.intValue() == 0 or num.intValue() == 7 or num.intValue() == 14 or num.intValue() == 21}">
+								<div></div>
+							</ui:fragment>
+						</h:commandLink>
+					</ui:repeat>
 				</o:form>
 			</h:panelGroup>
-			<h:panelGroup rendered="#{loginController.intern}">
-				<h2>Alta baja Pcs</h2>
-				<h:outputLabel value="Etiqueta pc: #{incidences.selectedLabelNum}" />
-				<h:inputText id="numPc" value="#{incidences.labelNum}"
-					rendered="#{incidences.noPc}" />
-				<h:commandButton action="#{incidences.doAddComputer()}"
-					value="Dar de alta pc" rendered="#{incidences.noPc}">
-					<f:ajax execute="numPc"
-						render="computer computerForm manage manageForm" />
-				</h:commandButton>
-				<h:commandButton action="#{incidences.doRemoveComputer()}"
-					value="Dar de baja pc" rendered="#{!incidences.noPc}">
-					<f:ajax render="computer computerForm manage manageForm" />
-				</h:commandButton>
-				<h:commandButton action="#{incidences.doSendComputerToRepair()}"
-					value="Pc en reparación"
-					rendered="#{!incidences.noPc and !incidences.pcRepair}">
-					<f:ajax render="computer computerForm manage manageForm" />
-				</h:commandButton>
-				<h:commandButton action="#{incidences.doFinishIncidences()}"
-					value="Cerrar incidencia"
-					rendered="#{incidences.hasIncidence or incidences.pcRepair}">
-					<f:ajax render="computer computerForm manage manageForm" />
-				</h:commandButton>
+			<div></div>
+			<h:panelGroup id="manage" rendered="#{incidences.laboratory != null}">
+				<o:form id="manageForm">
+					<h:panelGroup
+						rendered="#{loginController.intern and (incidences.hasIncidence or incidences.pcRepair)}">
+						<h2>Incidencias</h2>
+						<ui:repeat var="incidence"
+							value="#{incidences.unresolvedIncidences()}">
+							<h:outputLabel value="#{incidence.toString()}" />
+						</ui:repeat>
+					</h:panelGroup>
+					<h:panelGroup id="incidence"
+						rendered="#{!incidences.noPc and !incidences.pcRepair}">
+						<o:form id="incidenceForm">
+							<h2>Nueva incidencia</h2>
+							<h:outputLabel value="Descripción:" />
+							<h:inputTextarea id="description"
+								value="#{incidences.description}" />
+							<br />
+							<h:selectManyCheckbox id="types" value="#{incidences.types}">
+								<f:selectItem itemValue="Monitor" itemLabel="Monitor" />
+								<f:selectItem itemValue="Cpu" itemLabel="Cpu" />
+								<f:selectItem itemValue="Teclado" itemLabel="Teclado" />
+								<f:selectItem itemValue="Raton" itemLabel="Ratón" />
+								<f:selectItem itemValue="Red" itemLabel="Red" />
+								<f:selectItem itemValue="Inicio de sesión"
+									itemLabel="Inicio de sesión" />
+								<f:selectItem itemValue="Software"
+									itemLabel="Software (Especificar)" />
+								<f:selectItem itemValue="Otros" itemLabel="Otros (Especificar)" />
+								<f:selectItem itemValue="Windows" itemLabel="Windows" />
+								<f:selectItem itemValue="Linux" itemLabel="Linux" />
+							</h:selectManyCheckbox>
+							<h:commandButton action="#{incidences.doAddIncidence()}"
+								value="Mandar incidencia">
+								<f:ajax execute="description types"
+									render="computer computerForm manage manageForm" />
+							</h:commandButton>
+						</o:form>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{loginController.intern}">
+						<h2>Alta baja Pcs</h2>
+						<h:outputLabel value="Etiqueta pc: #{incidences.selectedLabelNum}" />
+						<h:inputText id="numPc" value="#{incidences.labelNum}"
+							rendered="#{incidences.noPc}" />
+						<h:commandButton action="#{incidences.doAddComputer()}"
+							value="Dar de alta pc" rendered="#{incidences.noPc}">
+							<f:ajax execute="numPc"
+								render="computer computerForm manage manageForm" />
+						</h:commandButton>
+						<h:commandButton action="#{incidences.doRemoveComputer()}"
+							value="Dar de baja pc" rendered="#{!incidences.noPc}">
+							<f:ajax render="computer computerForm manage manageForm" />
+						</h:commandButton>
+						<h:commandButton action="#{incidences.doSendComputerToRepair()}"
+							value="Pc en reparación"
+							rendered="#{!incidences.noPc and !incidences.pcRepair}">
+							<f:ajax render="computer computerForm manage manageForm" />
+						</h:commandButton>
+						<h:commandButton action="#{incidences.doFinishIncidences()}"
+							value="Cerrar incidencia"
+							rendered="#{incidences.hasIncidence or incidences.pcRepair}">
+							<f:ajax render="computer computerForm manage manageForm" />
+						</h:commandButton>
+					</h:panelGroup>
+				</o:form>
 			</h:panelGroup>
-		</o:form>
-	</h:panelGroup>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>
