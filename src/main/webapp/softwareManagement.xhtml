@@ -132,7 +132,7 @@
 								        </h:column>
 										<h:column>
 											<f:facet name="header">URL de descarga</f:facet>    				
-								            #{software.downloadURL}
+								            <a href="#{software.downloadURL}">#{software.downloadURL}</a>
 								        </h:column>
 										<h:column>
 											<f:facet name="header">Tipo</f:facet>    				
@@ -154,8 +154,6 @@
 												<f:ajax render="@form" />
 											</h:commandLink>
 										</h:column>
-
-										<div></div>
 									</h:dataTable>
 								</div>
 							</o:form>

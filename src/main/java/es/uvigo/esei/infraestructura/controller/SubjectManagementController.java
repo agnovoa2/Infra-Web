@@ -29,8 +29,10 @@ public class SubjectManagementController {
 
 	private String newSubjectName;
 	private String code;
+	private String newCode;
 	private String subjectName;
 	private String grade;
+	private boolean editable = false;
 
 	public void doAddSubject() {
 		subjectGateway.create(new Subject(getSubjectName(), getCode(), getGrade().toLowerCase()));
@@ -67,18 +69,27 @@ public class SubjectManagementController {
 		setSubjectName(subjectGateway.getCurrent().getSubjectName());
 		setNewSubjectName(subjectGateway.getCurrent().getSubjectName());
 		setCode(subjectGateway.getCurrent().getCode());
+		setNewCode(subjectGateway.getCurrent().getCode());
 		if (subjectGateway.getCurrent().getDegree().equals(SubjectDegree.GRADE))
 			setGrade("Grado");
 		if (subjectGateway.getCurrent().getDegree().equals(SubjectDegree.MASTER))
 			setGrade("Máster");
+		editable = true;
 	}
 
 	public void doEditSubject() {
-		subjectGateway.findByCode(getCode());
-		subjectGateway.getCurrent().setSubjectName(getNewSubjectName());
-		subjectGateway.getCurrent().setCode(getCode());
-		subjectGateway.getCurrent().setDegree(getGrade());
-		subjectGateway.save();
+		if (editable) {
+			subjectGateway.findByCode(getCode());
+			subjectGateway.getCurrent().setSubjectName(getNewSubjectName());
+			subjectGateway.getCurrent().setCode(getNewCode());
+			subjectGateway.getCurrent().setDegree(getGrade());
+			subjectGateway.save();
+			subjectName = "";
+			newSubjectName = "";
+			code = "";
+			newCode = "";
+			editable = false;
+		}
 	}
 
 	public List<Subject> getAllSubjects() {
@@ -115,5 +126,21 @@ public class SubjectManagementController {
 
 	public void setNewSubjectName(String newSubjectName) {
 		this.newSubjectName = newSubjectName;
+	}
+
+	public String getNewCode() {
+		return newCode;
+	}
+
+	public void setNewCode(String newCode) {
+		this.newCode = newCode;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 }
