@@ -26,13 +26,14 @@ public class ConsumableManagementController {
 	@Inject
 	private ConsumableGatewayBean consumableGateway;
 
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	
 	private String newConsumableName;
 	private String consumableName;
 	private String description;
 	private String type;
 	private String color;
+	private String message;
+	private boolean editable = false;
+	private boolean error = false;
 
 	public void doAddConsumable() throws IOException {
 		try {
@@ -42,8 +43,10 @@ public class ConsumableManagementController {
 				this.consumableGateway.create(new Consumable(consumableName, type, description));
 			}
 			this.consumableGateway.save();
+			error = false;
 		} catch (SQLException e) {
-			context.redirect("consumableManagement.xhtml?error=true");
+			message = e.getMessage();
+			error = true;
 		}
 	}
 
@@ -73,16 +76,28 @@ public class ConsumableManagementController {
 		setDescription(consumableGateway.getCurrent().getDescription());
 		if (type.equals(ConsumableType.TONER) || type.equals(ConsumableType.CARTRIDGE))
 			setColor(consumableGateway.getCurrent().getColour());
+		editable = true;
 	}
 
 	public void doEditConsumable() {
 
-		consumableGateway.find(this.consumableName);
-		if (type.equals(ConsumableType.TONER) || type.equals(ConsumableType.CARTRIDGE))
-			consumableGateway.getCurrent().setColour(color);
-		consumableGateway.getCurrent().setDescription(description);
-		consumableGateway.getCurrent().setConsumableType(type);
-		consumableGateway.save();
+		if (editable) {
+			consumableGateway.find(this.consumableName);
+			if (type.equals(ConsumableType.TONER) || type.equals(ConsumableType.CARTRIDGE)) {
+				consumableGateway.getCurrent().setColour(color);
+			} else {
+				consumableGateway.getCurrent().setColour("");
+			}
+			consumableGateway.getCurrent().setConsumableName(newConsumableName);
+			consumableGateway.getCurrent().setDescription(description);
+			consumableGateway.getCurrent().setConsumableType(type);
+			consumableGateway.save();
+			description = "";
+			consumableName = "";
+			newConsumableName = "";
+		}
+		editable = false;
+		error = false;
 	}
 
 	public String getConsumableName() {
@@ -179,5 +194,29 @@ public class ConsumableManagementController {
 
 	public void setNewConsumableName(String newConsumableName) {
 		this.newConsumableName = newConsumableName;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 }
