@@ -26,15 +26,19 @@ public class SoftwareManagementController {
 	private String newSoftwareName;
 	private String softwareName;
 	private String downloadURL;
-	private boolean editable = false;
 	private int type;
+	private String message;
+	private boolean editable = false;
+	private boolean error = false;
 
 	public void doAddSoftware() {
 		try {
 			softwareGateway.create(new Software(getSoftwareName(), getType(), getDownloadURL()));
 			softwareGateway.save();
+			error = false;
 		} catch (SQLException e) {
-			// TODO hacer cosas con error
+			message = e.getMessage();
+			error = true;
 		}
 	}
 
@@ -69,15 +73,21 @@ public class SoftwareManagementController {
 	}
 
 	public void doEditSoftware() {
-		if (editable) {
-			softwareGateway.find(getSoftwareName());
-			softwareGateway.getCurrent().setSoftwareName(getNewSoftwareName());
-			softwareGateway.getCurrent().setDownloadURL(getDownloadURL());
-			softwareGateway.getCurrent().setType(getType());
-			softwareGateway.save();
-			setNewSoftwareName("");
-			setDownloadURL("");
-			editable = false;
+		try {
+			if (editable) {
+				softwareGateway.find(getSoftwareName());
+				softwareGateway.getCurrent().setSoftwareName(getNewSoftwareName());
+				softwareGateway.getCurrent().setDownloadURL(getDownloadURL());
+				softwareGateway.getCurrent().setType(getType());
+				softwareGateway.save();
+				setNewSoftwareName("");
+				setDownloadURL("");
+				editable = false;
+				error = false;
+			}
+		} catch (Exception e) {
+			message = "Ya existe ese software en la base de datos.";
+			error = true;
 		}
 	}
 
@@ -123,5 +133,21 @@ public class SoftwareManagementController {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 }

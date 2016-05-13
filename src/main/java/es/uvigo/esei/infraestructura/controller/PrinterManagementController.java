@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Model;
@@ -30,21 +28,24 @@ public class PrinterManagementController {
 	@Inject
 	private UserGatewayBean userGateway;
 
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	
 	private String newUbication;
 	private String ubication;
 	private int inventoryNumber;
 	private String model;
 	private String newModel;
+	private String message;
+	private boolean editable = false;
+	private boolean error = false;
 
 	public void doAddPrinter() throws IOException {
-		try{
-		this.printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
-		this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
-		this.printerGateway.save();
+		try {
+			this.printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
+			this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
+			this.printerGateway.save();
+			error = false;
 		} catch (SQLException e) {
-			context.redirect("printerManagement.xhtml");
+			error = true;
+			message = e.getMessage();
 		}
 	}
 
@@ -72,14 +73,26 @@ public class PrinterManagementController {
 		printerGateway.find(inventoryNumber);
 		setNewModel(printerGateway.getCurrent().getModel().getModelName());
 		setNewUbication(printerGateway.getCurrent().getUbication());
+		editable = true;
 	}
 
 	public void doEditPrinter() {
-
-		printerGateway.find(inventoryNumber);
-		printerGateway.getCurrent().setUbication(getNewUbication());
-		printerGateway.getCurrent().setModel(modelGateway.find(getNewModel()));
-		printerGateway.save();
+		try {
+			printerGateway.find(inventoryNumber);
+			printerGateway.getCurrent().setUbication(getNewUbication());
+			printerGateway.getCurrent().setModel(modelGateway.find(getNewModel()));
+			printerGateway.save();
+			newUbication = "";
+			ubication = "";
+			inventoryNumber = 0;
+			model = "";
+			newModel = "";
+			error = false;
+			editable = false;
+		} catch (Exception e) {
+			message = "No pueden existir 2 impresoras con el mismo número de inventario.";
+			error = true;
+		}
 	}
 
 	public List<Printer> getAllPrinter() {
@@ -128,6 +141,30 @@ public class PrinterManagementController {
 
 	public void setNewModel(String newModel) {
 		this.newModel = newModel;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 
 }

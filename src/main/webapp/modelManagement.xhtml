@@ -17,280 +17,474 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Gestión de modelos</h2>
-	<h3>Alta modelo</h3>
-	<o:form>
-		<h:outputLabel value="Nombre modelo" />
-		<h:inputText id="modelName" value="#{modelManagement.modelName}"
-			required="true"
-			requiredMessage="Debe introducir un nombre de modelo." />
-		<h:message id="m1" for="modelName" style="color:red" />
-		<br />
-		<h:outputLabel value="Marca" />
-		<h:inputText id="modelTradeMark" value="#{modelManagement.tradeMark}"
-			required="true"
-			requiredMessage="Debe introducir una marca de modelo." />
-		<h:message id="m2" for="modelTradeMark" style="color:red" />
-		<br />
-		<h:outputLabel value="Consumible Negro" />
-		<h:selectOneMenu value="#{modelManagement.blackConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.blackConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Negro Fotográfico" />
-		<h:selectOneMenu value="#{modelManagement.photoBlackConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.photoBlackConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Cyan" />
-		<h:selectOneMenu value="#{modelManagement.cyanConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.cyanConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Cyan Claro" />
-		<h:selectOneMenu value="#{modelManagement.lightCyanConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.lightCyanConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Magenta" />
-		<h:selectOneMenu value="#{modelManagement.magentaConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.magentaConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Magenta Claro" />
-		<h:selectOneMenu value="#{modelManagement.lightMagentaConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.lightMagentaConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Amarillo" />
-		<h:selectOneMenu value="#{modelManagement.yellowConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.yellowConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Consumible Tricolor" />
-		<h:selectOneMenu value="#{modelManagement.tricolorConsumable}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.tricolorConsumables}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Recipiente de residuos" />
-		<h:selectOneMenu value="#{modelManagement.garbageUnit}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.garbageUnits}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Tambor" />
-		<h:selectOneMenu value="#{modelManagement.drum}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.drumUnits}" var="consumable"
-				itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Cinturón de arrastre" />
-		<h:selectOneMenu value="#{modelManagement.beltUnit}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.beltUnits}" var="consumable"
-				itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Kit de transferencia" />
-		<h:selectOneMenu value="#{modelManagement.transferKit}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.transferKitUnits}"
-				var="consumable" itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="Fusor" />
-		<h:selectOneMenu value="#{modelManagement.fuser}">
-			<f:selectItem itemLabel="N/A" itemValue="N/A" />
-			<f:selectItems value="#{modelManagement.fuserUnits}" var="consumable"
-				itemValue="#{consumable.consumableName}"
-				itemLabel="#{consumable.consumableName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:commandButton action="#{modelManagement.doAddModel()}"
-			value="Dar de alta impresora">
-			<f:ajax execute="@form" render="@form model modelForm" />
-		</h:commandButton>
-	</o:form>
-	<h3>Baja de modelos</h3>
-	<h:panelGroup id="model">
-		<o:form id="modelForm">
-			<ui:repeat var="model" value="#{modelManagement.allModel}">
-				<h:outputLabel value="#{model.modelName}" />
-				&nbsp;
-				<h:commandLink
-					action="#{modelManagement.doRemoveModel(model.modelName)}"
-					value="eliminar">
-					<f:ajax render="@form" />
-				</h:commandLink>
-				&nbsp;
-				<h:commandLink
-					action="#{modelManagement.doSetEditModel(model.modelName)}"
-					value="editar">
-					<f:ajax render="edit editForm" />
-				</h:commandLink>
-				<h4>Consumibles de impresora</h4>
-				<ui:repeat var="consumable" value="#{model.consumables}">
-					<h:outputLabel value="#{consumable.toString()}" />
-					<div />
-				</ui:repeat>
-				<div></div>
-			</ui:repeat>
-		</o:form>
-	</h:panelGroup>
-	<h3>Editar modelo</h3>
-	<h:panelGroup id="edit">
-		<o:form id="editForm">
-			<h:outputLabel value="Nombre modelo" />
-			<h:inputText id="modelNameEdit"
-				value="#{modelManagement.newModelName}" required="true"
-				requiredMessage="Debe introducir un nombre de modelo." />
-			<h:message id="m3" for="modelNameEdit" style="color:red" />
-			<br />
-			<h:outputLabel value="Marca" />
-			<h:inputText id="modelTrademarkEdit"
-				value="#{modelManagement.tradeMark}" required="true"
-				requiredMessage="Debe introducir una marca de modelo." />
-			<h:message id="m4" for="modelTrademarkEdit" style="color:red" />
-			<br />
-			<h:outputLabel value="Consumible Negro" />
-			<h:selectOneMenu value="#{modelManagement.blackConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.blackConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Negro Fotográfico" />
-			<h:selectOneMenu value="#{modelManagement.photoBlackConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.photoBlackConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Cyan" />
-			<h:selectOneMenu value="#{modelManagement.cyanConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.cyanConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Cyan Claro" />
-			<h:selectOneMenu value="#{modelManagement.lightCyanConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.lightCyanConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Magenta" />
-			<h:selectOneMenu value="#{modelManagement.magentaConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.magentaConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Magenta Claro" />
-			<h:selectOneMenu value="#{modelManagement.lightMagentaConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.lightMagentaConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Amarillo" />
-			<h:selectOneMenu value="#{modelManagement.yellowConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.yellowConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Consumible Tricolor" />
-			<h:selectOneMenu value="#{modelManagement.tricolorConsumable}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.tricolorConsumables}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Recipiente de residuos" />
-			<h:selectOneMenu value="#{modelManagement.garbageUnit}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.garbageUnits}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Tambor" />
-			<h:selectOneMenu value="#{modelManagement.drum}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.drumUnits}" var="consumable"
-					itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Cinturón de arrastre" />
-			<h:selectOneMenu value="#{modelManagement.beltUnit}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.beltUnits}" var="consumable"
-					itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Kit de transferencia" />
-			<h:selectOneMenu value="#{modelManagement.transferKit}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.transferKitUnits}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:outputLabel value="Fusor" />
-			<h:selectOneMenu value="#{modelManagement.fuser}">
-				<f:selectItem itemLabel="N/A" itemValue="N/A" />
-				<f:selectItems value="#{modelManagement.fuserUnits}"
-					var="consumable" itemValue="#{consumable.consumableName}"
-					itemLabel="#{consumable.consumableName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:commandButton action="#{modelManagement.doEditModel()}"
-				value="Editar modelo">
-				<f:ajax execute="@form" render="@form model modelForm" />
-			</h:commandButton>
-		</o:form>
-	</h:panelGroup>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-tv" /> Gestión de modelos de impresora
+			</h1>
+			<h:panelGroup id="error">
+				<h:panelGroup rendered="#{modelManagement.error}">
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-ban"></i> !Error!
+						</h4>
+						#{modelManagement.message}
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Dar de alta modelo de impresora</h3>
+						</div>
+						<h:panelGroup>
+							<o:form>
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Nombre modelo" />
+										<h:inputText id="modelName" class="form-control"
+											value="#{modelManagement.modelName}" required="true"
+											requiredMessage="Debe introducir un nombre de modelo." />
+										<h:message id="m1" for="modelName" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Marca" />
+										<h:inputText id="modelTradeMark" class="form-control"
+											value="#{modelManagement.tradeMark}" required="true"
+											requiredMessage="Debe introducir una marca de modelo." />
+										<h:message id="m2" for="modelTradeMark" style="color:red" />
+									</div>
+									<div class="row">
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Negro" />
+												<h:selectOneMenu value="#{modelManagement.blackConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems value="#{modelManagement.blackConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Negro Fotográfico" />
+												<h:selectOneMenu
+													value="#{modelManagement.photoBlackConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.photoBlackConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Cyan" />
+												<h:selectOneMenu value="#{modelManagement.cyanConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems value="#{modelManagement.cyanConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Cyan Claro" />
+												<h:selectOneMenu
+													value="#{modelManagement.lightCyanConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.lightCyanConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Magenta" />
+												<h:selectOneMenu
+													value="#{modelManagement.magentaConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.magentaConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Magenta Claro" />
+												<h:selectOneMenu
+													value="#{modelManagement.lightMagentaConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.lightMagentaConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Amarillo" />
+												<h:selectOneMenu value="#{modelManagement.yellowConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems value="#{modelManagement.yellowConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Tricolor" />
+												<h:selectOneMenu
+													value="#{modelManagement.tricolorConsumable}"
+													class="form-control">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.tricolorConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Recipiente de residuos" />
+										<h:selectOneMenu value="#{modelManagement.garbageUnit}"
+											class="form-control">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.garbageUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Tambor" />
+										<h:selectOneMenu value="#{modelManagement.drum}"
+											class="form-control">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.drumUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Cinturón de arrastre" />
+										<h:selectOneMenu value="#{modelManagement.beltUnit}"
+											class="form-control">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.beltUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Kit de transferencia" />
+										<h:selectOneMenu value="#{modelManagement.transferKit}"
+											class="form-control">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.transferKitUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Fusor" />
+										<h:selectOneMenu value="#{modelManagement.fuser}"
+											class="form-control">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.fuserUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="box-footer">
+										<h:commandButton action="#{modelManagement.doAddModel()}"
+											value="Dar de alta modelo de impresora"
+											class="btn btn-primary pull-right">
+											<f:ajax execute="@form" render="@form model modelForm error" />
+										</h:commandButton>
+									</div>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Editar modelo de impresora</h3>
+						</div>
+						<h:panelGroup id="edit">
+							<o:form id="editForm">
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Nombre modelo" />
+										<h:inputText id="modelName" class="form-control"
+											disabled="#{!modelManagement.editable}"
+											value="#{modelManagement.newModelName}" required="true"
+											requiredMessage="Debe introducir un nombre de modelo." />
+										<h:message id="m1" for="modelName" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Marca" />
+										<h:inputText id="modelTradeMark" class="form-control"
+											disabled="#{!modelManagement.editable}"
+											value="#{modelManagement.tradeMark}" required="true"
+											requiredMessage="Debe introducir una marca de modelo." />
+										<h:message id="m2" for="modelTradeMark" style="color:red" />
+									</div>
+									<div class="row">
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Negro" />
+												<h:selectOneMenu value="#{modelManagement.blackConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems value="#{modelManagement.blackConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Negro Fotográfico" />
+												<h:selectOneMenu
+													value="#{modelManagement.photoBlackConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.photoBlackConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Cyan" />
+												<h:selectOneMenu value="#{modelManagement.cyanConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems value="#{modelManagement.cyanConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Cyan Claro" />
+												<h:selectOneMenu
+													value="#{modelManagement.lightCyanConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.lightCyanConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Magenta" />
+												<h:selectOneMenu
+													value="#{modelManagement.magentaConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.magentaConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Magenta Claro" />
+												<h:selectOneMenu
+													value="#{modelManagement.lightMagentaConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.lightMagentaConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Amarillo" />
+												<h:selectOneMenu value="#{modelManagement.yellowConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems value="#{modelManagement.yellowConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-xs-6">
+											<div class="form-group">
+												<h:outputLabel value="Consumible Tricolor" />
+												<h:selectOneMenu
+													value="#{modelManagement.tricolorConsumable}"
+													class="form-control"
+													disabled="#{!modelManagement.editable}">
+													<f:selectItem itemLabel="N/A" itemValue="N/A" />
+													<f:selectItems
+														value="#{modelManagement.tricolorConsumables}"
+														var="consumable" itemValue="#{consumable.consumableName}"
+														itemLabel="#{consumable.consumableName}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Recipiente de residuos" />
+										<h:selectOneMenu value="#{modelManagement.garbageUnit}"
+											class="form-control" disabled="#{!modelManagement.editable}">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.garbageUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Tambor" />
+										<h:selectOneMenu value="#{modelManagement.drum}"
+											class="form-control" disabled="#{!modelManagement.editable}">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.drumUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Cinturón de arrastre" />
+										<h:selectOneMenu value="#{modelManagement.beltUnit}"
+											class="form-control" disabled="#{!modelManagement.editable}">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.beltUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Kit de transferencia" />
+										<h:selectOneMenu value="#{modelManagement.transferKit}"
+											class="form-control" disabled="#{!modelManagement.editable}">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.transferKitUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Fusor" />
+										<h:selectOneMenu value="#{modelManagement.fuser}"
+											class="form-control" disabled="#{!modelManagement.editable}">
+											<f:selectItem itemLabel="N/A" itemValue="N/A" />
+											<f:selectItems value="#{modelManagement.fuserUnits}"
+												var="consumable" itemValue="#{consumable.consumableName}"
+												itemLabel="#{consumable.consumableName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="box-footer">
+										<h:commandButton action="#{modelManagement.doEditModel()}"
+											value="Editar modelo de impresora"
+											class="btn btn-primary pull-right"
+											disabled="#{!modelManagement.editable}">
+											<f:ajax execute="@form" render="@form model modelForm error" />
+										</h:commandButton>
+									</div>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Listado de modelos</h3>
+						</div>
+						<h:panelGroup id="model">
+							<o:form id="modelForm">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="model" value="#{modelManagement.allModel}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Nombre</f:facet>    				
+								            #{model.modelName}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Marca</f:facet>
+											#{model.tradeMark}
+										</h:column>
+										<h:column>
+											<f:facet name="header">Consumibles</f:facet>
+											<ui:repeat var="consumable" value="#{model.consumables}">
+								            	#{consumable.toString()}
+								            	<br />
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Editar</f:facet>
+											<h:commandLink
+												action="#{modelManagement.doSetEditModel(model.modelName)}">
+												<i class="fa fa-edit" />
+												<f:ajax render="edit editForm" />
+											</h:commandLink>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Eliminar</f:facet>
+											<h:commandLink
+												action="#{modelManagement.doRemoveModel(model.modelName)}">
+												<i class="fa fa-remove" />
+												<f:ajax render="@form" />
+											</h:commandLink>
+										</h:column>
+									</h:dataTable>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

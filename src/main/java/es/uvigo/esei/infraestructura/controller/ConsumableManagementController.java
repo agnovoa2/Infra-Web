@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
@@ -80,24 +78,28 @@ public class ConsumableManagementController {
 	}
 
 	public void doEditConsumable() {
-
-		if (editable) {
-			consumableGateway.find(this.consumableName);
-			if (type.equals(ConsumableType.TONER) || type.equals(ConsumableType.CARTRIDGE)) {
-				consumableGateway.getCurrent().setColour(color);
-			} else {
-				consumableGateway.getCurrent().setColour("");
+		try {
+			if (editable) {
+				consumableGateway.find(this.consumableName);
+				consumableGateway.getCurrent().setConsumableName(newConsumableName);
+				consumableGateway.getCurrent().setDescription(description);
+				consumableGateway.getCurrent().setConsumableType(type);
+				if (consumableGateway.getCurrent().getConsumableType().equals(ConsumableType.TONER) || type.equals(ConsumableType.CARTRIDGE)) {
+					consumableGateway.getCurrent().setColour(color);
+				} else {
+					consumableGateway.getCurrent().setColour("");
+				}
+				consumableGateway.save();
+				description = "";
+				consumableName = "";
+				newConsumableName = "";
 			}
-			consumableGateway.getCurrent().setConsumableName(newConsumableName);
-			consumableGateway.getCurrent().setDescription(description);
-			consumableGateway.getCurrent().setConsumableType(type);
-			consumableGateway.save();
-			description = "";
-			consumableName = "";
-			newConsumableName = "";
+			editable = false;
+			error = false;
+		} catch (Exception e) {
+			message = "Ya existe un consumible en la base de datos con ese nombre.";
+			error = true;
 		}
-		editable = false;
-		error = false;
 	}
 
 	public String getConsumableName() {

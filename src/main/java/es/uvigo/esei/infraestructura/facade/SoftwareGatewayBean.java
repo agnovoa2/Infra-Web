@@ -47,7 +47,7 @@ public class SoftwareGatewayBean {
 			this.current = software;
 		}
 		else{
-			throw new SQLException();
+			throw new SQLException("Ya existe ese software en la base de datos.");
 		}
     }
 	

@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.facade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -51,9 +52,14 @@ public class SubjectGatewayBean {
 		return current;
 	}
 
-	public void create(Subject subject) {
-		this.em.persist(subject);
-		this.current = subject;
+	public void create(Subject subject) throws SQLException{
+		if (this.findByCode(subject.getCode()) == null) {
+			this.em.persist(subject);
+			this.current = subject;
+		}
+		else{
+			throw new SQLException("Ya existe esas asignatura en la base de datos.");
+		}
 	}
 
 	public void remove(int id) {

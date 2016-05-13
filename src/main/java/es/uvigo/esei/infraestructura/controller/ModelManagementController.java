@@ -1,14 +1,11 @@
 package es.uvigo.esei.infraestructura.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
@@ -23,8 +20,6 @@ import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 @ViewScoped
 @ManagedBean(name = "modelManagement")
 public class ModelManagementController {
-
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 
 	@Inject
 	private ModelGatewayBean modelGateway;
@@ -54,20 +49,25 @@ public class ModelManagementController {
 	private String transferKit;
 	private String beltUnit;
 	private String fuser;
+	private String message;
+	private boolean editable = false;
+	private boolean error = false;
 
 	public void doAddModel() throws IOException {
 		try {
 			Model model = new Model(getModelName(), getTradeMark());
 			List<Consumable> consumables = fillConsumableList();
 			if (consumables == null) {
-				throw new SQLException("El modelo debe contener algún consumible.");
+				throw new Exception("El modelo debe contener algún consumible.");
 			} else {
 				model.setConsumables(consumables);
 				this.modelGateway.create(model);
 				this.modelGateway.save();
 			}
-		} catch (SQLException e) {
-			context.redirect("modelManagement.xhtml?error=true");
+			error = false;
+		} catch (Exception e) {
+			message = e.getMessage();
+			error = true;
 		}
 	}
 
@@ -212,6 +212,7 @@ public class ModelManagementController {
 				break;
 			}
 		}
+		editable = true;
 	}
 
 	public void doEditModel() throws IOException {
@@ -222,8 +223,24 @@ public class ModelManagementController {
 			List<Consumable> consumables = fillConsumableList();
 			modelGateway.getCurrent().setConsumables(consumables);
 			modelGateway.save();
+			blackConsumable = "";
+			photoBlackConsumable = "";
+			yellowConsumable = "";
+			magentaConsumable = "";
+			lightMagentaConsumable = "";
+			cyanConsumable = "";
+			lightCyanConsumable = "";
+			tricolorConsumable = "";
+			garbageUnit = "";
+			drum = "";
+			transferKit = "";
+			beltUnit = "";
+			fuser = "";
+			error = false;
+			editable = false;
 		} catch (Exception e) {
-			context.redirect("modelManagement.xhtml?error=true");
+			message = "Ya existe un modelo con ese nombre en la base de datos.";
+			error = true;
 		}
 	}
 
@@ -409,5 +426,29 @@ public class ModelManagementController {
 
 	public void setFuser(String fuser) {
 		this.fuser = fuser;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 }

@@ -17,86 +17,177 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Gestión de impresoras</h2>
-	<h3>Alta impresoras</h3>
-	<o:form rendered="#{printerManagement.allModel.size() > 0}">
-		<h:outputLabel value="Ubicación" />
-		<h:inputText id="printerUbication"
-			value="#{printerManagement.ubication}" required="true"
-			a:placeholder="Ubicación de la impresora"
-			requiredMessage="Debe especificar la ubicación de la impresora" />
-		<h:message id="m1" for="printerUbication" style="color:red" />
-		<br />
-		<h:outputLabel value="Nº inventario" />
-		<h:inputText id="inventoryNumber"
-			value="#{printerManagement.inventoryNumber}" required="true"
-			a:placeholder="Nº de inventario de la impresora"
-			requiredMessage="Debe especificar el número de inventario de la impresora"
-			validatorMessage="Introduzca un número de inventario válido">
-			<f:validateLongRange maximum="65536" minimum="0" />
-		</h:inputText>
-		<h:message id="m2" for="inventoryNumber" style="color:red" />
-		<br />
-		<h:outputLabel value="Modelo" />
-		<h:selectOneMenu value="#{printerManagement.model}">
-			<f:selectItems value="#{printerManagement.allModel}" var="model"
-				itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
-		</h:selectOneMenu>
-		<br />
-		<h:commandButton action="#{printerManagement.doAddPrinter()}"
-			value="Dar de alta impresora">
-			<f:ajax execute="@form" render="@form printer printerForm" />
-		</h:commandButton>
-	</o:form>
-	<h3>Baja de impresoras</h3>
-	<h:panelGroup id="printer">
-		<o:form id="printerForm">
-			<ui:repeat var="printer" value="#{printerManagement.allPrinter}">
-				<h:outputLabel
-					value="#{printer.model.modelName} #{printer.ubication}" />
-				&nbsp;
-				<h:commandLink
-					action="#{printerManagement.doRemovePrinter(printer.inventoryNumber)}"
-					value="eliminar">
-					<f:ajax render="@form" />
-				</h:commandLink>
-				&nbsp;
-				<h:commandLink
-					action="#{printerManagement.doSetEditPrinter(printer.inventoryNumber)}"
-					value="editar">
-					<f:ajax render="edit editForm" />
-				</h:commandLink>
-				<h4>Usuarios de impresora</h4>
-				<ui:repeat var="user" value="#{printer.users}">
-					<h:outputLabel value="#{user.toString()}" />
-					<div />
-				</ui:repeat>
-
-
-				<div></div>
-			</ui:repeat>
-		</o:form>
-	</h:panelGroup>
-	<h3>Editar impresoras</h3>
-	<h:panelGroup id="edit">
-		<o:form id="editForm">
-			<h:outputLabel value="Ubicación" />
-			<h:inputText id="editUbication" value="#{printerManagement.newUbication}" required="true"
-			a:placeholder="Ubicación de la impresora"
-			requiredMessage="Debe especificar la ubicación de la impresora"/>
-			<h:message id="m3" for="editUbication" style="color:red" />
-			<br />
-			<h:outputLabel value="Modelo" />
-			<h:selectOneMenu value="#{printerManagement.newModel}">
-				<f:selectItems value="#{printerManagement.allModel}" var="model"
-					itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
-			</h:selectOneMenu>
-			<br />
-			<h:commandButton action="#{printerManagement.doEditPrinter()}"
-				value="Editar impresora">
-				<f:ajax execute="@form" render="@form printer printerForm" />
-			</h:commandButton>
-		</o:form>
-	</h:panelGroup>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-tv" /> Gestión de impresoras
+			</h1>
+			<h:panelGroup id="error">
+				<h:panelGroup rendered="#{printerManagement.error}">
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-ban"></i> !Error!
+						</h4>
+						#{printerManagement.message}
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Dar de alta impresora</h3>
+						</div>
+						<h:panelGroup>
+							<o:form>
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Ubicación" />
+										<h:inputText id="printerUbication" class="form-control"
+											value="#{printerManagement.ubication}" required="true"
+											a:placeholder="Ubicación de la impresora"
+											requiredMessage="Debe especificar la ubicación de la impresora" />
+										<h:message id="m1" for="printerUbication" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Nº inventario" />
+										<h:inputText id="inventoryNumber" class="form-control"
+											value="#{printerManagement.inventoryNumber}" required="true"
+											a:placeholder="Nº de inventario de la impresora"
+											requiredMessage="Debe especificar el número de inventario de la impresora"
+											validatorMessage="Introduzca un número de inventario válido">
+											<f:validateLongRange maximum="65536" minimum="0" />
+										</h:inputText>
+										<h:message id="m2" for="inventoryNumber" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Modelo" />
+										<h:selectOneMenu value="#{printerManagement.model}" class="form-control">
+											<f:selectItems value="#{printerManagement.allModel}"
+												var="model" itemValue="#{model.modelName}"
+												itemLabel="#{model.modelName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="box-footer">
+										<h:commandButton action="#{printerManagement.doAddPrinter()}"
+											value="Dar de alta impresora" class="btn btn-primary pull-right">
+											<f:ajax execute="@form"
+												render="@form printer printerForm error" />
+										</h:commandButton>
+									</div>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Editar impresora</h3>
+						</div>
+						<h:panelGroup id="edit">
+							<o:form id="editForm">
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Ubicación" />
+										<h:inputText id="printerUbication" class="form-control" disabled="#{!printerManagement.editable}"
+											value="#{printerManagement.newUbication}" required="true"
+											a:placeholder="Ubicación de la impresora"
+											requiredMessage="Debe especificar la ubicación de la impresora" />
+										<h:message id="m1" for="printerUbication" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Nº inventario" />
+										<h:inputText id="inventoryNumber" class="form-control" disabled="true"
+											value="#{printerManagement.inventoryNumber}" required="true"
+											a:placeholder="Nº de inventario de la impresora"
+											requiredMessage="Debe especificar el número de inventario de la impresora"
+											validatorMessage="Introduzca un número de inventario válido">
+											<f:validateLongRange maximum="65536" minimum="0" />
+										</h:inputText>
+										<h:message id="m2" for="inventoryNumber" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Modelo" />
+										<h:selectOneMenu value="#{printerManagement.model}" class="form-control" disabled="#{!printerManagement.editable}">
+											<f:selectItems value="#{printerManagement.allModel}"
+												var="model" itemValue="#{model.modelName}"
+												itemLabel="#{model.modelName}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="box-footer">
+										<h:commandButton action="#{printerManagement.doEditPrinter()}" disabled="#{!printerManagement.editable}"
+											value="Editar impresora" class="btn btn-primary pull-right">
+											<f:ajax execute="@form"
+												render="@form printer printerForm error" />
+										</h:commandButton>
+									</div>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Listado de impresoras</h3>
+						</div>
+						<h:panelGroup id="printer">
+							<o:form id="printerForm">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="printer" value="#{printerManagement.allPrinter}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Ubicación</f:facet>    				
+								            #{printer.ubication}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Modelo</f:facet>
+											#{printer.model.modelName}
+										</h:column>
+										<h:column>
+											<f:facet name="header">Nº inventario</f:facet>
+											#{printer.inventoryNumber}
+										</h:column>
+										<h:column>
+											<f:facet name="header">Usuarios</f:facet>
+											<ui:repeat var="user" value="#{printer.users}">
+								            	#{user.toString()}
+								            	<br />
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Editar</f:facet>
+											<h:commandLink
+												action="#{printerManagement.doSetEditPrinter(printer.inventoryNumber)}">
+												<i class="fa fa-edit" />
+												<f:ajax render="edit editForm" />
+											</h:commandLink>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Eliminar</f:facet>
+											<h:commandLink
+												action="#{printerManagement.doRemovePrinter(printer.inventoryNumber)}">
+												<i class="fa fa-remove" />
+												<f:ajax render="@form" />
+											</h:commandLink>
+										</h:column>
+									</h:dataTable>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

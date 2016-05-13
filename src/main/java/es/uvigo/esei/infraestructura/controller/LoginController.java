@@ -92,21 +92,28 @@ public class LoginController {
 
 	public void doLogin() throws IOException, ServletException {
 		HttpServletRequest request = null;
-		try {
-			request = (HttpServletRequest) context.getRequest();
-			this.password = PasswordUtil.diggestPassword(password);
-			request.login(this.getLogin(), this.getPassword());
-			this.error = false;
-			this.userGateway.find(this.getLogin());
-			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
-		} catch (ServletException e) {
-			if (ldapLogin(request)) {
+		this.userGateway.find(this.getLogin());
+		if (userGateway.getCurrent() != null && !userGateway.getCurrent().isBanned()) {
+			try {
+				request = (HttpServletRequest) context.getRequest();
+				this.password = PasswordUtil.diggestPassword(password);
+				request.login(this.getLogin(), this.getPassword());
+				this.error = false;
+
 				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
-			} else {
-				this.error = true;
-				this.errorMessage = "Login or password don't match";
-				context.redirect("index.xhtml?login=error");
+			} catch (ServletException e) {
+				if (ldapLogin(request)) {
+					FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
+				} else {
+					this.error = true;
+					this.errorMessage = "Login or password don't match";
+					context.redirect("index.xhtml?login=error");
+				}
 			}
+		} else{
+			this.error = true;
+			this.errorMessage = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
+			context.redirect("index.xhtml?login=error");
 		}
 	}
 

@@ -40,7 +40,7 @@ public class PrinterGatewayBean {
 			this.current = printer;
 		}
 		else{
-			throw new SQLException();
+			throw new SQLException("No pueden existir 2 impresoras con el mismo número de inventario.");
 		}
 	}
 

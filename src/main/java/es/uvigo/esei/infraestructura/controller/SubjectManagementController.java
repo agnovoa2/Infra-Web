@@ -1,5 +1,6 @@
 package es.uvigo.esei.infraestructura.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -32,11 +33,19 @@ public class SubjectManagementController {
 	private String newCode;
 	private String subjectName;
 	private String grade;
+	private String message;
 	private boolean editable = false;
+	private boolean error = false;
 
 	public void doAddSubject() {
-		subjectGateway.create(new Subject(getSubjectName(), getCode(), getGrade().toLowerCase()));
-		subjectGateway.save();
+		try {
+			subjectGateway.create(new Subject(getSubjectName(), getCode(), getGrade().toLowerCase()));
+			subjectGateway.save();
+			error = false;
+		} catch (SQLException e) {
+			message = e.getMessage();
+			error = true;
+		}
 	}
 
 	public void doRemoveSubject(String code) {
@@ -78,17 +87,23 @@ public class SubjectManagementController {
 	}
 
 	public void doEditSubject() {
-		if (editable) {
-			subjectGateway.findByCode(getCode());
-			subjectGateway.getCurrent().setSubjectName(getNewSubjectName());
-			subjectGateway.getCurrent().setCode(getNewCode());
-			subjectGateway.getCurrent().setDegree(getGrade());
-			subjectGateway.save();
-			subjectName = "";
-			newSubjectName = "";
-			code = "";
-			newCode = "";
-			editable = false;
+		try {
+			if (editable) {
+				subjectGateway.findByCode(getCode());
+				subjectGateway.getCurrent().setSubjectName(getNewSubjectName());
+				subjectGateway.getCurrent().setCode(getNewCode());
+				subjectGateway.getCurrent().setDegree(getGrade());
+				subjectGateway.save();
+				subjectName = "";
+				newSubjectName = "";
+				code = "";
+				newCode = "";
+				editable = false;
+				error = false;
+			}
+		} catch (Exception e) {
+			message = "Ya existe esas asignatura en la base de datos.";
+			error = true;
 		}
 	}
 
@@ -142,5 +157,21 @@ public class SubjectManagementController {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 }
