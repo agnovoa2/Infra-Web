@@ -40,21 +40,6 @@
 								            #{user.toString()}
 								        </h:column>
 										<h:column>
-											<f:facet name="header">Permitir acceso</f:facet>
-											<h:commandLink
-												action="#{userManagement.doBanUnban(user.login)}"
-												rendered="#{!userManagement.isUserBanned(user.login)}"
-												value="Banear">
-												<f:ajax render="@form" />
-											</h:commandLink>
-											<h:commandLink
-												action="#{userManagement.doBanUnban(user.login)}"
-												value="Permitir acceso"
-												rendered="#{userManagement.isUserBanned(user.login)}">
-												<f:ajax render="@form" />
-											</h:commandLink>
-										</h:column>
-										<h:column>
 											<f:facet name="header">Editar</f:facet>
 											<a href="editProfile.xhtml?login=#{user.login}">Editar</a>
 										</h:column>
@@ -72,6 +57,26 @@
 												action="#{userManagement.promoteToIntern(user.login)}"
 												value="Hacer becario">
 												<f:ajax render="@form users internForm" />
+											</h:commandLink>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Estado</f:facet>
+											<h:outputFormat value="Activo" rendered="#{!userManagement.isUserBanned(user.login)}"/>
+											<h:outputFormat value="Inactivo" rendered="#{userManagement.isUserBanned(user.login)}"/>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Permitir acceso</f:facet>
+											<h:commandLink
+												action="#{userManagement.doBanUnban(user.login)}"
+												rendered="#{!userManagement.isUserBanned(user.login)}"
+												value="Banear">
+												<f:ajax render="@form" />
+											</h:commandLink>
+											<h:commandLink
+												action="#{userManagement.doBanUnban(user.login)}"
+												value="Permitir acceso"
+												rendered="#{userManagement.isUserBanned(user.login)}">
+												<f:ajax render="@form" />
 											</h:commandLink>
 										</h:column>
 									</h:dataTable>
@@ -115,7 +120,7 @@
 						<!-- general form elements -->
 						<div class="box box-primary">
 							<div class="box-header with-border">
-								<h3 class="box-title">Listado de profesores</h3>
+								<h3 class="box-title">Listado de becarios</h3>
 							</div>
 							<o:form id="internForm">
 								<div class="box-body no-padding">
@@ -131,6 +136,13 @@
 												action="#{userManagement.degradeToStudent(user.login)}"
 												value="Ya no es becario"
 												rendered="#{!userManagement.isMe(user.login)}">
+												<f:ajax render="@form users studentForm" />
+											</h:commandLink>
+											<h:commandLink
+												action="#{userManagement.degradeToStudent(user.login)}"
+												value="Ya no es becario"
+												disabled="true"
+												rendered="#{userManagement.isMe(user.login)}">
 												<f:ajax render="@form users studentForm" />
 											</h:commandLink>
 										</h:column>

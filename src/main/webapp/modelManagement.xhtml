@@ -465,7 +465,7 @@
 											<f:facet name="header">Editar</f:facet>
 											<h:commandLink
 												action="#{modelManagement.doSetEditModel(model.modelName)}">
-												<i class="fa fa-edit" />
+												<i class="fa fa-edit text-yellow" />
 												<f:ajax render="edit editForm" />
 											</h:commandLink>
 										</h:column>
@@ -473,7 +473,7 @@
 											<f:facet name="header">Eliminar</f:facet>
 											<h:commandLink
 												action="#{modelManagement.doRemoveModel(model.modelName)}">
-												<i class="fa fa-remove" />
+												<i class="fa fa-remove text-red" />
 												<f:ajax render="@form" />
 											</h:commandLink>
 										</h:column>

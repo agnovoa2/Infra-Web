@@ -17,29 +17,82 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Gestión de peticiones de software</h2>
-	<h3>Peticiones de software</h3>
-	<o:form>
-		<ui:repeat var="subject"
-			value="#{softwarePetitionManagement.allPetitions}">
-			<h:outputLabel value="#{subject.subjectName}" />
-			<div />
-			<ui:repeat var="software" value="#{subject.softwares}">
-				<h:outputLabel value="#{software.softwareName}" />
-				<div />
-			</ui:repeat>
-			<h:outputText value="#{subject.description}" />
-			<h:commandButton
-				action="#{softwarePetitionManagement.doConfirmPetition(subject.code)}"
-				value="Confirmar petición" rendered="#{subject.petitionState == 1}" >
-				<f:ajax render="@form"/>
-			</h:commandButton>
-			<div />
-		</ui:repeat>
-	</o:form>
-	<h3>Asignaturas que no han hecho petición</h3>
-	<ui:repeat var="subject" value="#{softwarePetitionManagement.noPetitions}">
-		<h:outputLabel value="#{subject.subjectName}" />
-	</ui:repeat>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-users" /> Gestión de peticiones de software
+			</h1>
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Listado de peticiones</h3>
+						</div>
+						<o:form>
+							<div class="box-body no-padding">
+								<h:dataTable var="subject"
+									value="#{softwarePetitionManagement.allPetitions}"
+									class="table table-hover">
+									<h:column>
+										<f:facet name="header">Asignatura</f:facet>    				
+								            #{subject.subjectName}
+								    </h:column>
+									<h:column>
+										<f:facet name="header">Software requerido</f:facet>
+										<ui:repeat var="software" value="#{subject.softwares}">
+											<a href="#{software.downloadURL}">#{software.softwareName}</a>
+											<br />
+										</ui:repeat>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Descripción</f:facet>    				
+								            #{subject.description}
+								    </h:column>
+									<h:column>
+										<f:facet name="header">Estado petición</f:facet>
+										<h:commandButton
+											action="#{softwarePetitionManagement.doConfirmPetition(subject.code)}"
+											value="Confirmar" class="btn btn-primary center btn-success"
+											rendered="#{subject.petitionState == 1}">
+											<f:ajax render="@form" />
+										</h:commandButton>
+										<strong> <h:outputFormat value="Petición confirmada"
+												rendered="#{subject.petitionState == 2}"
+												class="text-success" />
+										</strong>
+									</h:column>
+								</h:dataTable>
+							</div>
+						</o:form>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Asignaturas sin petición</h3>
+						</div>
+						<h:dataTable var="subject"
+							value="#{softwarePetitionManagement.noPetitions}"
+							class="table table-hover">
+							<h:column>
+								<f:facet name="header">Asignatura</f:facet>    				
+								#{subject.subjectName}
+							</h:column>
+							<h:column>
+								<f:facet name="header">Responsables</f:facet>
+								<ui:repeat var="user" value="#{subject.users}">
+									#{user.toString()}
+									<br />
+								</ui:repeat>    				
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

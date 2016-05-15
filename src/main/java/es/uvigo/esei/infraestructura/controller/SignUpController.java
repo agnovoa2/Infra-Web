@@ -79,6 +79,7 @@ public class SignUpController {
 		try {
 			String login = generateLogin(getName(),getFirstSurname(),getSecondSurname());
 			userGateway.create(new User(login,generateEmail(login),this.getPassword(), this.getName(), this.getFirstSurname(), this.getSecondSurname()));
+			userGateway.getCurrent().setBanned(true);
 			userGateway.save();
 			context.redirect("index.xhtml");
 		//} catch (EntityExistsException e) {
