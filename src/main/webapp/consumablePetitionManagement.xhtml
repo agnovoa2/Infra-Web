@@ -17,53 +17,70 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Gestión de peticiones de consumibles</h2>
-	<h3>Peticiones de software</h3>
-	<h:panelGroup id="petitions">
-		<o:form>
-			<h4>Peticiones pendientes</h4>
-			<ui:repeat var="petition"
-				value="#{consumablePetitionManagement.allPetitions}">
-				<h:outputLabel value="#{petition.printer.model.modelName}" />
-				&nbsp;
-				<h:outputLabel value="#{petition.user.toString()}" />
-				<div />
-				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-					<h:outputLabel value="#{petitionRow.consumable.toString()}" />
-					&nbsp;
-					<h:outputLabel value="#{petitionRow.quantity}" />
-					<div />
-				</ui:repeat>
-				<h:outputText value="#{subject.description}" />
-				<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de solicitud</a>
-				<h:commandButton
-					action="#{consumablePetitionManagement.doConfirmPetition(petition.petitionNumber)}"
-					value="Confirmar petición"
-					rendered="#{petition.petitionState == 0}">
-					<f:ajax render="@form petitions" />
-				</h:commandButton>
-				<div />
-			</ui:repeat>
-		</o:form>
-		<h4>Peticiones realizadas</h4>
-		<ui:repeat var="petition"
-			value="#{consumablePetitionManagement.allDonePetitions}">
-			<h:outputLabel value="#{petition.printer.model.modelName}" />
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-print" /> Gestión de peticiones de consumibles
+			</h1>
+			<div class="row">
+				<h:panelGroup id="petitions">
+					<div class="col-md-6">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Listado de peticiones</h3>
+							</div>
+							<div class="box-body no-padding">
+								<o:form>
+									<h:dataTable var="petition"
+										value="#{consumablePetitionManagement.allPetitions}" class="table table-hover">
+										<h:column>
+											<f:facet name="header">Modelo</f:facet>    				
+								            	#{petition.printer.model.modelName}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Solicitante</f:facet>    				
+								            	#{petition.user.toString()}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Consumibles</f:facet>
+											<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+												#{petitionRow.consumable.toString()}
+												&nbsp;
+												#{petitionRow.quantity}
+												<div />
+											</ui:repeat>
+										</h:column>
+									</h:dataTable>
+								</o:form>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<h4>Peticiones realizadas</h4>
+						<ui:repeat var="petition"
+							value="#{consumablePetitionManagement.allDonePetitions}">
+							<h:outputLabel value="#{petition.printer.model.modelName}" />
 			&nbsp;
 			<h:outputLabel value="#{petition.user.toString()}" />
-			<div />
-			<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-				<h:outputLabel value="#{petitionRow.consumable.toString()}" />
+							<div />
+							<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+								<h:outputLabel value="#{petitionRow.consumable.toString()}" />
 				&nbsp;
 				<h:outputLabel value="#{petitionRow.quantity}" />
-				<div />
-			</ui:repeat>
-			<h:outputText value="#{subject.description}" />
-			<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de solicitud</a>
-			<br />
-			<a href="/pdf/#{petition.petitionNumber}r.pdf">pdf de recogida</a>
-			<div />
-		</ui:repeat>
-	</h:panelGroup>
+								<div />
+							</ui:repeat>
+							<h:outputText value="#{subject.description}" />
+							<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de
+								solicitud</a>
+							<br />
+							<a href="/pdf/#{petition.petitionNumber}r.pdf">pdf de
+								recogida</a>
+							<div />
+						</ui:repeat>
+					</div>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>
