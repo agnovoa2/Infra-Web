@@ -18,8 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ConsumablePetition")
 @NamedQueries({
-		@NamedQuery(name = "findAllPetitions", query = "Select p From ConsumablePetition p Where p.petitionState = 0"),
-		@NamedQuery(name = "findAllDonePetitions", query = "Select p From ConsumablePetition p Where p.petitionState = 1") })
+		@NamedQuery(name = "findAllPetitions", query = "Select p From ConsumablePetition p Where p.petitionState = 0 order by p.petitionDate desc"),
+		@NamedQuery(name = "findAllDonePetitions", query = "Select p From ConsumablePetition p Where p.petitionState = 1 order by p.petitionDate desc") })
 public class ConsumablePetition {	
 
 	@Id

@@ -41,43 +41,47 @@
 								        </h:column>
 										<h:column>
 											<f:facet name="header">Editar</f:facet>
-											<a href="editProfile.xhtml?login=#{user.login}">Editar</a>
+											<a href="editProfile.xhtml?login=#{user.login}"> <i
+												class="fa fa-edit text-yellow" />
+											</a>
 										</h:column>
 										<h:column>
 											<f:facet name="header">Promocionar a profesor</f:facet>
-											<h:commandLink
+											<h:commandButton class="btn btn-primary btn-success"
 												action="#{userManagement.promoteToProfessor(user.login)}"
 												value="Hacer profesor">
 												<f:ajax render="@form users professorForm" />
-											</h:commandLink>
+											</h:commandButton>
 										</h:column>
 										<h:column>
 											<f:facet name="header">Promocionar a becario</f:facet>
-											<h:commandLink
+											<h:commandButton class="btn btn-primary btn-success"
 												action="#{userManagement.promoteToIntern(user.login)}"
 												value="Hacer becario">
 												<f:ajax render="@form users internForm" />
-											</h:commandLink>
+											</h:commandButton>
 										</h:column>
 										<h:column>
 											<f:facet name="header">Estado</f:facet>
-											<h:outputFormat value="Activo" rendered="#{!userManagement.isUserBanned(user.login)}"/>
-											<h:outputFormat value="Inactivo" rendered="#{userManagement.isUserBanned(user.login)}"/>
+											<h:outputFormat value="Activo"
+												rendered="#{!userManagement.isUserBanned(user.login)}" />
+											<h:outputFormat value="Inactivo"
+												rendered="#{userManagement.isUserBanned(user.login)}" />
 										</h:column>
 										<h:column>
 											<f:facet name="header">Permitir acceso</f:facet>
-											<h:commandLink
+											<h:commandButton class="btn btn-primary btn-danger"
 												action="#{userManagement.doBanUnban(user.login)}"
 												rendered="#{!userManagement.isUserBanned(user.login)}"
 												value="Banear">
 												<f:ajax render="@form" />
-											</h:commandLink>
-											<h:commandLink
+											</h:commandButton>
+											<h:commandButton class="btn btn-primary btn-success"
 												action="#{userManagement.doBanUnban(user.login)}"
 												value="Permitir acceso"
 												rendered="#{userManagement.isUserBanned(user.login)}">
 												<f:ajax render="@form" />
-											</h:commandLink>
+											</h:commandButton>
 										</h:column>
 									</h:dataTable>
 								</div>
@@ -99,17 +103,18 @@
 								            #{user.toString()}
 								        </h:column>
 										<h:column>
+											<f:facet name="header">Editar</f:facet>
+											<a href="editProfile.xhtml?login=#{user.login}"><i
+												class="fa fa-edit text-yellow" /></a>
+										</h:column>
+										<h:column>
 											<f:facet name="header">Degradar profesor</f:facet>
-											<h:commandLink
+											<h:commandButton class="btn btn-primary btn-danger"
 												action="#{userManagement.degradeToStudent(user.login)}"
 												value="Ya no es profesor"
 												rendered="#{!userManagement.isMe(user.login)}">
 												<f:ajax render="@form users studentForm" />
-											</h:commandLink>
-										</h:column>
-										<h:column>
-											<f:facet name="header">Editar</f:facet>
-											<a href="editProfile.xhtml?login=#{user.login}">Editar</a>
+											</h:commandButton>
 										</h:column>
 									</h:dataTable>
 								</div>
@@ -130,25 +135,19 @@
 											<f:facet name="header">Nombre</f:facet>    				
 								            #{user.toString()}
 								        </h:column>
-										<h:column>
-											<f:facet name="header">Degradar becario</f:facet>
-											<h:commandLink
-												action="#{userManagement.degradeToStudent(user.login)}"
-												value="Ya no es becario"
-												rendered="#{!userManagement.isMe(user.login)}">
-												<f:ajax render="@form users studentForm" />
-											</h:commandLink>
-											<h:commandLink
-												action="#{userManagement.degradeToStudent(user.login)}"
-												value="Ya no es becario"
-												disabled="true"
-												rendered="#{userManagement.isMe(user.login)}">
-												<f:ajax render="@form users studentForm" />
-											</h:commandLink>
+								        <h:column>
+											<f:facet name="header">Editar</f:facet>
+											<a href="editProfile.xhtml?login=#{user.login}"><i
+												class="fa fa-edit text-yellow" /></a>
 										</h:column>
 										<h:column>
-											<f:facet name="header">Editar</f:facet>
-											<a href="editProfile.xhtml?login=#{user.login}">Editar</a>
+											<f:facet name="header">Degradar becario</f:facet>
+											<h:commandButton class="btn btn-primary btn-danger"
+												action="#{userManagement.degradeToStudent(user.login)}"
+												value="Ya no es becario"
+												disabled="#{userManagement.isMe(user.login)}">
+												<f:ajax render="@form users studentForm" />
+											</h:commandButton>
 										</h:column>
 									</h:dataTable>
 								</div>

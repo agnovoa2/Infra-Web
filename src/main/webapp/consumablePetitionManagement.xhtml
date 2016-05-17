@@ -24,15 +24,16 @@
 			</h1>
 			<div class="row">
 				<h:panelGroup id="petitions">
-					<div class="col-md-6">
+					<div class="col-xs-12">
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Listado de peticiones</h3>
 							</div>
-							<div class="box-body no-padding">
+							<div class="box-body table-responsive no-padding">
 								<o:form>
 									<h:dataTable var="petition"
-										value="#{consumablePetitionManagement.allPetitions}" class="table table-hover">
+										value="#{consumablePetitionManagement.allPetitions}"
+										class="table table-hover">
 										<h:column>
 											<f:facet name="header">Modelo</f:facet>    				
 								            	#{petition.printer.model.modelName}
@@ -50,33 +51,80 @@
 												<div />
 											</ui:repeat>
 										</h:column>
+										<h:column>
+											<f:facet name="header">PDF de solicitud</f:facet>
+											<a href="/pdf/#{petition.petitionNumber}.pdf"> <i
+												class="fa fa-file-pdf-o text-red" />
+											</a>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Fecha de solicitud</f:facet>
+											<h:outputText value="#{petition.petitionDate}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Confirmar petición</f:facet>
+											<h:commandButton class="btn btn-primary center btn-success"
+												action="#{consumablePetitionManagement.doConfirmPetition(petition.petitionNumber)}"
+												value="Confirmar" rendered="#{petition.petitionState == 0}">
+												<f:ajax render="@form petitions" />
+											</h:commandButton>
+										</h:column>
 									</h:dataTable>
 								</o:form>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<h4>Peticiones realizadas</h4>
-						<ui:repeat var="petition"
-							value="#{consumablePetitionManagement.allDonePetitions}">
-							<h:outputLabel value="#{petition.printer.model.modelName}" />
-			&nbsp;
-			<h:outputLabel value="#{petition.user.toString()}" />
-							<div />
-							<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-								<h:outputLabel value="#{petitionRow.consumable.toString()}" />
-				&nbsp;
-				<h:outputLabel value="#{petitionRow.quantity}" />
-								<div />
-							</ui:repeat>
-							<h:outputText value="#{subject.description}" />
-							<a href="/pdf/#{petition.petitionNumber}.pdf">pdf de
-								solicitud</a>
-							<br />
-							<a href="/pdf/#{petition.petitionNumber}r.pdf">pdf de
-								recogida</a>
-							<div />
-						</ui:repeat>
+					<div class="col-xs-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Peticiones realizadas</h3>
+							</div>
+							<div class="box-body table-responsive no-padding">
+								<o:form>
+									<h:dataTable var="petition"
+										value="#{consumablePetitionManagement.allDonePetitions}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Modelo</f:facet>    				
+								            	#{petition.printer.model.modelName}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Solicitante</f:facet>    				
+								            	#{petition.user.toString()}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Consumibles</f:facet>
+											<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+												#{petitionRow.consumable.toString()}
+												&nbsp;
+												#{petitionRow.quantity}
+												<div />
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Fecha de solicitud</f:facet>
+											<h:outputText value="#{petition.petitionDate}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">PDF de solicitud</f:facet>
+											<a href="/pdf/#{petition.petitionNumber}.pdf"> <i
+												class="fa fa-file-pdf-o text-red" />
+											</a>
+										</h:column>
+										<h:column>
+											<f:facet name="header">PDF de recogida</f:facet>
+											<a href="/pdf/#{petition.petitionNumber}r.pdf"> <i
+												class="fa fa-file-pdf-o text-red" />
+											</a>
+										</h:column>
+									</h:dataTable>
+								</o:form>
+							</div>
+						</div>
 					</div>
 				</h:panelGroup>
 			</div>

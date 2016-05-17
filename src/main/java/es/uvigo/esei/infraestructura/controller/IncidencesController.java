@@ -53,6 +53,7 @@ public class IncidencesController {
 	private String laboratory;
 	private String description;
 	private String textMessage;
+	private boolean selected = false;
 
 	public void initLists() {
 		if (laboratory != null) {
@@ -102,6 +103,7 @@ public class IncidencesController {
 		if (computerGateway.getCurrent() != null) {
 			selectedLabelNum = computerGateway.getCurrent().getLabelNum();
 		}
+		selected = true;
 	}
 
 	public void doAddComputer() throws IOException {
@@ -217,7 +219,7 @@ public class IncidencesController {
 	public boolean isHasIncidence() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
 		if (this.computerGateway.getCurrent() != null
-				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE){
+				&& this.computerGateway.getCurrent().getState() == State.INCIDENCE) {
 			return true;
 		}
 		return false;
@@ -244,7 +246,7 @@ public class IncidencesController {
 
 	public void setTextClose() {
 		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
-				+ "Se ha solucionado la incidencia reportada sobre el ordenador " + getLabelNum() + " en "
+				+ "Se ha solucionado la incidencia reportada sobre el ordenador " + computerGateway.getCurrent().getLabelNum() + " en "
 				+ getLaboratory() + "\n" + "Le agradecemos la molestia de reportar dicha incidencia \n"
 				+ "Un saludo. Atte: Equipo de infraestructura de la ESEI");
 
@@ -299,27 +301,6 @@ public class IncidencesController {
 		this.incidenceGateway.save();
 		this.computerGateway.getCurrent().setState(State.OK);
 		this.computerGateway.save();
-		/*
-		this.computerGateway.find(getComputerNum(), getLaboratory());
-		List<Incidence> incidences = this.computerGateway.getCurrent().getIncidences();
-		Incidence incidence = null;
-		if (incidences != null) {
-			for (int i = 0; i < incidences.size(); i++) {
-				incidence = incidences.get(i);
-				if (incidence.getState() == 1 || incidence.getState() == 0)
-					break;
-			}
-		}
-		if (incidence != null) {
-			this.incidenceGateway.find(incidence.getId());
-			this.incidenceGateway.getCurrent().setState(2);
-			this.incidenceGateway.save();
-		}
-		this.computerGateway.getCurrent().setState(State.OK);
-		this.computerGateway.save();
-		this.setTextClose();
-		mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
-		*/
 	}
 
 	public List<Incidence> unresolvedIncidences() {
@@ -359,6 +340,10 @@ public class IncidencesController {
 		return labelNum;
 	}
 
+	public int getPcLabel() {
+		return labelNum;
+	}
+
 	public void setLabelNum(int labelNum) {
 		this.labelNum = labelNum;
 	}
@@ -390,4 +375,32 @@ public class IncidencesController {
 	public void setSelectedLabelNum(int selectedLabelNum) {
 		this.selectedLabelNum = selectedLabelNum;
 	}
+
+	public int getPcLabel(int num) {
+		int oldPc = 0;
+		boolean flag = false;
+		
+		if (computerGateway.getCurrent() != null) {
+			oldPc = this.computerGateway.getCurrent().getId();
+			flag = true;
+		}
+		int label = 0;
+		this.computerGateway.find(num, getLaboratory());
+		if (this.computerGateway.getCurrent() != null)
+			label = computerGateway.getCurrent().getLabelNum();
+		if (flag) {
+			computerGateway.find(oldPc, getLaboratory());
+		}
+		return label;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	
+	
 }

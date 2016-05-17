@@ -214,10 +214,10 @@ public class MaterialManagementController {
 	}
 	
 	public void redirectIfNotMaterial() throws IOException {
-		if (this.material != null && !this.material.toLowerCase().equals("monitor")
-				&& !this.material.toLowerCase().equals("disco duro") && !this.material.toLowerCase().equals("ram")
-				&& !this.material.toLowerCase().equals("otros")) {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("materialManagement.xhtml");
+		if (this.material == null || !this.material.toLowerCase().equals("monitor")
+				|| !this.material.toLowerCase().equals("disco duro") || !this.material.toLowerCase().equals("ram")
+				|| !this.material.toLowerCase().equals("otros")) {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 		}
 	}
 
