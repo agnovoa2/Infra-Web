@@ -14,6 +14,7 @@
 		type="preRenderView" />
 </f:metadata>
 <h:head>
+	<link rel="stylesheet" href="resources/bootstrap/css/7col.css" />
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
@@ -39,13 +40,22 @@
 								<h:commandLink action="#{incidences.doSelectComputer(0)}"
 									rendered="#{incidences.laboratory == 'aula 2.1' or incidences.laboratory == 'aula 2.2'  or incidences.laboratory == 'aula 3.1'  or incidences.laboratory == 'aula 3.2' }">
 									<h:graphicImage value="resources/img/computer_no.png"
+										class="img-responsive" a:onclick="computerFocus($(this))"
 										rendered="#{incidences.isNoPc(num)}" />
 									<h:graphicImage value="resources/img/computer_ok.png"
-										rendered="#{incidences.isPcOk(num)}" />
+										class="img-responsive" rendered="#{incidences.isPcOk(num)}"
+										a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+										a:title="#{incidences.getPcLabel(num)}" />
 									<h:graphicImage value="resources/img/computer_rep.png"
-										rendered="#{incidences.isPcRepair(num)}" />
+										class="img-responsive"
+										rendered="#{incidences.isPcRepair(num)}"
+										a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+										a:title="#{incidences.getPcLabel(num)}" />
 									<h:graphicImage value="resources/img/computer_warn.png"
-										rendered="#{incidences.isHasIncidence(num)}" />
+										class="img-responsive"
+										rendered="#{incidences.isHasIncidence(num)}"
+										a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+										a:title="#{incidences.getPcLabel(num)}" />
 									<f:ajax render="manage manageForm incidence incidenceForm info" />
 								</h:commandLink>
 								<!-- libre acceso -->
@@ -56,24 +66,27 @@
 											<ui:repeat var="num" value="#{incidences.auxArray}"
 												rendered="#{incidences.laboratory == 'libre acceso'}">
 												<div class="col-xs-2">
-													<h:commandLink
+													<h:commandLink tabindex="#{num.intValue()}"
 														action="#{incidences.doSelectComputer(num.intValue())}">
 														<h:graphicImage value="resources/img/computer_no.png"
-															class="img-responsive"
+															class="img-responsive" a:onclick="computerFocus($(this))"
 															rendered="#{incidences.isNoPc(num)}" />
 														<h:graphicImage value="resources/img/computer_ok.png"
 															class="img-responsive"
 															rendered="#{incidences.isPcOk(num)}"
+															a:onclick="computerFocus($(this))"
 															a:data-toggle="tooltip"
 															a:title="#{incidences.getPcLabel(num)}" />
 														<h:graphicImage value="resources/img/computer_rep.png"
 															class="img-responsive"
 															rendered="#{incidences.isPcRepair(num)}"
+															a:onclick="computerFocus($(this))"
 															a:data-toggle="tooltip"
 															a:title="#{incidences.getPcLabel(num)}" />
 														<h:graphicImage value="resources/img/computer_warn.png"
 															class="img-responsive"
 															rendered="#{incidences.isHasIncidence(num)}"
+															a:onclick="computerFocus($(this))"
 															a:data-toggle="tooltip"
 															a:title="#{incidences.getPcLabel(num)}" />
 														<f:ajax
@@ -85,26 +98,35 @@
 									</div>
 								</h:panelGroup>
 								<!-- sotanos -->
-								<ui:repeat var="num" value="#{incidences.auxArray}"
-									rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
-									<h:commandLink
-										action="#{incidences.doSelectComputer(num.intValue())}">
-										<h:graphicImage value="resources/img/computer_no.png"
-											rendered="#{incidences.isNoPc(num)}" />
-										<h:graphicImage value="resources/img/computer_ok.png"
-											rendered="#{incidences.isPcOk(num)}" />
-										<h:graphicImage value="resources/img/computer_rep.png"
-											rendered="#{incidences.isPcRepair(num)}" />
-										<h:graphicImage value="resources/img/computer_warn.png"
-											rendered="#{incidences.isHasIncidence(num)}" />
-										<f:ajax
-											render="manage manageForm incidence incidenceForm info" />
-										<ui:fragment
-											rendered="#{num.intValue() == 0 or num.intValue() == 7 or num.intValue() == 14 or num.intValue() == 21}">
-											<div></div>
-										</ui:fragment>
-									</h:commandLink>
-								</ui:repeat>
+								<div class="row seven-cols">
+									<ui:repeat var="num" value="#{incidences.auxArray}"
+										rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
+										<div class="col-md-1">
+											<h:commandLink tabindex="#{num.intValue()}"
+												action="#{incidences.doSelectComputer(num.intValue())}">
+												<h:graphicImage value="resources/img/computer_no.png"
+													class="img-responsive" a:onclick="computerFocus($(this))"
+													rendered="#{incidences.isNoPc(num)}" />
+												<h:graphicImage value="resources/img/computer_ok.png"
+													class="img-responsive" rendered="#{incidences.isPcOk(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<h:graphicImage value="resources/img/computer_rep.png"
+													class="img-responsive"
+													rendered="#{incidences.isPcRepair(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<h:graphicImage value="resources/img/computer_warn.png"
+													class="img-responsive"
+													rendered="#{incidences.isHasIncidence(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<f:ajax
+													render="manage manageForm incidence incidenceForm info" />
+											</h:commandLink>
+										</div>
+									</ui:repeat>
+								</div>
 							</o:form>
 						</h:panelGroup>
 					</div>
@@ -125,7 +147,8 @@
 								rendered="#{loginController.intern and (incidences.hasIncidence or incidences.pcRepair) and incidences.selected}">
 								<div class="box box-primary">
 									<div class="box-header with-border">
-										<h3 class="box-title">Incidencias</h3>
+										<h3 class="box-title">Incidencias equipo
+											#{incidences.getPcLabel(incidences.computerNum)}</h3>
 									</div>
 									<div class="box-body">
 										<ui:repeat var="incidence"
@@ -152,7 +175,8 @@
 								rendered="#{!incidences.noPc and !incidences.pcRepair and incidences.selected}">
 								<div class="box box-primary">
 									<div class="box-header with-border">
-										<h3 class="box-title">Nueva incidencia</h3>
+										<h3 class="box-title">Nueva incidencia equipo
+											#{incidences.getPcLabel(incidences.computerNum)}</h3>
 									</div>
 									<div class="box-body">
 										<o:form id="incidenceForm">
@@ -231,6 +255,30 @@
 					</h:panelGroup>
 				</div>
 			</div>
+			<script>
+				var focused = undefined;
+				var lastSrc = undefined;
+				
+				function computerFocus(img){
+					if(focused != undefined){
+						focused.attr('src',lastSrc);
+					}
+					lastSrc = img.attr('src');
+					if(lastSrc.indexOf('no') != -1){
+						img.attr('src','resources/img/computer_no_focus.png');
+					}
+					if(lastSrc.indexOf('ok') != -1){
+						img.attr('src','resources/img/computer_ok_focus.png');
+					}
+					if(lastSrc.indexOf('rep') != -1){
+						img.attr('src','resources/img/computer_rep_focus.png');
+					}
+					if(lastSrc.indexOf('warn') != -1){
+						img.attr('src','resources/img/computer_warn_focus.png');
+					}	
+					focused = img;
+				}
+			</script>
 		</ui:define>
 	</ui:composition>
 </h:body>
