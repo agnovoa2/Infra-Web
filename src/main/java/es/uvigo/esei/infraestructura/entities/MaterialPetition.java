@@ -37,7 +37,7 @@ public class MaterialPetition {
 	@JoinColumn(name = "petitioner")
 	private User user;
 
-	@OneToMany(mappedBy = "material")
+	@OneToMany(mappedBy = "materialPetition")
 	private List<MaterialPetitionRow> petitionRows;
 
 	MaterialPetition() {

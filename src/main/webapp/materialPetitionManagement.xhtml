@@ -40,7 +40,7 @@
 										<h:column>
 											<f:facet name="header">Petición</f:facet>
 											<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-											#{petitionRow.material.toString()} Cantidad: #{petitionRow.quantity}
+												#{petitionRow.material.toString()} Cantidad: #{petitionRow.quantity}
 											</ui:repeat>
 										</h:column>
 										<h:column>
@@ -96,8 +96,7 @@
 												action="#{materialPetitionManagement.doRetrievePetition(petition.materialPetitionNumber)}"
 												class="btn btn-primary" value="Material devuelto"
 												rendered="#{petition.petitionState == 1}">
-												<f:ajax
-													render="@form petitionsDone petitionRetrieved" />
+												<f:ajax render="@form petitionsDone petitionRetrieved" />
 											</h:commandButton>
 										</h:column>
 									</h:dataTable>

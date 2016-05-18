@@ -32,7 +32,8 @@ public class MaterialManagementController {
 	private String proportion;
 	private int quantity;
 	private boolean editable = false;
-	
+	private boolean success = false;
+	private boolean error = false;
 
 	public void doAddMonitor() {
 		materialGateway
@@ -100,7 +101,7 @@ public class MaterialManagementController {
 		editable = false;
 	}
 
-	public List<Material> getAllMaterial(){
+	public List<Material> getAllMaterial() {
 		switch (material) {
 		case "monitor":
 			return materialGateway.getAllMonitors();
@@ -219,17 +220,44 @@ public class MaterialManagementController {
 		this.editable = editable;
 	}
 
-	public void doModifiyQuantity(Material material, int quantity){
-		materialGateway.find(material.getId());
-		materialGateway.getCurrent().setQuantity(quantity);
-		materialGateway.save();
+	public boolean isSuccess() {
+		return success;
 	}
-	
-	public void redirectIfNotMaterial() throws IOException {
-		if (this.material == null || this.material.equals("")){
-			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public void doModifiyQuantity(Material material, int quantity) {
+		try {
+			if (quantity > 0) {
+				materialGateway.find(material.getId());
+				materialGateway.getCurrent().setQuantity(quantity);
+				materialGateway.save();
+				success = true;
+				error = false;
+			} else {
+				success = false;
+				error = true;
+			}
+		} catch (Exception e) {
+			success = false;
+			error = true;
 		}
-		else if (this.material != null && !this.material.toLowerCase().equals("monitor")
+	}
+
+	public void redirectIfNotMaterial() throws IOException {
+		if (this.material == null || this.material.equals("")) {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+		} else if (this.material != null && !this.material.toLowerCase().equals("monitor")
 				&& !this.material.toLowerCase().equals("disco duro") && !this.material.toLowerCase().equals("ram")
 				&& !this.material.toLowerCase().equals("otros")) {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");

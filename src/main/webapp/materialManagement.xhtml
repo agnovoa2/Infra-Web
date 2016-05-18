@@ -671,6 +671,34 @@
 					</div>
 				</h:panelGroup>
 			</div>
+			<div class="col-xs-12">
+				<h:panelGroup id="error">
+					<h:panelGroup rendered="#{materialManagement.error}">
+						<div class="alert alert-danger alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-hidden="true">&times;</button>
+							<h4>
+								<i class="icon fa fa-ban"></i> !Error!
+							</h4>
+							¡Debe especificar una cantidad válida!
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+			</div>
+			<div class="col-xs-12">
+				<h:panelGroup id="success">
+					<h:panelGroup rendered="#{materialManagement.success}">
+						<div class="alert alert-success alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-hidden="true">&times;</button>
+							<h4>
+								<i class="icon fa fa-check"></i> ¡Éxito!
+							</h4>
+							¡Cantidad cambiada correctamente!
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+			</div>
 			<div class="row">
 				<!-- left column -->
 				<div class="col-md-12">
@@ -743,9 +771,7 @@
 														class="form-control input-sm" value="#{material.quantity}"
 														required="true"
 														requiredMessage="Debe especificar la nueva cantidad">
-														<f:validateLongRange maximum="999999999" minimum="0" />
 													</h:inputText>
-													<h:message id="m17" for="materialQuantity" style="color:red" />
 												</div>
 											</div>
 										</h:column>
@@ -754,7 +780,8 @@
 											<h:commandButton
 												action="#{materialManagement.doModifiyQuantity(material,material.quantity)}"
 												value="Modificar cantidad" class="btn btn-success">
-												<f:ajax execute="materialQuantity" render="@form" />
+												<f:ajax execute="materialQuantity"
+													render="@form success error" />
 											</h:commandButton>
 										</h:column>
 										<h:column>

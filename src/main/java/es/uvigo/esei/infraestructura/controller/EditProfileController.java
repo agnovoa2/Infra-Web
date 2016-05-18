@@ -88,6 +88,10 @@ public class EditProfileController {
 		return false;
 	}
 
+	public boolean isMe(){
+		return login.equals(currentUser.getName());
+	}
+	
 	public String getLogin() {
 		return login;
 	}
