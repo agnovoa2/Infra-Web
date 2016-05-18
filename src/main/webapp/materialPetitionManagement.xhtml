@@ -17,63 +17,127 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Gestión de peticiones de material</h2>
-	<h3>Peticiones de material</h3>
-	<h:panelGroup id="petitions">
-		<o:form>
-			<h4>Peticiones pendientes</h4>
-			<ui:repeat var="petition"
-				value="#{materialPetitionManagement.allPetitions}">
-				<h:outputLabel value="#{petition.user.toString()}" />
-				<div />
-				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-					<h:outputLabel value="#{petitionRow.material.toString()}" />
-					<div />
-				</ui:repeat>
-				<h:commandButton
-					action="#{materialPetitionManagement.doConfirmPetition(petition.materialPetitionNumber)}"
-					value="Confirmar petición"
-					rendered="#{petition.petitionState == 0}">
-					<f:ajax render="@form petitionsDone petitions" />
-				</h:commandButton>
-				<div />
-			</ui:repeat>
-		</o:form>
-	</h:panelGroup>
-	<h4>Peticiones realizadas</h4>
-	<h:panelGroup id="petitionsDone">
-		<o:form>
-			<ui:repeat var="petition"
-				value="#{materialPetitionManagement.allDonePetitions}">
-				<h:outputLabel value="#{petition.user.toString()}" />
-				<div />
-				<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-					<h:outputLabel value="#{petitionRow.material.toString()}" />
-				&nbsp;
-				<h:outputLabel value="#{petitionRow.quantity}" />
-					<div />
-				</ui:repeat>
-				<h:commandButton
-					action="#{materialPetitionManagement.doRetrievePetition(petition.materialPetitionNumber)}"
-					value="Material devuelto" rendered="#{petition.petitionState == 1}">
-					<f:ajax render="@form petitions petitionsDone petitionRetrieved" />
-				</h:commandButton>
-			</ui:repeat>
-		</o:form>
-	</h:panelGroup>
-	<h4>Peticiones devueltas</h4>
-	<h:panelGroup id="petitionRetrieved">
-		<ui:repeat var="petition"
-			value="#{materialPetitionManagement.allRetrievedPetitions}">
-			<h:outputLabel value="#{petition.user.toString()}" />
-			<div />
-			<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
-				<h:outputLabel value="#{petitionRow.material.toString()}" />
-				&nbsp;
-				<h:outputLabel value="#{petitionRow.quantity}" />
-				<div />
-			</ui:repeat>
-		</ui:repeat>
-	</h:panelGroup>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-dropbox" /> Gestión de peticiones de material
+			</h1>
+			<div class="row">
+				<h:panelGroup id="petitions">
+					<div class="col-xs-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Listado de peticiones pendientes</h3>
+							</div>
+							<div class="box-body table-responsive no-padding">
+								<o:form>
+									<h:dataTable var="petition" class="table table-hover"
+										value="#{materialPetitionManagement.allPetitions}">
+										<h:column>
+											<f:facet name="header">Solicitante</f:facet>    				
+							            	#{petition.user.toString()}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Petición</f:facet>
+											<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+											#{petitionRow.material.toString()} Cantidad: #{petitionRow.quantity}
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Fecha</f:facet>
+											<h:outputText value="#{petition.petitionDate}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Confirmar petición</f:facet>
+											<h:commandButton
+												action="#{materialPetitionManagement.doConfirmPetition(petition.materialPetitionNumber)}"
+												class="btn btn-primary" value="Confirmar petición"
+												rendered="#{petition.petitionState == 0}">
+												<f:ajax render="@form petitionsDone petitions" />
+											</h:commandButton>
+										</h:column>
+									</h:dataTable>
+								</o:form>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id="petitionsDone">
+					<div class="col-xs-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Listado de peticiones realizadas</h3>
+							</div>
+							<div class="box-body table-responsive no-padding">
+								<o:form>
+									<h:dataTable var="petition" class="table table-hover"
+										value="#{materialPetitionManagement.allDonePetitions}">
+										<h:column>
+											<f:facet name="header">Solicitante</f:facet>    				
+							            	#{petition.user.toString()}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Petición</f:facet>
+											<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+											#{petitionRow.material.toString()} Cantidad: #{petitionRow.quantity}
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Fecha</f:facet>
+											<h:outputText value="#{petition.petitionDate}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Devolver material</f:facet>
+											<h:commandButton
+												action="#{materialPetitionManagement.doRetrievePetition(petition.materialPetitionNumber)}"
+												class="btn btn-primary" value="Material devuelto"
+												rendered="#{petition.petitionState == 1}">
+												<f:ajax
+													render="@form petitionsDone petitionRetrieved" />
+											</h:commandButton>
+										</h:column>
+									</h:dataTable>
+								</o:form>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id="petitionRetrieved">
+					<div class="col-xs-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Listado de peticiones devueltas</h3>
+							</div>
+							<div class="box-body table-responsive no-padding">
+								<h:dataTable var="petition" class="table table-hover"
+									value="#{materialPetitionManagement.allRetrievedPetitions}">
+									<h:column>
+										<f:facet name="header">Solicitante</f:facet>    				
+							            #{petition.user.toString()}
+								    </h:column>
+									<h:column>
+										<f:facet name="header">Fecha</f:facet>
+										<h:outputText value="#{petition.petitionDate}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Petición</f:facet>
+										<ui:repeat var="petitionRow" value="#{petition.petitionRows}">
+												#{petitionRow.material.toString()} Cantidad: #{petitionRow.quantity}
+											</ui:repeat>
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

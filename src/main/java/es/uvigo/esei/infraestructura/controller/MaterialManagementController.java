@@ -31,6 +31,8 @@ public class MaterialManagementController {
 	private String resolution;
 	private String proportion;
 	private int quantity;
+	private boolean editable = false;
+	
 
 	public void doAddMonitor() {
 		materialGateway
@@ -77,6 +79,7 @@ public class MaterialManagementController {
 		capacity = materialGateway.getCurrent().getCapacity();
 		speed = materialGateway.getCurrent().getSpeed();
 		destination = materialGateway.getCurrent().getDestination();
+		editable = true;
 	}
 
 	public void doEditMaterial() {
@@ -94,6 +97,7 @@ public class MaterialManagementController {
 		materialGateway.getCurrent().setSpeed(speed);
 		materialGateway.getCurrent().setDestination(destination);
 		materialGateway.save();
+		editable = false;
 	}
 
 	public List<Material> getAllMaterial(){
@@ -207,6 +211,14 @@ public class MaterialManagementController {
 		this.quantity = quantity;
 	}
 
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
 	public void doModifiyQuantity(Material material, int quantity){
 		materialGateway.find(material.getId());
 		materialGateway.getCurrent().setQuantity(quantity);
@@ -214,9 +226,12 @@ public class MaterialManagementController {
 	}
 	
 	public void redirectIfNotMaterial() throws IOException {
-		if (this.material == null || !this.material.toLowerCase().equals("monitor")
-				|| !this.material.toLowerCase().equals("disco duro") || !this.material.toLowerCase().equals("ram")
-				|| !this.material.toLowerCase().equals("otros")) {
+		if (this.material == null || this.material.equals("")){
+			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+		}
+		else if (this.material != null && !this.material.toLowerCase().equals("monitor")
+				&& !this.material.toLowerCase().equals("disco duro") && !this.material.toLowerCase().equals("ram")
+				&& !this.material.toLowerCase().equals("otros")) {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 		}
 	}

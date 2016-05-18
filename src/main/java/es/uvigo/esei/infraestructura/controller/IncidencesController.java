@@ -54,6 +54,8 @@ public class IncidencesController {
 	private String description;
 	private String textMessage;
 	private boolean selected = false;
+	private String message;
+	private boolean error = false;
 
 	public void initLists() {
 		if (laboratory != null) {
@@ -110,8 +112,10 @@ public class IncidencesController {
 		try {
 			this.computerGateway.create(new Computer(getLaboratory(), getComputerNum(), getLabelNum()));
 			this.computerGateway.save();
+			error = false;
 		} catch (SQLException e) {
-			context.redirect("incidences.xhtml?lab=" + laboratory + "&error=true");
+			message = e.getMessage();
+			error = true;
 		}
 	}
 
@@ -226,7 +230,10 @@ public class IncidencesController {
 	}
 
 	public void redirectIfNotLaboratory() throws IOException {
-		if (this.laboratory != null && !this.laboratory.toLowerCase().equals("libre acceso")
+		if (this.laboratory == null || this.laboratory.equals("")){
+			this.redirectToIndex();
+		}
+		else if (this.laboratory != null && !this.laboratory.toLowerCase().equals("libre acceso")
 				&& !this.laboratory.toLowerCase().equals("s01") && !this.laboratory.toLowerCase().equals("s02")
 				&& !this.laboratory.toLowerCase().equals("s03") && !this.laboratory.toLowerCase().equals("s04")
 				&& !this.laboratory.toLowerCase().equals("s05") && !this.laboratory.toLowerCase().equals("s06")
@@ -400,6 +407,22 @@ public class IncidencesController {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 	
 	

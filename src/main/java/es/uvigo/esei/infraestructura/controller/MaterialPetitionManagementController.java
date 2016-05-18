@@ -7,6 +7,8 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.MaterialPetition;
+import es.uvigo.esei.infraestructura.entities.MaterialPetitionRow;
+import es.uvigo.esei.infraestructura.facade.MaterialGatewayBean;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionGatewayBean;
 import es.uvigo.esei.infraestructura.util.Mail;
 
@@ -16,6 +18,9 @@ public class MaterialPetitionManagementController {
 
 	@Inject
 	private MaterialPetitionGatewayBean materialPetitionGateway;
+	
+	@Inject
+	private MaterialGatewayBean materialGateway;
 
 	@Inject
 	private Mail mail;
@@ -34,6 +39,11 @@ public class MaterialPetitionManagementController {
 		materialPetitionGateway.find(id);
 		materialPetitionGateway.getCurrent().setPetitionState(2);
 		materialPetitionGateway.save();
+		for (MaterialPetitionRow materialPetitionRow : materialPetitionGateway.getCurrent().getPetitionRows()) {
+			materialGateway.find(materialPetitionRow.getMaterial().getId());
+			materialGateway.getCurrent().setQuantity(materialGateway.getCurrent().getQuantity() + materialPetitionRow.getQuantity());
+			materialGateway.save();
+		}
 	}
 
 	public List<MaterialPetition> getAllPetitions() {

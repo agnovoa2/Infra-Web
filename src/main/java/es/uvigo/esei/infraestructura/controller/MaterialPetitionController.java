@@ -93,8 +93,12 @@ public class MaterialPetitionController {
 		materialPetitionGateway.save();
 		for (MaterialPetitionRow materialPetitionRow : petitionRows) {
 			materialPetitionRowGateway.create(materialPetitionRow);
+			materialGateway.find(materialPetitionRow.getMaterial().getId());
+			materialGateway.getCurrent().setQuantity(materialGateway.getCurrent().getQuantity() - materialPetitionRow.getQuantity());
+			materialGateway.save();
 			materialPetitionRowGateway.save();
 		}
+		materialPetitionGateway.save();
 		setTextMessage();
 		mail.sendMail(textMessage, "Nueva petición de material");
 	}
