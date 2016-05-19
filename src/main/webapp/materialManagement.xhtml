@@ -261,21 +261,21 @@
 										<h:message id="m1" for="materialName" style="color:red" />
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Tipo material"
-											a:placeholder="Tipo del material" />
+										<h:outputLabel value="Tipo material" />
 										<h:inputText id="materialType" class="form-control"
+											a:placeholder="Tipo del material"
 											value="#{materialManagement.materialType}" />
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Capacidad"
-											a:placeholder="Capacidad del material" />
+										<h:outputLabel value="Capacidad" />
 										<h:inputText class="form-control"
-											value="#{materialManagement.capacity}" />
+											value="#{materialManagement.capacity}"
+											a:placeholder="Capacidad del material" />
 									</div>
 									<div class="form-group">
-										<h:outputLabel value="Velocidad"
-											a:placeholder="Velocidad del material" />
+										<h:outputLabel value="Velocidad" />
 										<h:inputText class="form-control"
+											a:placeholder="Velocidad del material"
 											value="#{materialManagement.speed}" />
 									</div>
 									<div class="form-group">
@@ -766,7 +766,7 @@
 										<h:column>
 											<f:facet name="header">Cantidad</f:facet>
 											<div class="row">
-												<div class="col-xs-4">
+												<div class="col-xs-8">
 													<h:inputText id="materialQuantity"
 														class="form-control input-sm" value="#{material.quantity}"
 														required="true"

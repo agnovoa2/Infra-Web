@@ -72,19 +72,19 @@ public class MaterialPetitionController {
 	public void doChangeQuantity(MaterialPetitionRow id, int quantity) {
 		int temp = petitionRows.get(petitionRows.indexOf(id)).getQuantity();
 		switch (quantity) {
-			case -1:
-				if (temp > 0){
-					petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
-				}
-				break;
-	
-			case 1:
-				if(temp < petitionRows.get(petitionRows.indexOf(id)).getMaterial().getQuantity())
-					petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
-				break;
-	
-			default:
-				break;
+		case -1:
+			if (temp > 0) {
+				petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
+			}
+			break;
+
+		case 1:
+			if (temp < petitionRows.get(petitionRows.indexOf(id)).getMaterial().getQuantity())
+				petitionRows.get(petitionRows.indexOf(id)).setQuantity(temp + quantity);
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -92,11 +92,13 @@ public class MaterialPetitionController {
 		materialPetitionGateway.create(petition);
 		materialPetitionGateway.save();
 		for (MaterialPetitionRow materialPetitionRow : petitionRows) {
-			materialPetitionRowGateway.create(materialPetitionRow);
-			materialGateway.find(materialPetitionRow.getMaterial().getId());
-			materialGateway.getCurrent().setQuantity(materialGateway.getCurrent().getQuantity() - materialPetitionRow.getQuantity());
-			materialGateway.save();
-			materialPetitionRowGateway.save();
+			if (materialPetitionRow.getQuantity() > 0) {
+				materialPetitionRowGateway.create(materialPetitionRow);
+				materialGateway.find(materialPetitionRow.getMaterial().getId());
+				materialGateway.getCurrent().setQuantity(materialGateway.getCurrent().getQuantity() - materialPetitionRow.getQuantity());
+				materialGateway.save();
+				materialPetitionRowGateway.save();
+			}
 		}
 		materialPetitionGateway.save();
 		setTextMessage();
@@ -108,9 +110,12 @@ public class MaterialPetitionController {
 				+ "El usuario " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
 				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ petition.getPetitionDate() + " la siguiente petición de materiales.\n" + " \n");
-		for (MaterialPetitionRow petitionRow : petitionRows) {
-			this.textMessage += petitionRow.getMaterial().getMaterial().toString() + ": "
-					+ petitionRow.getMaterial().getMaterialName() + " Cantidad: " + petitionRow.getQuantity() + "\n";
+		for (MaterialPetitionRow materialPetitionRow : petitionRows) {
+			if (materialPetitionRow.getQuantity() > 0) {
+				this.textMessage += materialPetitionRow.getMaterial().getMaterial().toString() + ": "
+						+ materialPetitionRow.getMaterial().getMaterialName() + " Cantidad: " + materialPetitionRow.getQuantity()
+						+ "\n";
+			}
 		}
 	}
 
