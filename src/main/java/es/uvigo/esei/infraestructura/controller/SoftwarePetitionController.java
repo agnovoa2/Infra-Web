@@ -112,6 +112,14 @@ public class SoftwarePetitionController {
 	public List<Software> getAllSoftware() throws IOException {
 		return this.softwareGateway.getAll();
 	}
+	
+	public List<Software> getAllPrograms() throws IOException {
+		return this.softwareGateway.getAllProgram();
+	}
+	
+	public List<Software> getAllOperativeSystems() throws IOException {
+		return this.softwareGateway.getAllOperativeSystem();
+	}
 
 	public boolean isSubjectSoftware(String softwareName) {
 		return this.subjectGateway.getCurrent().getSoftwares().contains(this.softwareGateway.find(softwareName));
@@ -145,6 +153,10 @@ public class SoftwarePetitionController {
 		return description;
 	}
 
+	public String getSubject() {
+		return subjectGateway.findByCode(code).getSubjectName();
+	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}

@@ -64,4 +64,12 @@ public class SoftwareGatewayBean {
 	public List<Software> getAll(){
 		return em.createNamedQuery("findAllSoftware", Software.class).getResultList();
 	}
+	
+	public List<Software> getAllProgram(){
+		return em.createNamedQuery("findAllSoftwareProgram", Software.class).getResultList();
+	}
+	
+	public List<Software> getAllOperativeSystem(){
+		return em.createNamedQuery("findAllSoftwareOperativeSystem", Software.class).getResultList();
+	}
 }

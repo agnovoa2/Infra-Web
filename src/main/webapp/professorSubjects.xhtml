@@ -4,7 +4,8 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
 <f:metadata>
 	<f:event listener="#{loginController.redirectIfAnonymous()}"
 		type="preRenderView" />
@@ -16,32 +17,118 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Mis asignaturas</h2>
-	<h:panelGroup id="subjects">
-		<h:form>
-			<ui:repeat var="subject"
-				value="#{proffessorSubjects.professorSubjects}">
-				<h:outputLabel value="#{subject.subjectName}" />
-				&nbsp;
-				<h:commandLink
-					action="#{proffessorSubjects.removeSubjectFromProfessor(subject.code)}"
-					value="Ya no imparto esta asignatura">
-					<f:ajax render="subjects" />
-				</h:commandLink>
-				&nbsp;
-				<h:link value="Petición de software"
-					outcome="softwarePetition?code=#{subject.code}"
-					rendered="#{!proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
-				&nbsp;
-				<h:link value="Editar petición de software"
-					outcome="softwarePetition?code=#{subject.code}"
-					rendered="#{proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-tv" /> Gestión de mis asignaturas
+			</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Mis asignaturas</h3>
+						</div>
+						<h:panelGroup id="professorSubjects">
+							<o:form id="professorSubjectForm">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="subject"
+										value="#{proffessorSubjects.professorSubjects}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Asignatura</f:facet>    				
+								            #{subject.subjectName}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Código</f:facet>    				
+								            #{subject.code}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Profesores asignados</f:facet>
+											<ui:repeat var="user" value="#{subject.users}">
+								            	#{user.toString()}
+								            	<br />
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Eliminar asignatura</f:facet>
+											<h:commandLink
+												action="#{proffessorSubjects.removeSubjectFromProfessor(subject.code)}">
+												<i class="fa fa-remove text-red text-center"></i>
+												<f:ajax render="@form subjects subjectsForm" />
+											</h:commandLink>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Petición de software</f:facet>
+											<h:link value="Petición de software" class="btn btn-primary"
+												outcome="softwarePetition?code=#{subject.code}"
+												rendered="#{!proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
+											<h:link value="Editar petición de software" class="btn btn-primary"
+												outcome="softwarePetition?code=#{subject.code}"
+												rendered="#{proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
+										</h:column>
+										<h:outputLabel value="#{subject.subjectName}" />
+										<h:commandLink
+											action="#{proffessorSubjects.removeSubjectFromProfessor(subject.code)}"
+											value="Ya no imparto esta asignatura">
+											<f:ajax render="@form subjects subjectsForm" />
+										</h:commandLink>
+										<h:link value="Petición de software"
+											outcome="softwarePetition?code=#{subject.code}"
+											rendered="#{!proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
+										<h:link value="Editar petición de software"
+											outcome="softwarePetition?code=#{subject.code}"
+											rendered="#{proffessorSubjects.isPetitionDone(subject.code) and !proffessorSubjects.isPetitionAccepted(subject.code)}" />
+										<br />
+										<h:outputLabel value="Solicitud aprobada."
+											rendered="#{proffessorSubjects.isPetitionAccepted(subject.code)}" />
+									</h:dataTable>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
 				<br />
-				<h:outputLabel value="Solicitud aprobada." rendered="#{proffessorSubjects.isPetitionAccepted(subject.code)}" />
-			</ui:repeat>
-		</h:form>
-	</h:panelGroup>
-	<br />
-	<h:link outcome="assignSubject" value="Lista de asignaturas" />
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Lista de asignaturas</h3>
+						</div>
+						<h:panelGroup id="subjects">
+							<o:form id="subjectsForm">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="subject" class="table table-hover"
+										value="#{proffessorSubjects.remainingSubjects}">
+										<h:column>
+											<f:facet name="header">Asignatura</f:facet>    				
+								            #{subject.subjectName}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Código</f:facet>    				
+								            #{subject.code}
+								        </h:column>
+								        <h:column>
+											<f:facet name="header">Profesores asignados</f:facet>
+											<ui:repeat var="user" value="#{subject.users}">
+								            	#{user.toString()}
+								            	<br />
+											</ui:repeat>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Añadir a mis asignaturas</f:facet>    				
+								            <h:commandLink
+											action="#{proffessorSubjects.assignSubjectToProfessor(subject.subjectName)}">
+												<i class="fa fa-plus text-green"></i>
+												<f:ajax render="@form professorSubjects professorSubjectForm" />
+										</h:commandLink>
+								        </h:column>
+									</h:dataTable>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

@@ -20,59 +20,107 @@
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Petición de software</h2>
-	<h3>Listado de software</h3>
-	<h:panelGroup id="softwares">
-		<o:form includeViewParams="true" id="petitionForm">
-
-			<ui:repeat var="software" value="#{softwarePetition.allSoftware}">
-				<h:outputLabel value="#{software.softwareName}" />
-				<h:commandLink
-					action="#{softwarePetition.doAddSoftwareToSubject(software.softwareName)}"
-					value="Añadir"
-					rendered="#{!softwarePetition.isSubjectSoftware(software.softwareName)}">
-					<f:ajax render="softwares" />
-				</h:commandLink>
-				<h:commandLink
-					action="#{softwarePetition.doRemoveSoftwareFromSubject(software.softwareName)}"
-					value="Eliminar"
-					rendered="#{softwarePetition.isSubjectSoftware(software.softwareName)}">
-					<f:ajax render="softwares" />
-				</h:commandLink>
-				<br />
-			</ui:repeat>
-			<h3>Realizar petición</h3>
-			<h4>La petición se realizará con el software añadido
-				anteriormente</h4>
-			<h:outputLabel value="Descripción: " />
-			<h:inputTextarea value="#{softwarePetition.description}"
-				a:placeholder="Descripción opcional de la petición" />
-			<br />
-			<h:commandButton action="#{softwarePetition.doPetition()}"
-				value="Realizar petición" />
-		</o:form>
-	</h:panelGroup>
-	<h3>Dar de alta software</h3>
-	<h:form id="softwareForm">
-		<h:outputLabel value="Nombre del Software: " />
-		<h:inputText id="name" value="#{softwarePetition.software}"
-			a:placeholder="Nombre del software" required="true"
-			requiredMessage="Indique el nombre del software" />
-		<h:message id="m1" for="name" style="color:red" />
-		<br />
-		<h:outputLabel value="Tipo de Software: " />
-		<h:selectOneMenu id="type" value="#{softwarePetition.softwareType}">
-			<f:selectItem itemLabel="Programa" itemValue="0" />
-			<f:selectItem itemLabel="Sistema operativo" itemValue="1" />
-		</h:selectOneMenu>
-		<br />
-		<h:outputLabel value="URL de descarga: " />
-		<h:inputText value="#{softwarePetition.dowloadURL}" a:placeholder="URL de descarga"/>
-		<br />
-		<h:commandButton value="Dar de alta"
-			action="#{softwarePetition.doAddSoftware()}">
-			<f:ajax execute="name type url" render="@form softwares petitionForm" />
-		</h:commandButton>
-	</h:form>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-tv" /> Petición de software para
+				#{softwarePetition.subject}
+			</h1>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Listado de software</h3>
+						</div>
+						<h:panelGroup id="softwares">
+							<o:form includeViewParams="true" id="petitionForm">
+								<div class="box-body table-responsive">
+									<h:dataTable var="software"
+										value="#{softwarePetition.allSoftware}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Nombre</f:facet>    				
+								            #{software.softwareName}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Tipo</f:facet>    				
+								            #{software.type.toString()}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Añadir</f:facet>
+											<h:commandLink
+												action="#{softwarePetition.doAddSoftwareToSubject(software.softwareName)}"
+												rendered="#{!softwarePetition.isSubjectSoftware(software.softwareName)}">
+												<i class="fa fa-plus text-green" />
+												<f:ajax render="softwares" />
+											</h:commandLink>
+											<h:commandLink
+												action="#{softwarePetition.doRemoveSoftwareFromSubject(software.softwareName)}"
+												rendered="#{softwarePetition.isSubjectSoftware(software.softwareName)}">
+												<i class="fa fa-remove text-red" />
+												<f:ajax render="softwares" />
+											</h:commandLink>
+										</h:column>
+									</h:dataTable>
+									<div class="form-group">
+										<h:outputLabel value="Descripción: " />
+										<h:inputTextarea class="form-control"
+											value="#{softwarePetition.description}"
+											a:placeholder="Descripción opcional de la petición" />
+									</div>
+									<div class="box-footer">
+										<h:commandButton class="btn btn-primary pull-right"
+											action="#{softwarePetition.doPetition()}"
+											value="Realizar petición" />
+									</div>
+								</div>
+							</o:form>
+						</h:panelGroup>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">Añadir software</h3>
+							<o:form id="softwareForm">
+								<div class="box-body">
+									<div class="form-group">
+										<h:outputLabel value="Nombre del Software: " />
+										<h:inputText id="name" class="form-control"
+											value="#{softwarePetition.software}"
+											a:placeholder="Nombre del software" required="true"
+											requiredMessage="Indique el nombre del software" />
+										<h:message id="m1" for="name" style="color:red" />
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="Tipo de Software: " />
+										<h:selectOneMenu id="type" class="form-control"
+											value="#{softwarePetition.softwareType}">
+											<f:selectItem itemLabel="Programa" itemValue="0" />
+											<f:selectItem itemLabel="Sistema operativo" itemValue="1" />
+										</h:selectOneMenu>
+									</div>
+									<div class="form-group">
+										<h:outputLabel value="URL de descarga: " />
+										<h:inputText class="form-control"
+											value="#{softwarePetition.dowloadURL}"
+											a:placeholder="URL de descarga" />
+									</div>
+									<div class="box-footer">
+										<h:commandButton value="Dar de alta"
+											class="btn btn-primary pull-right"
+											action="#{softwarePetition.doAddSoftware()}">
+											<f:ajax execute="name type url"
+												render="@form softwares petitionForm" />
+										</h:commandButton>
+									</div>
+								</div>
+							</o:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

@@ -48,4 +48,15 @@ public class ProfessorSubjectsController {
 		this.subjectGateway.findByCode(code);
 		return this.subjectGateway.getCurrent().getPetitionState() > 1;
 	}
+	
+	public void assignSubjectToProfessor(String subject) throws IOException{
+		this.userGateway.getCurrent().getSubjects().add(subjectGateway.find(subject));
+		this.userGateway.save();
+	}
+	
+	public List<Subject> getRemainingSubjects(){
+		List<Subject> subjects = this.subjectGateway.getAll();	
+		subjects.removeAll(this.userGateway.getCurrent().getSubjects());
+		return subjects;
+	}
 }

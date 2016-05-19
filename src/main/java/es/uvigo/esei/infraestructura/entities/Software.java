@@ -10,12 +10,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Software")
-@NamedQuery(name = "findAllSoftware", query = "select s from Software s")
+@NamedQueries({
+@NamedQuery(name = "findAllSoftware", query = "select s from Software s"),
+@NamedQuery(name = "findAllSoftwareProgram", query = "select s from Software s where s.type = es.uvigo.esei.infraestructura.entities.SoftwareType.PROGRAM"),
+@NamedQuery(name = "findAllSoftwareOperativeSystem", query = "select s from Software s where s.type = es.uvigo.esei.infraestructura.entities.SoftwareType.OPERATIVE_SYSTEM")
+})
 public class Software {
 
 	@Id
