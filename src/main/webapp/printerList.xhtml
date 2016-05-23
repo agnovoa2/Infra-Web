@@ -4,49 +4,153 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://xmlns.jcp.org/jsf/html">
 
 <h:head>
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
-	<h2>Mis impresoras</h2>
-	<h:panelGroup id="printers">
-		<h:form>
-			<ui:repeat var="printer" value="#{printerList.allProfessorPrinters}">
-				<h:outputLabel value="#{printer.model.modelName}" />
-				&nbsp;
-				<h:outputLabel value="#{printer.ubication}" />
-				&nbsp;
-				<h:outputLabel value="#{printer.inventoryNumber}" />
-				<h:commandLink
-					action="#{printerList.doRemovePrinter(printer.inventoryNumber)}"
-					value="Eliminar">
-					<f:ajax render="printers" />
-				</h:commandLink>
-				&nbsp;
-				<h:link
-					outcome="consumablePetition?invnum=#{printer.inventoryNumber}"
-					value="Petición de consumibles" />
-				<br />
-			</ui:repeat>
-			<h:panelGroup rendered="#{printerList.notProfessorPrinters.size() != 0}">
-				<h2>Impresoras existentes</h2>
-
-				<h:selectOneMenu value="#{printerList.printer}" id="existingPrinter">
-					<f:selectItems value="#{printerList.notProfessorPrinters}"
-						var="printer" itemValue="#{printer.inventoryNumber}"
-						itemLabel="#{printer.model.modelName}&nbsp;#{printer.ubication}" />
-				</h:selectOneMenu>
-				<br />
-				<h:commandButton action="#{printerList.doAddExistingPrinter()}"
-					value="Añadir impresora">
-					<f:ajax execute="existingPrinter" render="printers" />
-				</h:commandButton>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="content">
+			<h1>
+				<i class="fa fa-print" />Mis impresoras
+			</h1>
+			<h:panelGroup id="error">
+				<h:panelGroup rendered="#{consumableManagement.error}">
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-ban"></i> !Error!
+						</h4>
+						#{consumableManagement.message}
+					</div>
+				</h:panelGroup>
 			</h:panelGroup>
-		</h:form>
-	</h:panelGroup>
-	<h2>Añadir nueva impresora</h2>
-	<h:link value="Añadir impresora" outcome="addPrinter" />
+			<div class="row">
+				<h:panelGroup id="printers">
+					<o:form id="printersForm">
+						<div class="col-md-12">
+							<div class="box box-primary">
+								<div class="box-header with-border">
+									<h3 class="box-title">Lista de impresoras</h3>
+								</div>
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="printer"
+										value="#{printerList.allProfessorPrinters}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Modelo</f:facet>    				
+								            #{printer.model.modelName}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Ubicación</f:facet>    				
+								            #{printer.ubication}
+								        </h:column>
+										<h:column>
+											<f:facet name="header">Eliminar</f:facet>
+											<h:commandLink
+												action="#{printerList.doRemovePrinter(printer.inventoryNumber)}">
+												<i class="fa fa-remove text-red"></i>
+												<f:ajax render="@form listForm printers" />
+											</h:commandLink>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Realizar petición</f:facet>
+											<h:link class="btn btn-primary"
+												outcome="consumablePetition?invnum=#{printer.inventoryNumber}"
+												value="Petición de consumibles" />
+										</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</o:form>
+					<h:panelGroup
+						rendered="#{printerList.notProfessorPrinters.size() != 0}">
+						<o:form id="listForm">
+							<div class="col-md-12">
+								<div class="box box-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Añadir a mis impresoras</h3>
+									</div>
+									<div class="box-body">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<h:selectOneMenu class="form-control"
+														value="#{printerList.printer}" id="existingPrinter">
+														<f:selectItems value="#{printerList.notProfessorPrinters}"
+															var="printer" itemValue="#{printer.inventoryNumber}"
+															itemLabel="#{printer.model.modelName}&nbsp;#{printer.ubication}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<h:commandButton
+													action="#{printerList.doAddExistingPrinter()}"
+													class="btn btn-primary" value="Añadir impresora">
+													<f:ajax execute="@form"
+														render="@form printersForm printers" />
+												</h:commandButton>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</o:form>
+					</h:panelGroup>
+				</h:panelGroup>
+				<o:form rendered="#{printerList.allModels.size() > 0}">
+					<div class="col-md-12">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Añadir a mis impresoras</h3>
+							</div>
+							<div class="box-body">
+								<div class="form-group">
+									<h:outputLabel value="Ubicación" />
+									<h:inputText id="ubication" class="form-control"
+										value="#{printerList.ubication}"
+										a:placeholder="Ubicación de impresora" required="true"
+										requiredMessage="Debe especificar una ubicación para la impresora" />
+									<h:message id="m1" for="ubication" style="color:red" />
+								</div>
+								<div class="form-group">
+									<h:outputLabel value="Nº inventario" />
+									<h:inputText id="inventoryNumber" class="form-control"
+										value="#{printerList.printer}"
+										a:placeholder="Número de inventario de impresora"
+										required="true"
+										requiredMessage="Debe especificar un número de inventario válido"
+										validatorMessage="Debe especificar un número de inventario válido">
+										<f:validateLongRange maximum="999999999" minimum="0" />
+									</h:inputText>
+									<h:message id="m2" for="inventoryNumber" style="color:red" />
+								</div>
+								<div class="form-group">
+									<h:outputLabel value="Modelo" />
+									<h:selectOneMenu class="form-control"
+										value="#{printerList.model}">
+										<f:selectItems value="#{printerList.allModels}" var="model"
+											itemValue="#{model.modelName}" itemLabel="#{model.modelName}" />
+									</h:selectOneMenu>
+								</div>
+								<div class="box-footer">
+									<h:commandButton action="#{printerList.doAddPrinter()}"
+										class="btn btn-primary pull-right" value="Añadir impresora">
+										<f:ajax execute="@form"
+											render="@form printers printersForm listForm" />
+									</h:commandButton>
+								</div>
+							</div>
+						</div>
+					</div>
+				</o:form>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

@@ -93,8 +93,19 @@
 		                </h:panelGroup>
 		                <h:panelGroup rendered="#{loginController.professor}">
 		                    <li class="treeview">
-		                        <a href="printerList.xhtml"> <i class="fa fa-print" /> <span>Peticiones de consumibles</span>
+		                        <a href="#"> <i class="fa fa-print" /> <span>Peticiones
+								de consumibles</span> <i class="fa fa-angle-left pull-right" />
 		                        </a>
+		                        <ul class="treeview-menu">
+		                            <li class="treeview">
+		                                <a href="printerList.xhtml"> <i class="fa fa-circle-o" /> <span>Realizar peticiones</span>
+		                                </a>
+		                            </li>
+		                            <li class="treeview">
+		                                <a href="addPrinterModel.xhtml"> <i class="fa fa-circle-o" /> <span>Añadir modelos</span>
+		                                </a>
+		                            </li>
+		                        </ul>
 		                    </li>
 		                </h:panelGroup>
 		                <h:panelGroup rendered="#{loginController.professor}">
