@@ -37,6 +37,7 @@ public class PrinterListController {
 	private String ubication;
 	private boolean success = false;
 	private boolean error = false;
+	private String message;
 	
 	@PostConstruct
     public void init() {
@@ -98,6 +99,14 @@ public class PrinterListController {
 		this.success = success;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	public List<Printer> getNotProfessorPrinters() {
 		List<Printer> printers = this.printerGateway.getAll();
 		printers.removeAll(this.userGateway.getCurrent().getPrinters());
@@ -116,7 +125,12 @@ public class PrinterListController {
 
 			this.userGateway.getCurrent().getPrinters().add(this.printerGateway.getCurrent());
 			this.userGateway.save();
+			success = true;
+			error = false;
 		} catch (SQLException e) {
+			message = e.getMessage();
+			success = false;
+			error = true;
 		}
 	}
 }

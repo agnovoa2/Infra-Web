@@ -58,6 +58,9 @@ public class ConsumablePetitionController {
 	private List<Consumable> printerConsumables;
 	private List<String> quantities;
 	private String textMessage;
+	private String message;
+	private boolean error = false;
+	private boolean success = false;
 
 	@PostConstruct
 	public void init(){
@@ -130,11 +133,14 @@ public class ConsumablePetitionController {
 			
 			mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
 			report.doSolicitudePDF(petition);
-			
+			error = false;
+			success = true;
+			message = "Petición realizada correctamente.";
 			
 		} catch (DocumentException | IOException e) {
-			// TODO Auto-generated catch block
-			// mandar mensaje de que pasó algo al crear el pdf
+			error = true;
+			success = false;
+			message = "Ha sucedido algún error al realizar la petición, por favor, vuelva a intentarlo";
 		}
 	}
 
@@ -167,6 +173,30 @@ public class ConsumablePetitionController {
 	
 	public String getTextMessage(){
 		return this.textMessage;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 	
 }

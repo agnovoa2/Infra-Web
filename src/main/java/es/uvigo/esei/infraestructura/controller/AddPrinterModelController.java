@@ -8,8 +8,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.Consumable;
@@ -26,8 +24,6 @@ public class AddPrinterModelController {
 
 	@Inject
 	private ModelGatewayBean modelGateway;
-
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 
 	private String consumableName;
 	private String consumableDescription;
@@ -48,6 +44,9 @@ public class AddPrinterModelController {
 	private String fuser;
 	private String modelName;
 	private String tradeMark;
+	private boolean success = false;
+	private boolean error = false;
+	private String message;
 
 	@PostConstruct
 	public void init() {
@@ -98,8 +97,13 @@ public class AddPrinterModelController {
 			this.consumableGateway.save();
 			this.consumableName = "";
 			this.consumableDescription = "";
+			success = true;
+			error = false;
+			message = "Consumible añadido correctamente";
 		} catch (SQLException e) {
-			context.redirect("addPrinterModel.xhtml?error=true");
+			success = false;
+			error = true;
+			message = e.getMessage();
 		}
 	}
 
@@ -114,9 +118,13 @@ public class AddPrinterModelController {
 				this.modelGateway.create(model);
 				this.modelGateway.save();
 			}
-			context.redirect("addPrinter.xhtml");
+			success = true;
+			error = false;
+			message = "Modelo añadido correctamente";
 		} catch (SQLException e) {
-			context.redirect("addPrinterModel.xhtml?error=true");
+			success = false;
+			error = true;
+			message = e.getMessage();
 		}
 	}
 
@@ -352,5 +360,29 @@ public class AddPrinterModelController {
 
 	public void setTradeMark(String tradeMark) {
 		this.tradeMark = tradeMark;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
