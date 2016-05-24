@@ -79,4 +79,8 @@ public class SubjectGatewayBean {
 	public List<Subject> getAllPetitions(){
 		return em.createNamedQuery("findAllSubjectPetitions", Subject.class).getResultList();
 	}
+	
+	public List<Subject> getAllUnsolvedPetitions(){
+		return em.createNamedQuery("findAllUnsolvedSubjectPetitions", Subject.class).getResultList();
+	}
 }

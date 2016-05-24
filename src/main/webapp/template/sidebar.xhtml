@@ -85,12 +85,6 @@
 		                    </ul>
 		                </li>
 		                <!-- Incidencias -->
-		                <h:panelGroup rendered="#{!loginController.intern}">
-		                    <li class="treeview">
-		                        <a href="materialPetition.xhtml"> <i class="fa fa-briefcase" /> <span>Peticiones de material</span>
-		                        </a>
-		                    </li>
-		                </h:panelGroup>
 		                <h:panelGroup rendered="#{loginController.professor}">
 		                    <li class="treeview">
 		                        <a href="#"> <i class="fa fa-print" /> <span>Peticiones
@@ -106,6 +100,12 @@
 		                                </a>
 		                            </li>
 		                        </ul>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{!loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="materialPetition.xhtml"> <i class="fa fa-briefcase" /> <span>Peticiones de material</span>
+		                        </a>
 		                    </li>
 		                </h:panelGroup>
 		                <h:panelGroup rendered="#{loginController.professor}">
@@ -169,13 +169,6 @@
 		                </h:panelGroup>
 		                <h:panelGroup rendered="#{loginController.intern}">
 		                    <li class="treeview">
-		                        <a href="userManagement.xhtml">
-		                            <i class="fa fa-users" /> <span>Gestión de usuarios</span>
-		                        </a>
-		                    </li>
-		                </h:panelGroup>
-		                <h:panelGroup rendered="#{loginController.intern}">
-		                    <li class="treeview">
 		                        <a href="#"> <i class="fa fa-dropbox" /> <span>Materiales cedibles</span> <i class="fa fa-angle-left pull-right" />
 		                        </a>
 		                        <ul class="treeview-menu">
@@ -201,6 +194,13 @@
 		                                </a>
 		                            </li>
 		                        </ul>
+		                    </li>
+		                </h:panelGroup>
+		                <h:panelGroup rendered="#{loginController.intern}">
+		                    <li class="treeview">
+		                        <a href="userManagement.xhtml">
+		                            <i class="fa fa-users" /> <span>Gestión de usuarios</span>
+		                        </a>
 		                    </li>
 		                </h:panelGroup>
 		            </ul>

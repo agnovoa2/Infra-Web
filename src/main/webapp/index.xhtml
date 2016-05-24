@@ -15,35 +15,366 @@
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="content">
-			<h2>Infraestructura ESEI</h2>
-			<h:outputLabel value="Bienvenido #{loginController.currentUser.name}"
-				rendered="#{!loginController.anonymous}" />
-			<h:link value="Sign up" outcome="signup"
-				rendered="#{loginController.anonymous}" />
-			<br />
-			<h:link value="Login" outcome="login"
-				rendered="#{loginController.anonymous}" />
-			<br />
-			<h:link value="Zona becarios" outcome="zonaBecario"
-				rendered="#{!loginController.anonymous and loginController.intern}" />
-			<br />
-			<h:link value="Petición de software" outcome="professorSubjects"
-				rendered="#{!loginController.anonymous and loginController.professor}" />
-			<br />
-			<h:link value="Petición de consumibles" outcome="printerList"
-				rendered="#{!loginController.anonymous and loginController.professor}" />
-			<br />
-			<h:link value="Petición de material" outcome="materialPetition"
-				rendered="#{!loginController.anonymous}" />
-			<br />
-			<h:link value="Editar mi perfil"
-				outcome="editProfile?login=#{loginController.currentUser.name}"
-				rendered="#{!loginController.anonymous}" />
-			<br />
-			<h:form>
-				<h:commandLink action="#{loginController.doLogout()}" value="Logout"
-					rendered="#{!loginController.anonymous}" />
-			</h:form>
+			<div class="row">
+				<h:panelGroup
+					rendered="#{index.allIncidences.size() > 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-danger">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-exclamation-triangle" /> Incidencias
+									pendientes <span class="label label-warning">#{index.allIncidences.size()}</span>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="incidence" value="#{index.allIncidences}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Ubicación</f:facet>    				
+								            #{incidence.computer.laboratory}
+								    </h:column>
+										<h:column>
+											<f:facet name="header">Número ordenador</f:facet>    				
+								            #{incidence.computer.labelNum}
+								    </h:column>
+										<h:column>
+											<f:facet name="header">Descripción</f:facet>    				
+								            #{incidence.description}
+								    </h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- fin del bloque de incidencias -->
+				<h:panelGroup
+					rendered="#{index.allIncidences.size() == 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-exclamation-triangle" /> Incidencias
+									pendientes
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<h3>
+									No hay incidencias en la escuela.<br />¡Buen trabajo!
+								</h3>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- fin del bloque de incidencias -->
+				<h:panelGroup
+					rendered="#{index.allSoftwarePetitions.size() > 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-danger">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-tv" /> Peticiones de software pendientes <span
+										class="label label-warning">#{index.allSoftwarePetitions.size()}</span>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="subject"
+										value="#{index.allSoftwarePetitions}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Asignatura</f:facet>    				
+								            #{subject.subjectName}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Código</f:facet>    				
+								            #{subject.code}
+								    	</h:column>
+										<h:column>
+											<f:facet name="header">Licenciatura</f:facet>    				
+								            #{subject.degree.toString()}
+								    	</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de peticiones de software -->
+				<h:panelGroup
+					rendered="#{index.allSoftwarePetitions.size() == 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-tv" /> Peticiones de software pendientes
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<h3>No hay peticiones de software pendientes.</h3>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de peticiones de software -->
+				<h:panelGroup
+					rendered="#{index.allConsumablePetitions.size() > 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-danger">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-print" /> Peticiones de consumibles pendientes <span
+										class="label label-warning">#{index.allConsumablePetitions.size()}</span>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="consumablePetition"
+										value="#{index.allConsumablePetitions}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Solicitante</f:facet>    				
+								            #{consumablePetition.user.toString()}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Impresora</f:facet>    				
+								            #{consumablePetition.printer.model.modelName}
+								    	</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de peticiones de consumibles -->
+				<h:panelGroup
+					rendered="#{index.allConsumablePetitions.size() == 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-print" /> Peticiones de consumibles
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<h3>No hay peticiones de consumibles pendientes.</h3>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de peticiones de consumibles -->
+				<h:panelGroup
+					rendered="#{index.allMaterialPetitions.size() > 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-danger">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-dropbox" /> Peticiones de materiales pendientes <span
+										class="label label-warning">#{index.allMaterialPetitions.size()}</span>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="materialPetition"
+										value="#{index.allMaterialPetitions}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Solicitante</f:facet>    				
+								            #{materialPetition.user.toString()}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Tipo de usuario</f:facet>    				
+								            #{materialPetition.user.role.toString()}
+								    	</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de peticiones de materiales -->
+				<h:panelGroup
+					rendered="#{index.allMaterialPetitions.size() == 0 and loginController.intern}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-dropbox" /> Peticiones de materiales
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<h3>No hay peticiones de materiales pendientes.</h3>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de peticiones de materiales -->
+				<h:panelGroup
+					rendered="#{index.myConsumablePetitions.size() > 0 and loginController.professor}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-print" /> Mis peticiones de consumibles <span
+										class="label label-success">#{index.myConsumablePetitions.size()}</span>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="consumablePetition"
+										value="#{index.myConsumablePetitions}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Impresora</f:facet>    				
+								            #{consumablePetition.printer.model.modelName}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Ubicación</f:facet>    				
+								            #{consumablePetition.printer.ubication}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Consumibles</f:facet>
+											<ui:repeat var="consumableRow" value="#{consumablePetition.petitionRows}">
+												#{consumableRow.consumable.toString()} #{consumableRow.quantity} <br/>
+											</ui:repeat>    				
+								    	</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de mis peticiones de consumibles -->
+				<h:panelGroup
+					rendered="#{index.myConsumablePetitions.size() == 0 and loginController.professor}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-print" /> Peticiones de consumibles
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<h3>No tengo peticiones de consumibles pendientes.</h3>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de mis peticiones de consumibles -->
+				<h:panelGroup
+					rendered="#{index.myMaterialPetitions.size() > 0 and (loginController.professor or loginController.student)}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-print" /> Mis peticiones de materiales <span
+										class="label label-success">#{index.myMaterialPetitions.size()}</span>
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-body table-responsive no-padding">
+									<h:dataTable var="consumablePetition"
+										value="#{index.myConsumablePetitions}"
+										class="table table-hover">
+										<h:column>
+											<f:facet name="header">Material</f:facet>    				
+								            #{consumablePetition.printer.model.modelName}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Cantidad</f:facet>    				
+								            #{consumablePetition.printer.ubication}
+								    	</h:column>
+								    	<h:column>
+											<f:facet name="header">Consumibles</f:facet>
+											<ui:repeat var="consumableRow" value="#{consumablePetition.petitionRows}">
+												#{consumableRow.consumable.toString()} #{consumableRow.quantity} <br/>
+											</ui:repeat>    				
+								    	</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de mis peticiones de materiales -->
+				<h:panelGroup
+					rendered="#{index.myConsumablePetitions.size() == 0 and (loginController.professor or loginController.student)}">
+					<div class="col-md-6">
+						<div class="box box-success">
+							<div class="box-header with-border">
+								<h3 class="box-title">
+									<i class="fa fa-dropbox" /> Peticiones de materiales
+								</h3>
+								<div class="box-tools pull-right">
+									<button class="btn btn-box-tool" data-widget="collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<h3>No tengo peticiones de materiales pendientes.</h3>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<!-- Fin del bloque de mis peticiones de materiales -->
+			</div>
 		</ui:define>
 	</ui:composition>
 </h:body>

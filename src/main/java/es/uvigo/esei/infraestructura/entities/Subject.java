@@ -20,7 +20,8 @@ import javax.persistence.Table;
 @Table(name = "Subject")
 @NamedQueries({ 
 	@NamedQuery(name = "findAllSubjects", query = "select s from Subject s"),
-	@NamedQuery(name = "findAllSubjectPetitions", query = "Select s From Subject s Where s.petitionState > 0") 
+	@NamedQuery(name = "findAllSubjectPetitions", query = "Select s From Subject s Where s.petitionState > 0"),
+	@NamedQuery(name = "findAllUnsolvedSubjectPetitions", query = "Select s From Subject s Where s.petitionState = 1")
 })
 
 public class Subject {

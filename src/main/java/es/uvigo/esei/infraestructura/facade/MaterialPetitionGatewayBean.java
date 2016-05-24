@@ -9,8 +9,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 import es.uvigo.esei.infraestructura.entities.MaterialPetition;
 
 @Stateful
@@ -58,5 +60,12 @@ public class MaterialPetitionGatewayBean {
 	
 	public List<MaterialPetition> getAllRetirevedPetitions(){
 		return em.createNamedQuery("findAllRetrievedMaterialPetitions", MaterialPetition.class).getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<MaterialPetition> getAllUserMaterialPetitions(String login){
+		Query query = em.createQuery("Select m From MaterialPetition m Where m.user.login = :login and m.petitionState = 0", MaterialPetition.class);
+		query.setParameter("login", login);
+		return query.getResultList();
 	}
 }

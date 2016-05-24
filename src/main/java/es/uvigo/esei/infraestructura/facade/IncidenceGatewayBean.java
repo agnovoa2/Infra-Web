@@ -55,10 +55,17 @@ public class IncidenceGatewayBean {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Incidence> getAllUnsolvedIncidences(Computer computer){
-		Query query = em.createQuery("Select i From Incidence i Where i.computer.id = :computer and i.state < 2",
-				Incidence.class);
+	public List<Incidence> getAllUnsolvedIncidences(){
+		Query query = em.createQuery("Select i From Incidence i Where i.state < 2", Incidence.class);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Incidence> getAllComputerUnsolvedIncidences(Computer computer){
+		Query query = em.createQuery("Select i From Incidence i Where i.computer.id = :computer and i.state < 2", Incidence.class);
 		query.setParameter("computer", computer.getId());
 		return query.getResultList();
 	}
+	
+	
 }

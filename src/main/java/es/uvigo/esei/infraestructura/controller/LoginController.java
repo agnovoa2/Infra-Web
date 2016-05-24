@@ -100,20 +100,20 @@ public class LoginController {
 				request.login(this.getLogin(), this.getPassword());
 				this.error = false;
 
-				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 			} catch (ServletException e) {
 				if (ldapLogin(request)) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?login=true");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 				} else {
 					this.error = true;
 					this.errorMessage = "Login or password don't match";
-					context.redirect("index.xhtml?login=error");
+					context.redirect("login.xhtml?login=error");
 				}
 			}
 		} else{
 			this.error = true;
 			this.errorMessage = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
-			context.redirect("index.xhtml?login=error");
+			context.redirect("login.xhtml?login=error");
 		}
 	}
 

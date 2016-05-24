@@ -300,7 +300,7 @@ public class IncidencesController {
 
 	public void doFinishIncidences() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
-		for (Incidence incidence : this.incidenceGateway.getAllUnsolvedIncidences(computerGateway.getCurrent())) {
+		for (Incidence incidence : this.incidenceGateway.getAllComputerUnsolvedIncidences(computerGateway.getCurrent())) {
 			incidence.setState(2);
 			this.setTextClose();
 			mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
@@ -312,7 +312,7 @@ public class IncidencesController {
 
 	public List<Incidence> unresolvedIncidences() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
-		return this.incidenceGateway.getAllUnsolvedIncidences(computerGateway.getCurrent());
+		return this.incidenceGateway.getAllComputerUnsolvedIncidences(computerGateway.getCurrent());
 	}
 
 	private void redirectToIndex() throws IOException {

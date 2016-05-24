@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
@@ -54,5 +55,12 @@ public class ConsumablePetitionGatewayBean {
 	
 	public List<ConsumablePetition> getAllDonePetitions(){
 		return em.createNamedQuery("findAllDonePetitions", ConsumablePetition.class).getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ConsumablePetition> getAllUserConsumablePetitions(String login){
+		Query query = em.createQuery("Select c From ConsumablePetition c Where c.user.login = :login and c.petitionState = 0", ConsumablePetition.class);
+		query.setParameter("login", login);
+		return query.getResultList();
 	}
 }
