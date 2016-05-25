@@ -8,7 +8,7 @@ import java.util.Base64;
 import java.util.Hashtable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ import es.uvigo.esei.infraestructura.facade.ConfigurationGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 import es.uvigo.esei.infraestructura.util.PasswordUtil;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean(name = "loginController")
 public class LoginController {
 
@@ -54,8 +54,8 @@ public class LoginController {
 
 	private String login;
 	private String password;
-	private boolean error;
-	private String errorMessage;
+	private boolean error = false;
+	private String message;
 	private Hashtable<String, String> env = new Hashtable<String, String>();
 
 	public String getLogin() {
@@ -74,12 +74,12 @@ public class LoginController {
 		this.password = password;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public boolean isError() {
@@ -103,17 +103,15 @@ public class LoginController {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 			} catch (ServletException e) {
 				if (ldapLogin(request)) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("editProfile.xhtml?login="+userGateway.getCurrent().getLogin()+"&ldap=yes");
 				} else {
 					this.error = true;
-					this.errorMessage = "Login or password don't match";
-					context.redirect("login.xhtml?login=error");
+					this.message = "El login o la contraseña no coinciden";
 				}
 			}
 		} else{
 			this.error = true;
-			this.errorMessage = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
-			context.redirect("login.xhtml?login=error");
+			this.message = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
 		}
 	}
 

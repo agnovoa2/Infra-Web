@@ -1,15 +1,15 @@
 package es.uvigo.esei.infraestructura.exception;
 
-public class RemoveUserException extends Exception
+public class EmptyIncidenceException extends Exception
 {
       /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public RemoveUserException() {}
+	public EmptyIncidenceException() {}
 
-      public RemoveUserException(String message)
+      public EmptyIncidenceException(String message)
       {
          super(message);
       }

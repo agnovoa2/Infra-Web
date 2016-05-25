@@ -9,6 +9,7 @@
 	xmlns:o="http://xmlns.jcp.org/jsf/html">
 <f:metadata>
 	<f:viewParam name="login" value="#{editProfile.login}" />
+	<f:viewParam name="ldap" value="#{editProfile.ldap}" />
 	<f:event
 		listener="#{editProfile.redirectIfCantEdit(editProfile.login)}"
 		type="preRenderView" />
@@ -27,6 +28,14 @@
 					<f:param value="#{editProfile.fullName}" />
 				</h:outputFormat>
 			</h1>
+			<h:panelGroup rendered="#{editProfile.ldap.equals('yes')}">
+				<div class="callout callout-info">
+					<h4>
+						<i class="icon fa fa-info"></i> Información.
+					</h4>
+					Como es la primera vez que inicia sesión, le recomendamos que cambie su correo electrónico por el correo que utilice con más frecuencia.
+				</div>
+			</h:panelGroup>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-primary">
@@ -66,7 +75,8 @@
 									</h:inputText>
 									<h:message id="m3" for="email" style="color:red" />
 								</div>
-								<h:panelGroup rendered="#{!editProfile.intern || editProfile.me}">
+								<h:panelGroup
+									rendered="#{!editProfile.intern || editProfile.me}">
 									<div class="form-group">
 										<h:outputLabel value="Contraseña antigua: " />
 										<h:inputText id="oldPassword" class="form-control"

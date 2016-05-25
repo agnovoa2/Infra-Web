@@ -5,53 +5,134 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:o="http://xmlns.jcp.org/jsf/html">
-	<h:body>
-		<ui:composition>
-			<header class="main-header">
-	            <!-- Logo -->
-	            <a href="index.xhtml" class="logo">
-	                <!-- mini logo for sidebar mini 50x50 pixels -->
-	                <span class="logo-mini"><b>I</b>WEB</span>
-	                <!-- logo for regular state and mobile devices -->
-	                <span class="logo-lg"><b>Infra</b>WEB</span>
-	            </a>
-	            <!-- Header Navbar: style can be found in header.less -->
-	            <nav class="navbar navbar-static-top" role="navigation">
-	                <!-- Sidebar toggle button-->
-	                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar" /> <span class="icon-bar" /> <span class="icon-bar" />
-	                </a>
-	                <div class="navbar-custom-menu">
-	                    <ul class="nav navbar-nav">
-	                        <!-- User Account: style can be found in dropdown.less -->
-	                        <li class="dropdown user user-menu">
-	                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="hidden-xs"><h:outputFormat value="#{loginController.fullName}"/></span>
-	                            </a>
-	                            <ul class="dropdown-menu">
-	                                <li class="user-header">
-	                                    <p><h:outputFormat value="#{loginController.fullName} #{loginController.role}" /></p>
-	                                </li>
-	                                <!-- Menu Body -->
-	                                <li class="user-body"></li>
-	                                <!-- Menu Footer-->
-	                                <li class="user-footer">
-	                                    <div class="pull-left">
-	                                    	<h:link value="Perfil"
-												outcome="editProfile?login=#{loginController.currentUser.name}"
-												rendered="#{!loginController.anonymous}" class="btn btn-default btn-flat"/>
-	                                    </div>
-	                                    <div class="pull-right">
-	                                    	<o:form>
-	                                    		<h:commandLink action="#{loginController.doLogout()}" value="Cerrar sesión" class="btn btn-default btn-flat"/>
-	                                    	</o:form>
-	                                    </div>
-	                                </li>
-	                            </ul>
-	                        </li>
-	                        <!-- Control Sidebar Toggle Button -->
-	                    </ul>
-	                </div>
-	            </nav>
-	        </header>
-		</ui:composition>
-	</h:body>
+<h:body>
+	<ui:composition>
+		<header class="main-header"> <!-- Logo --> <a
+			href="index.xhtml" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini"><b>I</b>WEB</span> <!-- logo for regular state and mobile devices -->
+			<span class="logo-lg"><b>Infra</b>WEB</span>
+		</a> <!-- Header Navbar: style can be found in header.less --> <nav
+			class="navbar navbar-static-top" role="navigation"> <!-- Sidebar toggle button-->
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+			role="button"> <span class="sr-only">Toggle navigation</span> <span
+			class="icon-bar" /> <span class="icon-bar" /> <span
+			class="icon-bar" />
+		</a>
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+			<h:panelGroup rendered="#{index.allIncidences.size() > 0 and loginController.intern}">
+				<li class="dropdown notifications-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"> <i
+						class="fa fa-exclamation-triangle" /><span
+						class="label label-danger">#{index.allIncidences.size()}</span>
+				</a>
+					<ul class="dropdown-menu">
+						<li class="header">Hay #{index.allIncidences.size()} incidencias nuevas.</li>
+						<li>
+							<!-- inner menu: contains the actual data -->
+							<ul class="menu">
+								<ui:repeat var="incidence" value="#{index.allIncidences}">
+								<li><a href="incidences.xhtml?lab=#{incidence.computer.laboratory}"> <i class="fa fa-exclamation-triangle text-red"></i>
+										#{incidence.computer.laboratory} equipo #{incidence.computer.labelNum}
+								</a></li>
+								</ui:repeat>
+							</ul>
+						</li>
+					</ul></li>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{index.allSoftwarePetitions.size() > 0 and loginController.intern}">
+				<li class="dropdown notifications-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"> <i
+						class="fa fa-tv" /><span
+						class="label label-warning">#{index.allSoftwarePetitions.size()}</span>
+				</a>
+					<ul class="dropdown-menu">
+						<li class="header">Hay #{index.allSoftwarePetitions.size()} peticiones de software nuevas.</li>
+						<li>
+							<!-- inner menu: contains the actual data -->
+							<ul class="menu">
+								<ui:repeat var="softwarePetition" value="#{index.allSoftwarePetitions}">
+								<li><a href="softwarePetitionManagement.xhtml"> <i class="fa fa-tv text-yellow"></i>
+										#{softwarePetition.subjectName}
+								</a></li>
+								</ui:repeat>
+							</ul>
+						</li>
+					</ul></li>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{index.allConsumablePetitions.size() > 0 and loginController.intern}">
+				<li class="dropdown notifications-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"> <i
+						class="fa fa-print" /><span
+						class="label label-warning">#{index.allConsumablePetitions.size()}</span>
+				</a>
+					<ul class="dropdown-menu">
+						<li class="header">Hay #{index.allConsumablePetitions.size()} peticiones de consumibles nuevas.</li>
+						<li>
+							<!-- inner menu: contains the actual data -->
+							<ul class="menu">
+								<ui:repeat var="consumablePetition" value="#{index.allConsumablePetitions}">
+								<li><a href="consumablePetitionManagement.xhtml"> <i class="fa fa-print text-yellow"></i>
+										#{consumablePetition.user.toString()} #{consumablePetition.printer.model.modelName}
+								</a></li>
+								</ui:repeat>
+							</ul>
+						</li>
+					</ul></li>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{index.allMaterialPetitions.size() > 0 and loginController.intern}">
+				<li class="dropdown notifications-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"> <i
+						class="fa fa-dropbox" /><span
+						class="label label-warning">#{index.allMaterialPetitions.size()}</span>
+				</a>
+					<ul class="dropdown-menu">
+						<li class="header">Hay #{index.allMaterialPetitions.size()} peticiones de materiales nuevas.</li>
+						<li>
+							<!-- inner menu: contains the actual data -->
+							<ul class="menu">
+								<ui:repeat var="materialPetition" value="#{index.allMaterialPetitions}">
+								<li><a href="materialPetitionManagement.xhtml"> <i class="fa fa-dropbox text-yellow"></i>
+										#{materialPetition.user.toString()}
+								</a></li>
+								</ui:repeat>
+							</ul>
+						</li>
+					</ul></li>
+				</h:panelGroup>
+				<li class="dropdown user user-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"><span
+						class="hidden-xs"><h:outputFormat
+								value="#{loginController.fullName}" /></span> </a>
+					<ul class="dropdown-menu">
+						<li class="user-header">
+							<p>
+								<h:outputFormat
+									value="#{loginController.fullName} #{loginController.role}" />
+							</p>
+						</li>
+						<!-- Menu Body -->
+						<li class="user-body"></li>
+						<!-- Menu Footer-->
+						<li class="user-footer">
+							<div class="pull-left">
+								<h:link value="Perfil"
+									outcome="editProfile?login=#{loginController.currentUser.name}"
+									rendered="#{!loginController.anonymous}"
+									class="btn btn-default btn-flat" />
+							</div>
+							<div class="pull-right">
+								<o:form>
+									<h:commandLink action="#{loginController.doLogout()}"
+										value="Cerrar sesión" class="btn btn-default btn-flat" />
+								</o:form>
+							</div>
+						</li>
+					</ul></li>
+				<!-- Control Sidebar Toggle Button -->
+			</ul>
+		</div>
+		</nav> </header>
+	</ui:composition>
+</h:body>
 </html>

@@ -15,10 +15,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
 import es.uvigo.esei.infraestructura.entities.Computer;
 import es.uvigo.esei.infraestructura.entities.Incidence;
 import es.uvigo.esei.infraestructura.entities.IncidenceType;
 import es.uvigo.esei.infraestructura.entities.State;
+import es.uvigo.esei.infraestructura.exception.EmptyIncidenceException;
 import es.uvigo.esei.infraestructura.facade.ComputerGatewayBean;
 import es.uvigo.esei.infraestructura.facade.IncidenceGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
@@ -43,8 +46,6 @@ public class IncidencesController {
 	@Inject
 	private Mail mail;
 
-	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-
 	private int computerNum;
 	private int labelNum;
 	private int selectedLabelNum;
@@ -56,6 +57,7 @@ public class IncidencesController {
 	private boolean selected = false;
 	private String message;
 	private boolean error = false;
+	private boolean success;
 
 	public void initLists() {
 		if (laboratory != null) {
@@ -142,7 +144,7 @@ public class IncidencesController {
 					typeList.add(new IncidenceType(incidenceType));
 				}
 			} else {
-				throw new SQLException();
+				throw new EmptyIncidenceException("Debes marcar por lo menos un tipo de incidencia");
 			}
 			incidence.setTypes(typeList);
 			this.incidenceGateway.create(incidence);
@@ -160,9 +162,13 @@ public class IncidencesController {
 			this.computerGateway.save();
 			this.setTextMessage();
 			this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva incidencia en " + getLaboratory());
-			context.redirect("incidences.xhtml?lab=" + laboratory + "&success=true");
-		} catch (SQLException e) {
-			context.redirect("incidences.xhtml?lab=" + laboratory + "&error=true");
+			error = false;
+			success = true;
+			message = "Incidencia añadida correctamente";
+		} catch (EmptyIncidenceException e) {
+			error = true;
+			success = false;
+			message = e.getMessage();
 		}
 	}
 
@@ -423,6 +429,14 @@ public class IncidencesController {
 
 	public void setError(boolean error) {
 		this.error = error;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 	
 	

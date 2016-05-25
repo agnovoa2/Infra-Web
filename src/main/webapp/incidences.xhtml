@@ -39,6 +39,18 @@
 					</div>
 				</h:panelGroup>
 			</h:panelGroup>
+			<h:panelGroup id="success">
+				<h:panelGroup rendered="#{incidences.success}">
+					<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-check"></i> ¡Éxito!
+						</h4>
+						#{incidences.message}
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="box box-primary">
@@ -216,7 +228,7 @@
 											<h:commandButton action="#{incidences.doAddIncidence()}"
 												value="Mandar incidencia" class="btn btn-primary pull-left">
 												<f:ajax execute="description types"
-													render="computer computerForm manage manageForm" />
+													render="computer computerForm manage manageForm error success" />
 											</h:commandButton>
 										</o:form>
 									</div>
