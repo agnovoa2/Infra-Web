@@ -10,12 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import es.uvigo.esei.infraestructura.entities.Computer;
 import es.uvigo.esei.infraestructura.entities.Incidence;
@@ -46,6 +44,8 @@ public class IncidencesController {
 	@Inject
 	private Mail mail;
 
+	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+	
 	private int computerNum;
 	private int labelNum;
 	private int selectedLabelNum;
@@ -162,9 +162,7 @@ public class IncidencesController {
 			this.computerGateway.save();
 			this.setTextMessage();
 			this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva incidencia en " + getLaboratory());
-			error = false;
-			success = true;
-			message = "Incidencia añadida correctamente";
+			context.redirect("incidences.xhtml?lab="+laboratory+"&success=true");
 		} catch (EmptyIncidenceException e) {
 			error = true;
 			success = false;
@@ -236,10 +234,9 @@ public class IncidencesController {
 	}
 
 	public void redirectIfNotLaboratory() throws IOException {
-		if (this.laboratory == null || this.laboratory.equals("")){
+		if (this.laboratory == null || this.laboratory.equals("")) {
 			this.redirectToIndex();
-		}
-		else if (this.laboratory != null && !this.laboratory.toLowerCase().equals("libre acceso")
+		} else if (this.laboratory != null && !this.laboratory.toLowerCase().equals("libre acceso")
 				&& !this.laboratory.toLowerCase().equals("s01") && !this.laboratory.toLowerCase().equals("s02")
 				&& !this.laboratory.toLowerCase().equals("s03") && !this.laboratory.toLowerCase().equals("s04")
 				&& !this.laboratory.toLowerCase().equals("s05") && !this.laboratory.toLowerCase().equals("s06")
@@ -259,8 +256,9 @@ public class IncidencesController {
 
 	public void setTextClose() {
 		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
-				+ "Se ha solucionado la incidencia reportada sobre el ordenador " + computerGateway.getCurrent().getLabelNum() + " en "
-				+ getLaboratory() + "\n" + "Le agradecemos la molestia de reportar dicha incidencia \n"
+				+ "Se ha solucionado la incidencia reportada sobre el ordenador "
+				+ computerGateway.getCurrent().getLabelNum() + " en " + getLaboratory() + "\n"
+				+ "Le agradecemos la molestia de reportar dicha incidencia \n"
 				+ "Un saludo. Atte: Equipo de infraestructura de la ESEI");
 
 	}
@@ -306,7 +304,8 @@ public class IncidencesController {
 
 	public void doFinishIncidences() {
 		this.computerGateway.find(getComputerNum(), getLaboratory());
-		for (Incidence incidence : this.incidenceGateway.getAllComputerUnsolvedIncidences(computerGateway.getCurrent())) {
+		for (Incidence incidence : this.incidenceGateway
+				.getAllComputerUnsolvedIncidences(computerGateway.getCurrent())) {
 			incidence.setState(2);
 			this.setTextClose();
 			mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
@@ -392,7 +391,7 @@ public class IncidencesController {
 	public int getPcLabel(int num) {
 		int oldPc = 0;
 		boolean flag = false;
-		
+
 		if (computerGateway.getCurrent() != null) {
 			oldPc = this.computerGateway.getCurrent().getId();
 			flag = true;
@@ -438,6 +437,5 @@ public class IncidencesController {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-	
-	
+
 }

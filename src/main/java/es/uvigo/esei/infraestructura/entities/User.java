@@ -95,6 +95,7 @@ public class User {
 		this.firstSurname = firstSurname;
 		this.secondSurname = secondSurname;
 		this.role = role;
+		this.banned = false;
 	}
 
 	public String getLogin() {

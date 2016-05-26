@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContextType;
 
 import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.User;
+import es.uvigo.esei.infraestructura.exception.UserAlreadyExistsException;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -33,9 +34,14 @@ public class UserGatewayBean {
 		return current;
 	}
 
-	public void create(User user) {
-		this.em.persist(user);
-		this.current = user;
+	public void create(User user) throws UserAlreadyExistsException {
+		if (this.find(user.getLogin()) == null) {
+			this.em.persist(user);
+			this.current = user;
+		}
+		else{
+			throw new UserAlreadyExistsException("Ya existe este login en la base de datos.");
+		}
 	}
 
 	public void remove(String id) {

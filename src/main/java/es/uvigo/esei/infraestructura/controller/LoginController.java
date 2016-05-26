@@ -28,6 +28,7 @@ import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Configuration;
 import es.uvigo.esei.infraestructura.entities.Role;
 import es.uvigo.esei.infraestructura.entities.User;
+import es.uvigo.esei.infraestructura.exception.UserAlreadyExistsException;
 import es.uvigo.esei.infraestructura.facade.ConfigurationGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 import es.uvigo.esei.infraestructura.util.PasswordUtil;
@@ -55,6 +56,7 @@ public class LoginController {
 	private String login;
 	private String password;
 	private boolean error = false;
+	private boolean success = false;
 	private String message;
 	private Hashtable<String, String> env = new Hashtable<String, String>();
 
@@ -90,28 +92,28 @@ public class LoginController {
 		this.error = error;
 	}
 
-	public void doLogin() throws IOException, ServletException {
+	public void doLogin() throws IOException, ServletException, UserAlreadyExistsException {
 		HttpServletRequest request = null;
 		this.userGateway.find(this.getLogin());
-		if (userGateway.getCurrent() != null && !userGateway.getCurrent().isBanned()) {
-			try {
-				request = (HttpServletRequest) context.getRequest();
-				this.password = PasswordUtil.diggestPassword(password);
+		try {
+			request = (HttpServletRequest) context.getRequest();
+			this.password = PasswordUtil.diggestPassword(password);
+			if (userGateway.getCurrent() != null && userGateway.getCurrent().isBanned()) {
+				this.error = true;
+				this.message = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
+			} else {
 				request.login(this.getLogin(), this.getPassword());
 				this.error = false;
-
 				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-			} catch (ServletException e) {
-				if (ldapLogin(request)) {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("editProfile.xhtml?login="+userGateway.getCurrent().getLogin()+"&ldap=yes");
-				} else {
-					this.error = true;
-					this.message = "El login o la contraseña no coinciden";
-				}
 			}
-		} else{
-			this.error = true;
-			this.message = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
+		} catch (ServletException e) {
+			if (ldapLogin(request)) {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("editProfile.xhtml?login=" + userGateway.getCurrent().getLogin() + "&ldap=yes");
+			} else {
+				this.error = true;
+				this.message = "El login o la contraseña no coinciden";
+			}
 		}
 	}
 
@@ -123,7 +125,7 @@ public class LoginController {
 		return userGateway.find(currentUser.getName()).getRole().toString();
 	}
 
-	public boolean ldapLogin(HttpServletRequest request) {
+	public boolean ldapLogin(HttpServletRequest request) throws UserAlreadyExistsException {
 		try {
 			env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 			String security = "";
@@ -171,6 +173,14 @@ public class LoginController {
 
 	public boolean isStudent() {
 		return auth.getCurrentUser().getRole().equals(Role.STUDENT);
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	public boolean isAnonymous() {
@@ -236,7 +246,7 @@ public class LoginController {
 		return hex.toString();
 	}
 
-	private boolean existAccount(String login, String user) {
+	private boolean existAccount(String login, String user) throws UserAlreadyExistsException {
 		try {
 			String md5 = "";
 			String firstSurname = "";

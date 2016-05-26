@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.entities.User;
+import es.uvigo.esei.infraestructura.exception.UserAlreadyExistsException;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @RequestScoped
@@ -25,8 +26,10 @@ public class SignUpController {
 	private String secondSurname;
 	private String password;
 	private String login;
-	private String error;
-
+	private String email;
+	private boolean error;
+	private String message;
+	
 	public String getName() {
 		return name;
 	}
@@ -67,54 +70,48 @@ public class SignUpController {
 		this.login = login;
 	}
 
-	public String getError() {
+	public boolean getError() {
 		return error;
 	}
 
-	public void setError(String error) {
+	public void setError(boolean error) {
 		this.error = error;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	public void doRegister() {
 		try {
-			String login = generateLogin(getName(),getFirstSurname(),getSecondSurname());
-			userGateway.create(new User(login,generateEmail(login),this.getPassword(), this.getName(), this.getFirstSurname(), this.getSecondSurname()));
+			userGateway.create(new User(login,email,this.getPassword(), this.getName(), this.getFirstSurname(), this.getSecondSurname()));
 			userGateway.getCurrent().setBanned(true);
 			userGateway.save();
-			context.redirect("index.xhtml");
-		//} catch (EntityExistsException e) {
-			this.setError("Ya existe ese usuario en la base de datos");
+			System.out.println("registrao");
+			context.redirect("login.xhtml?register=true");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (UserAlreadyExistsException e) {
+			System.out.println("ya existe mandingo");
+			message = "Ya existe ese usuario.";
+			error = true;
+		} catch (Exception e){
+			System.out.println("ya existe mail");
+			message = "Ya existe ese email.";
+			error = true;
 		}
-	}
-	
-	private String generateLogin(String name, String firstSurname, String secondSurname) {
-		String toRet;
-		toRet = name.substring(0, 1);
-		toRet += firstSurname.substring(0, 1);
-		toRet += secondSurname;
-
-		int i = 2;
-		User previous = userGateway.find(toRet);
-		if(previous != null){
-			toRet += i;
-			i++;
-		} else {
-			return toRet;
-		}
-			
-		previous = userGateway.find(toRet);
-		while(previous != null){
-			toRet = toRet.substring(0, toRet.length()-1);
-			toRet += i;
-			i++;
-			previous = userGateway.find(toRet);
-		}
-		return toRet;
-	}
-
-	private String generateEmail(String login){
-		return login + "@esei.uvigo.es";
 	}
 }

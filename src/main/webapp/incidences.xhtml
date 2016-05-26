@@ -9,6 +9,7 @@
 	xmlns:o="http://xmlns.jcp.org/jsf/html">
 <f:metadata>
 	<f:viewParam name="lab" value="#{incidences.laboratory}" />
+	<f:viewParam name="success" value="#{incidences.success}" />
 	<f:event type="preRenderView" listener="#{incidences.initLists}" />
 	<f:event listener="#{incidences.redirectIfNotLaboratory()}"
 		type="preRenderView" />
@@ -47,7 +48,7 @@
 						<h4>
 							<i class="icon fa fa-check"></i> ¡Éxito!
 						</h4>
-						#{incidences.message}
+						Incidencia notificada con éxito.
 					</div>
 				</h:panelGroup>
 			</h:panelGroup>
