@@ -36,11 +36,11 @@ public class ConsumableManagementController {
 	public void doAddConsumable() throws IOException {
 		try {
 			if (type.equals("Toner") || type.equals("Cartucho"))
-				this.consumableGateway.create(new Consumable(consumableName, type, color, description));
+				consumableGateway.create(new Consumable(consumableName, type, color, description));
 			else {
-				this.consumableGateway.create(new Consumable(consumableName, type, description));
+				consumableGateway.create(new Consumable(consumableName, type, description));
 			}
-			this.consumableGateway.save();
+			consumableGateway.save();
 			error = false;
 		} catch (SQLException e) {
 			message = e.getMessage();
@@ -80,7 +80,7 @@ public class ConsumableManagementController {
 	public void doEditConsumable() {
 		try {
 			if (editable) {
-				consumableGateway.find(this.consumableName);
+				consumableGateway.find(consumableName);
 				consumableGateway.getCurrent().setConsumableName(newConsumableName);
 				consumableGateway.getCurrent().setDescription(description);
 				consumableGateway.getCurrent().setConsumableType(type);
@@ -135,59 +135,59 @@ public class ConsumableManagementController {
 	}
 
 	public List<Consumable> getBlackConsumables() {
-		return this.consumableGateway.findAllBlackConsumables();
+		return consumableGateway.findAllBlackConsumables();
 	}
 
 	public List<Consumable> getPhotoBlackConsumables() {
-		return this.consumableGateway.findAllPhotoBlackConsumables();
+		return consumableGateway.findAllPhotoBlackConsumables();
 	}
 
 	public List<Consumable> getMagentaConsumables() {
-		return this.consumableGateway.findAllMagentaConsumables();
+		return consumableGateway.findAllMagentaConsumables();
 	}
 
 	public List<Consumable> getLightMagentaConsumables() {
-		return this.consumableGateway.findAllLightMagentaConsumables();
+		return consumableGateway.findAllLightMagentaConsumables();
 	}
 
 	public List<Consumable> getCyanConsumables() {
-		return this.consumableGateway.findAllCyanConsumables();
+		return consumableGateway.findAllCyanConsumables();
 	}
 
 	public List<Consumable> getLightCyanConsumables() {
-		return this.consumableGateway.findAllLightCyanConsumables();
+		return consumableGateway.findAllLightCyanConsumables();
 	}
 
 	public List<Consumable> getYellowConsumables() {
-		return this.consumableGateway.findAllYellowConsumables();
+		return consumableGateway.findAllYellowConsumables();
 	}
 
 	public List<Consumable> getTricolorConsumables() {
-		return this.consumableGateway.findAllTricolorConsumables();
+		return consumableGateway.findAllTricolorConsumables();
 	}
 
 	public List<Consumable> getGarbageUnits() {
-		return this.consumableGateway.findAllGarbageUnitConsumables();
+		return consumableGateway.findAllGarbageUnitConsumables();
 	}
 
 	public List<Consumable> getDrumUnits() {
-		return this.consumableGateway.findAllDrumConsumables();
+		return consumableGateway.findAllDrumConsumables();
 	}
 
 	public List<Consumable> getTransferKitUnits() {
-		return this.consumableGateway.findAllTransferKitConsumables();
+		return consumableGateway.findAllTransferKitConsumables();
 	}
 
 	public List<Consumable> getBeltUnits() {
-		return this.consumableGateway.findAllBeltUnitConsumables();
+		return consumableGateway.findAllBeltUnitConsumables();
 	}
 
 	public List<Consumable> getFuserUnits() {
-		return this.consumableGateway.findAllFuserConsumables();
+		return consumableGateway.findAllFuserConsumables();
 	}
 
 	public List<Consumable> getAllConsumable() {
-		return this.consumableGateway.findAllConsumables();
+		return consumableGateway.findAllConsumables();
 	}
 
 	public String getNewConsumableName() {

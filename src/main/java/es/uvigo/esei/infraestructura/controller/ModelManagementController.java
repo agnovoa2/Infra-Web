@@ -61,8 +61,8 @@ public class ModelManagementController {
 				throw new Exception("El modelo debe contener algún consumible.");
 			} else {
 				model.setConsumables(consumables);
-				this.modelGateway.create(model);
-				this.modelGateway.save();
+				modelGateway.create(model);
+				modelGateway.save();
 			}
 			error = false;
 		} catch (Exception e) {
@@ -75,55 +75,55 @@ public class ModelManagementController {
 		boolean empty = true;
 		List<Consumable> consumables = new LinkedList<Consumable>();
 		if (!blackConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(blackConsumable));
+			consumables.add(consumableGateway.find(blackConsumable));
 			empty = false;
 		}
 		if (!photoBlackConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(photoBlackConsumable));
+			consumables.add(consumableGateway.find(photoBlackConsumable));
 			empty = false;
 		}
 		if (!yellowConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(yellowConsumable));
+			consumables.add(consumableGateway.find(yellowConsumable));
 			empty = false;
 		}
 		if (!magentaConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(magentaConsumable));
+			consumables.add(consumableGateway.find(magentaConsumable));
 			empty = false;
 		}
 		if (!lightMagentaConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(lightMagentaConsumable));
+			consumables.add(consumableGateway.find(lightMagentaConsumable));
 			empty = false;
 		}
 		if (!cyanConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(cyanConsumable));
+			consumables.add(consumableGateway.find(cyanConsumable));
 			empty = false;
 		}
 		if (!lightCyanConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(lightCyanConsumable));
+			consumables.add(consumableGateway.find(lightCyanConsumable));
 			empty = false;
 		}
 		if (!tricolorConsumable.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(tricolorConsumable));
+			consumables.add(consumableGateway.find(tricolorConsumable));
 			empty = false;
 		}
 		if (!garbageUnit.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(garbageUnit));
+			consumables.add(consumableGateway.find(garbageUnit));
 			empty = false;
 		}
 		if (!drum.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(drum));
+			consumables.add(consumableGateway.find(drum));
 			empty = false;
 		}
 		if (!transferKit.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(transferKit));
+			consumables.add(consumableGateway.find(transferKit));
 			empty = false;
 		}
 		if (!beltUnit.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(beltUnit));
+			consumables.add(consumableGateway.find(beltUnit));
 			empty = false;
 		}
 		if (!fuser.equals("N/A")) {
-			consumables.add(this.consumableGateway.find(fuser));
+			consumables.add(consumableGateway.find(fuser));
 			empty = false;
 		}
 
@@ -273,55 +273,55 @@ public class ModelManagementController {
 	}
 
 	public List<Consumable> getBlackConsumables() {
-		return this.consumableGateway.findAllBlackConsumables();
+		return consumableGateway.findAllBlackConsumables();
 	}
 
 	public List<Consumable> getPhotoBlackConsumables() {
-		return this.consumableGateway.findAllPhotoBlackConsumables();
+		return consumableGateway.findAllPhotoBlackConsumables();
 	}
 
 	public List<Consumable> getMagentaConsumables() {
-		return this.consumableGateway.findAllMagentaConsumables();
+		return consumableGateway.findAllMagentaConsumables();
 	}
 
 	public List<Consumable> getLightMagentaConsumables() {
-		return this.consumableGateway.findAllLightMagentaConsumables();
+		return consumableGateway.findAllLightMagentaConsumables();
 	}
 
 	public List<Consumable> getCyanConsumables() {
-		return this.consumableGateway.findAllCyanConsumables();
+		return consumableGateway.findAllCyanConsumables();
 	}
 
 	public List<Consumable> getLightCyanConsumables() {
-		return this.consumableGateway.findAllLightCyanConsumables();
+		return consumableGateway.findAllLightCyanConsumables();
 	}
 
 	public List<Consumable> getYellowConsumables() {
-		return this.consumableGateway.findAllYellowConsumables();
+		return consumableGateway.findAllYellowConsumables();
 	}
 
 	public List<Consumable> getTricolorConsumables() {
-		return this.consumableGateway.findAllTricolorConsumables();
+		return consumableGateway.findAllTricolorConsumables();
 	}
 
 	public List<Consumable> getGarbageUnits() {
-		return this.consumableGateway.findAllGarbageUnitConsumables();
+		return consumableGateway.findAllGarbageUnitConsumables();
 	}
 
 	public List<Consumable> getDrumUnits() {
-		return this.consumableGateway.findAllDrumConsumables();
+		return consumableGateway.findAllDrumConsumables();
 	}
 
 	public List<Consumable> getTransferKitUnits() {
-		return this.consumableGateway.findAllTransferKitConsumables();
+		return consumableGateway.findAllTransferKitConsumables();
 	}
 
 	public List<Consumable> getBeltUnits() {
-		return this.consumableGateway.findAllBeltUnitConsumables();
+		return consumableGateway.findAllBeltUnitConsumables();
 	}
 
 	public List<Consumable> getFuserUnits() {
-		return this.consumableGateway.findAllFuserConsumables();
+		return consumableGateway.findAllFuserConsumables();
 	}
 
 	public String getBlackConsumable() {

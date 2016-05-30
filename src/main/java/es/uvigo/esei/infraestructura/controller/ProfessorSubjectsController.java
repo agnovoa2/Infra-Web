@@ -26,8 +26,8 @@ public class ProfessorSubjectsController {
 	private UserGatewayBean userGateway;
 	
 	public List<Subject> getProfessorSubjects(){
-		this.userGateway.find(currentUser.getName());
-		return this.userGateway.getCurrent().getSubjects();
+		userGateway.find(currentUser.getName());
+		return userGateway.getCurrent().getSubjects();
 	}
 	
 	public String getCurrentUserName(){
@@ -35,28 +35,28 @@ public class ProfessorSubjectsController {
 	}
 	
 	public void removeSubjectFromProfessor(String code) throws IOException{
-		this.userGateway.getCurrent().getSubjects().remove(this.subjectGateway.findByCode(code));
-		this.userGateway.save();
+		userGateway.getCurrent().getSubjects().remove(subjectGateway.findByCode(code));
+		userGateway.save();
 	}
 	
 	public boolean isPetitionDone(String code){
-		this.subjectGateway.findByCode(code);
-		return this.subjectGateway.getCurrent().getPetitionState() > 0;
+		subjectGateway.findByCode(code);
+		return subjectGateway.getCurrent().getPetitionState() > 0;
 	}
 	
 	public boolean isPetitionAccepted(String code){
-		this.subjectGateway.findByCode(code);
-		return this.subjectGateway.getCurrent().getPetitionState() > 1;
+		subjectGateway.findByCode(code);
+		return subjectGateway.getCurrent().getPetitionState() > 1;
 	}
 	
 	public void assignSubjectToProfessor(String subject) throws IOException{
-		this.userGateway.getCurrent().getSubjects().add(subjectGateway.find(subject));
-		this.userGateway.save();
+		userGateway.getCurrent().getSubjects().add(subjectGateway.find(subject));
+		userGateway.save();
 	}
 	
 	public List<Subject> getRemainingSubjects(){
-		List<Subject> subjects = this.subjectGateway.getAll();	
-		subjects.removeAll(this.userGateway.getCurrent().getSubjects());
+		List<Subject> subjects = subjectGateway.getAll();	
+		subjects.removeAll(userGateway.getCurrent().getSubjects());
 		return subjects;
 	}
 }

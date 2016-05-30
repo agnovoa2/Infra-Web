@@ -62,11 +62,11 @@ public class ConsumablePetitionRow {
 		this.quantity = quantity;
 	}
 
-	public int getID() {
+	public int getId() {
 		return id;
 	}
 
-	public void setID(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 }

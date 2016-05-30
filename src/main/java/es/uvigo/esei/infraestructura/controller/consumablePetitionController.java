@@ -64,12 +64,12 @@ public class ConsumablePetitionController {
 
 	@PostConstruct
 	public void init(){
-		this.userGateway.find(currentUser.getName());
+		userGateway.find(currentUser.getName());
 	}
 	
 	public void initLists(){
-		this.printerConsumables = this.printerGateway.find(getInvnum()).getModel().getConsumables();
-		this.quantities = new LinkedList<String>();
+		printerConsumables = printerGateway.find(getInvnum()).getModel().getConsumables();
+		quantities = new LinkedList<String>();
 		for(int i = 0; i < printerConsumables.size(); i++){
 			quantities.add("0");
 		}
@@ -97,41 +97,41 @@ public class ConsumablePetitionController {
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-		ConsumablePetition petition = new ConsumablePetition(this.printerGateway.getCurrent(),sqlDate, this.userGateway.getCurrent());
+		ConsumablePetition petition = new ConsumablePetition(printerGateway.getCurrent(),sqlDate, userGateway.getCurrent());
 		List<ConsumablePetitionRow> petitionRows= new LinkedList<ConsumablePetitionRow>();
 
-		for (int i = 0; i < this.printerConsumables.size(); i++) {
+		for (int i = 0; i < printerConsumables.size(); i++) {
 			if(Integer.parseInt(quantities.get(i)) > 0){
 				ConsumablePetitionRow pr = new ConsumablePetitionRow(petition, 
-												 this.consumableGateway.find(printerConsumables.get(i).getConsumableName()),  
+												 consumableGateway.find(printerConsumables.get(i).getConsumableName()),  
 												 Integer.parseInt(quantities.get(i)));
-				this.consumableGateway.getCurrent().setOrdered(true);
-				this.consumableGateway.save();
+				consumableGateway.getCurrent().setOrdered(true);
+				consumableGateway.save();
 				petitionRows.add(pr);
 			}
 		}
 		petition.setPetitionRows(petitionRows);
-		this.setTextMessage(petition);
-		this.petitionGateway.create(petition);
-		this.petitionGateway.save();
+		setTextMessage(petition);
+		petitionGateway.create(petition);
+		petitionGateway.save();
 		
 		for (ConsumablePetitionRow petitionRow : petitionRows) {
-			this.petitionRowGateway.create(petitionRow);
-			this.petitionRowGateway.save();
+			petitionRowGateway.create(petitionRow);
+			petitionRowGateway.save();
 		}
 		
 		try {
-			this.setTextMessage(petition);
-			this.petitionGateway.create(petition);
-			this.petitionGateway.save();
+			setTextMessage(petition);
+			petitionGateway.create(petition);
+			petitionGateway.save();
 			
 			for (ConsumablePetitionRow petitionRow : petitionRows) {
-				this.petitionRowGateway.create(petitionRow);
-				this.petitionRowGateway.save();
+				petitionRowGateway.create(petitionRow);
+				petitionRowGateway.save();
 			}
 			
 			
-			mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
+			mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
 			report.doSolicitudePDF(petition);
 			error = false;
 			success = true;
@@ -154,25 +154,25 @@ public class ConsumablePetitionController {
 	
 
 	public void setTextMessage(ConsumablePetition petition) {
-		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
 				+ "\n"
 				+ "El profesor " + userGateway.getCurrent().getName() + " "
 				+ userGateway.getCurrent().getFirstSurname() + " "
 				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de " + petition.getPetitionDate()
-				+ " la siguiente petición de consumibles para la impresora de la marca " + this.printerGateway.getCurrent().getModel().getTradeMark() 
-				+ " modelo "+ this.printerGateway.getCurrent().getModel().getModelName()+ ".\n"
+				+ " la siguiente petición de consumibles para la impresora de la marca " + printerGateway.getCurrent().getModel().getTradeMark() 
+				+ " modelo "+ printerGateway.getCurrent().getModel().getModelName()+ ".\n"
 				+ " \n");
 		for (ConsumablePetitionRow petitionRow : petition.getPetitionRows()) {
 			if(petitionRow.getConsumable().getColour() != null)
-				this.textMessage += petitionRow.getConsumable().getColour() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() + "\n";
+				textMessage += petitionRow.getConsumable().getColour() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() + "\n";
 			else
-				this.textMessage += petitionRow.getConsumable().getConsumableType().toString() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() +"\n";
+				textMessage += petitionRow.getConsumable().getConsumableType().toString() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() +"\n";
 			
 		}
 	}
 	
 	public String getTextMessage(){
-		return this.textMessage;
+		return textMessage;
 	}
 
 	public String getMessage() {

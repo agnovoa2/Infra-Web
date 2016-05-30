@@ -96,7 +96,7 @@ public class SignUpController {
 
 	public void doRegister() {
 		try {
-			userGateway.create(new User(login,email,this.getPassword(), this.getName(), this.getFirstSurname(), this.getSecondSurname()));
+			userGateway.create(new User(login,email,getPassword(), getName(), getFirstSurname(), getSecondSurname()));
 			userGateway.getCurrent().setBanned(true);
 			userGateway.save();
 			System.out.println("registrao");

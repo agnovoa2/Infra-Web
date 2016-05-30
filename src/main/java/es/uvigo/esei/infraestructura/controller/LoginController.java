@@ -94,16 +94,16 @@ public class LoginController {
 
 	public void doLogin() throws IOException, ServletException, UserAlreadyExistsException {
 		HttpServletRequest request = null;
-		this.userGateway.find(this.getLogin());
+		userGateway.find(getLogin());
 		try {
 			request = (HttpServletRequest) context.getRequest();
-			this.password = PasswordUtil.diggestPassword(password);
+			password = PasswordUtil.diggestPassword(password);
 			if (userGateway.getCurrent() != null && userGateway.getCurrent().isBanned()) {
-				this.error = true;
-				this.message = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
+				error = true;
+				message = "Este usuario tiene el acceso restringido, por favor, póngase en contacto con el equipo de infraestructura.";
 			} else {
-				request.login(this.getLogin(), this.getPassword());
-				this.error = false;
+				request.login(getLogin(), getPassword());
+				error = false;
 				FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 			}
 		} catch (ServletException e) {
@@ -111,8 +111,8 @@ public class LoginController {
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("editProfile.xhtml?login=" + userGateway.getCurrent().getLogin() + "&ldap=yes");
 			} else {
-				this.error = true;
-				this.message = "El login o la contraseña no coinciden";
+				error = true;
+				message = "El login o la contraseña no coinciden";
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class LoginController {
 				;
 			else if (existAccount(getLogin(), "profesores"))
 				;
-			request.login(this.getLogin(), this.getPassword());
+			request.login(getLogin(), getPassword());
 			return true;
 		} catch (ServletException e) {
 			return false;
@@ -160,7 +160,7 @@ public class LoginController {
 	}
 
 	public Principal getCurrentUser() {
-		return this.currentUser;
+		return currentUser;
 	}
 
 	public boolean isIntern() {
@@ -184,31 +184,31 @@ public class LoginController {
 	}
 
 	public boolean isAnonymous() {
-		return "anonymous".equals(this.getCurrentUser().getName());
+		return "anonymous".equals(getCurrentUser().getName());
 	}
 
 	public void redirectIfAnonymous() throws IOException {
-		if (this.isAnonymous())
+		if (isAnonymous())
 			redirectToIndex();
 	}
 
 	public void redirectIfNotAnonymous() throws IOException {
-		if (!this.isAnonymous())
+		if (!isAnonymous())
 			redirectToIndex();
 	}
 
 	public void redirectToLogin() throws IOException {
-		if (this.isAnonymous())
+		if (isAnonymous())
 			FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
 	}
 
 	public void redirectIfStudent() throws IOException {
-		if (this.isStudent())
+		if (isStudent())
 			redirectToIndex();
 	}
 
 	public void redirectIfNotIntern() throws IOException {
-		if (!this.isIntern())
+		if (!isIntern())
 			redirectToIndex();
 	}
 

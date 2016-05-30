@@ -108,7 +108,7 @@ public class SubjectManagementController {
 	}
 
 	public List<Subject> getAllSubjects() {
-		return this.subjectGateway.getAll();
+		return subjectGateway.getAll();
 	}
 
 	public String getCode() {

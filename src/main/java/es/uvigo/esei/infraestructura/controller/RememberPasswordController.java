@@ -86,7 +86,7 @@ public class RememberPasswordController {
 	}
 
 	public void setTextMessage(String password) {
-		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
 				+ "La nueva contraseña es: " + password);
 	}
 }

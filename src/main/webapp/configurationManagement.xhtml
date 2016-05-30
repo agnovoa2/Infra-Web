@@ -22,126 +22,158 @@
 			<h1>
 				<i class="fa fa-gear" /> Configuración del servidor
 			</h1>
+			<h:panelGroup id="success">
+				<h:panelGroup rendered="#{configurationManagement.success}">
+					<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-check"></i> ¡Éxito!
+						</h4>
+						#{configurationManagement.message}
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
 			<div class="row">
-				<!-- left column -->
 				<div class="col-md-6">
-					<!-- general form elements -->
-					<div class="box box-primary">
-						<h:panelGroup id="configuration">
-							<o:form>
-								<div class="box-body">
-									<h4>Configuración correo</h4>
-									<div class="form-group">
-										<h:outputLabel value="Correo de la aplicación" />
-										<h:inputText value="#{configurationManagement.mailSource}"
-											id="emailSource" a:placeholder="Correo de la aplicación"
-											required="true"
-											requiredMessage="Debe especificar un correo para la aplicación"
-											validatorMessage="El email que ha introducido es incorrecto"
-											class="form-control" a:data-toggle="tooltip"
-											a:title="Correo que utilizará la aplicación para mandar los correos.">
-											<f:validateRegex pattern="(.+@.+\..+)" />
-										</h:inputText>
-										<h:message id="m1" for="emailSource" style="color:red" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Correo de destino de la aplicación" />
-										<h:inputText
-											value="#{configurationManagement.mailDestination}"
-											id="emailDestination" a:placeholder="Correo destino"
-											required="true"
-											requiredMessage="Debe especificar un correo de destino para la aplicación"
-											validatorMessage="El email que ha introducido es incorrecto"
-											class="form-control" a:data-toggle="tooltip"
-											a:title="El grupo de correo de infraestrucura.">
-											<f:validateRegex pattern="(.+@.+\..+)" />
-										</h:inputText>
-									</div>
-									<div class="form-group">
-										<h:message id="m2" for="emailDestination" style="color:red" />
-										<h:outputLabel value="Contraseña del correo" />
-										<h:inputSecret id="emailPassword"
-											a:placeholder="Contraseña del correo"
-											value="#{configurationManagement.mailPassword}"
-											class="form-control">
-											<f:validator validatorId="passwordValidator" />
-											<f:attribute name="confirmPassword"
-												value="#{emailConfirmPassword}" />
-										</h:inputSecret>
-										<h:message id="m3" for="emailPassword" style="color:red" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Repita contraseña del correo" />
-										<h:inputSecret id="emailConfirmPassword"
-											a:placeholder="Repita la contraseña"
-											binding="#{emailConfirmPassword}" class="form-control" />
-										<h:message id="m4" for="emailConfirmPassword"
-											style="color:red" />
-									</div>
-									<h4>Configuración servidor ldap</h4>
-									<div class="form-group">
-										<h:outputLabel value="Host" />
-										<h:inputText value="#{configurationManagement.host}"
-											class="form-control" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Puerto" />
-										<h:inputText id="port" value="#{configurationManagement.port}"
-											validatorMessage="Introduzca un número de puerto válido."
-											class="form-control">
-											<f:validateLongRange maximum="65536" minimum="0" />
-										</h:inputText>
-										<h:message id="m5" for="port" style="color:red" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Base DN" />
-										<h:inputText value="#{configurationManagement.baseDN}"
-											class="form-control" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="User DN" />
-										<h:inputText value="#{configurationManagement.userDN}"
-											class="form-control" />
-									</div>
-									<div class="form-group">
-
-										<h:outputLabel value="Contraseña LDAP" />
-										<h:inputSecret id="ldapPassword"
-											value="#{configurationManagement.ldapPassword}"
-											a:placeholder="Contraseña" class="form-control">
-											<f:validator validatorId="passwordValidator" />
-											<f:attribute name="confirmPassword"
-												value="#{ldapConfirmPassword}" />
-										</h:inputSecret>
-										<h:message id="m6" for="ldapPassword" style="color:red" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Repita contraseña LDAP" />
-										<h:inputSecret id="ldapConfirmPassword"
-											a:placeholder="Repita la contraseña"
-											binding="#{ldapConfirmPassword}" class="form-control" />
-										<h:message id="m7" for="ldapConfirmPassword" style="color:red" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Método de autenticación" />
-										<h:inputText
-											value="#{configurationManagement.securityAuthentication}"
-											class="form-control" />
-									</div>
-									<div class="form-group">
-										<h:outputLabel value="Protocolo de seguridad" />
-										<h:inputText
-											value="#{configurationManagement.securityProtocol}"
-											class="form-control" />
-									</div>
+					<div class="col-md-12">
+						<div class="box box-primary">
+							<div class="box-body">
+								<h4>Nuevo curso</h4>
+								<o:form>
 									<h:commandButton
-										action="#{configurationManagement.doChangeConfiguration()}"
-										value="Realizar cambios" class="btn btn-primary">
-										<f:ajax execute="@form" render="configuration" />
+										action="#{configurationManagement.doNewGrade()}"
+										value="Reestablecer asignaturas"
+										class="btn btn-primary pull-right">
+										<f:ajax execute="@form" render="success" />
 									</h:commandButton>
-								</div>
-							</o:form>
-						</h:panelGroup>
+								</o:form>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="box box-primary">
+							<h:panelGroup id="configuration">
+								<o:form>
+									<div class="box-body">
+										<h4>Configuración correo</h4>
+										<div class="form-group">
+											<h:outputLabel value="Correo de la aplicación" />
+											<h:inputText value="#{configurationManagement.mailSource}"
+												id="emailSource" a:placeholder="Correo de la aplicación"
+												required="true"
+												requiredMessage="Debe especificar un correo para la aplicación"
+												validatorMessage="El email que ha introducido es incorrecto"
+												class="form-control" a:data-toggle="tooltip"
+												a:title="Correo que utilizará la aplicación para mandar los correos.">
+												<f:validateRegex pattern="(.+@.+\..+)" />
+											</h:inputText>
+											<h:message id="m1" for="emailSource" style="color:red" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Correo de destino de la aplicación" />
+											<h:inputText
+												value="#{configurationManagement.mailDestination}"
+												id="emailDestination" a:placeholder="Correo destino"
+												required="true"
+												requiredMessage="Debe especificar un correo de destino para la aplicación"
+												validatorMessage="El email que ha introducido es incorrecto"
+												class="form-control" a:data-toggle="tooltip"
+												a:title="El grupo de correo de infraestrucura.">
+												<f:validateRegex pattern="(.+@.+\..+)" />
+											</h:inputText>
+										</div>
+										<div class="form-group">
+											<h:message id="m2" for="emailDestination" style="color:red" />
+											<h:outputLabel value="Contraseña del correo" />
+											<h:inputSecret id="emailPassword"
+												a:placeholder="Contraseña del correo"
+												value="#{configurationManagement.mailPassword}"
+												class="form-control">
+												<f:validator validatorId="passwordValidator" />
+												<f:attribute name="confirmPassword"
+													value="#{emailConfirmPassword}" />
+											</h:inputSecret>
+											<h:message id="m3" for="emailPassword" style="color:red" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Repita contraseña del correo" />
+											<h:inputSecret id="emailConfirmPassword"
+												a:placeholder="Repita la contraseña"
+												binding="#{emailConfirmPassword}" class="form-control" />
+											<h:message id="m4" for="emailConfirmPassword"
+												style="color:red" />
+										</div>
+										<h4>Configuración servidor ldap</h4>
+										<div class="form-group">
+											<h:outputLabel value="Host" />
+											<h:inputText value="#{configurationManagement.host}"
+												class="form-control" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Puerto" />
+											<h:inputText id="port"
+												value="#{configurationManagement.port}"
+												validatorMessage="Introduzca un número de puerto válido."
+												class="form-control">
+												<f:validateLongRange maximum="65536" minimum="0" />
+											</h:inputText>
+											<h:message id="m5" for="port" style="color:red" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Base DN" />
+											<h:inputText value="#{configurationManagement.baseDN}"
+												class="form-control" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="User DN" />
+											<h:inputText value="#{configurationManagement.userDN}"
+												class="form-control" />
+										</div>
+										<div class="form-group">
+
+											<h:outputLabel value="Contraseña LDAP" />
+											<h:inputSecret id="ldapPassword"
+												value="#{configurationManagement.ldapPassword}"
+												a:placeholder="Contraseña" class="form-control">
+												<f:validator validatorId="passwordValidator" />
+												<f:attribute name="confirmPassword"
+													value="#{ldapConfirmPassword}" />
+											</h:inputSecret>
+											<h:message id="m6" for="ldapPassword" style="color:red" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Repita contraseña LDAP" />
+											<h:inputSecret id="ldapConfirmPassword"
+												a:placeholder="Repita la contraseña"
+												binding="#{ldapConfirmPassword}" class="form-control" />
+											<h:message id="m7" for="ldapConfirmPassword"
+												style="color:red" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Método de autenticación" />
+											<h:inputText
+												value="#{configurationManagement.securityAuthentication}"
+												class="form-control" />
+										</div>
+										<div class="form-group">
+											<h:outputLabel value="Protocolo de seguridad" />
+											<h:inputText
+												value="#{configurationManagement.securityProtocol}"
+												class="form-control" />
+										</div>
+										<div class="box-footer">
+											<h:commandButton
+												action="#{configurationManagement.doChangeConfiguration()}"
+												value="Realizar cambios" class="btn btn-primary pull-right">
+												<f:ajax execute="@form" render="configuration success" />
+											</h:commandButton>
+										</div>
+									</div>
+								</o:form>
+							</h:panelGroup>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-6">

@@ -39,9 +39,9 @@ public class PrinterManagementController {
 
 	public void doAddPrinter() throws IOException {
 		try {
-			this.printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
-			this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
-			this.printerGateway.save();
+			printerGateway.create(new Printer(getInventoryNumber(), getUbication()));
+			printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
+			printerGateway.save();
 			error = false;
 		} catch (SQLException e) {
 			error = true;

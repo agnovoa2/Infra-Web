@@ -5,7 +5,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import es.uvigo.esei.infraestructura.entities.Subject;
 import es.uvigo.esei.infraestructura.facade.ConfigurationGatewayBean;
+import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
 
 @ViewScoped
 @ManagedBean(name = "configurationManagement")
@@ -13,6 +15,9 @@ public class ConfigurationManagementController {
 	
 	@Inject
 	ConfigurationGatewayBean configurationGateway;
+	
+	@Inject
+	SubjectGatewayBean subjectGateway;
 	
 	private String mailSource;
 	private String mailDestination;
@@ -24,6 +29,8 @@ public class ConfigurationManagementController {
 	private String ldapPassword;
 	private String securityAuthentication;
 	private String securityProtocol;
+	private boolean success = false;
+	private String message;
 	
 	@PostConstruct
 	public void init(){
@@ -36,6 +43,17 @@ public class ConfigurationManagementController {
 		userDN = configurationGateway.getCurrent().getUserDN();
 		securityAuthentication = configurationGateway.getCurrent().getSecurityAuthentication();
 		securityProtocol = configurationGateway.getCurrent().getSecurityProtocol();
+	}
+	
+	public void doNewGrade(){
+		for (Subject subject : subjectGateway.getAll()) {
+			subjectGateway.find(subject.getSubjectName());
+			subjectGateway.getCurrent().setSoftwares(null);
+			subjectGateway.getCurrent().setPetitionState(0);
+			subjectGateway.save();
+			success = true;
+			message = "Las asignaturas se han reestablecido";
+		}
 	}
 	
 	public void doChangeConfiguration(){
@@ -54,6 +72,8 @@ public class ConfigurationManagementController {
 		configurationGateway.getCurrent().setSecurityAuthentication(getSecurityAuthentication());
 		configurationGateway.getCurrent().setSecurityProtocol(getSecurityProtocol());
 		configurationGateway.save();
+		success = true;
+		message = "Se han realizado los cambios correctamente";
 	}
 	
 	public String getMailSource() {
@@ -129,5 +149,21 @@ public class ConfigurationManagementController {
 
 	public void setSecurityProtocol(String securityProtocol) {
 		this.securityProtocol = securityProtocol;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

@@ -106,13 +106,13 @@ public class MaterialPetitionController {
 	}
 
 	public void setTextMessage() {
-		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
 				+ "El usuario " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
 				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ petition.getPetitionDate() + " la siguiente petición de materiales.\n" + " \n");
 		for (MaterialPetitionRow materialPetitionRow : petitionRows) {
 			if (materialPetitionRow.getQuantity() > 0) {
-				this.textMessage += materialPetitionRow.getMaterial().getMaterial().toString() + ": "
+				textMessage += materialPetitionRow.getMaterial().getMaterial().toString() + ": "
 						+ materialPetitionRow.getMaterial().getMaterialName() + " Cantidad: " + materialPetitionRow.getQuantity()
 						+ "\n";
 			}
@@ -120,7 +120,7 @@ public class MaterialPetitionController {
 	}
 
 	public String getTextMessage() {
-		return this.textMessage;
+		return textMessage;
 	}
 
 	public int getQuantity() {

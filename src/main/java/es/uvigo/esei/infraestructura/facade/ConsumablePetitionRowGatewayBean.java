@@ -22,7 +22,7 @@ public class ConsumablePetitionRowGatewayBean {
 
 	private ConsumablePetitionRow current;
 
-	public ConsumablePetitionRow find(String id) {
+	public ConsumablePetitionRow find(int id) {
 		this.current = this.em.find(ConsumablePetitionRow.class, id);
 		return this.current;
 	}

@@ -49,7 +49,7 @@ public class SoftwarePetitionManagementController {
 	}
 
 	public void setText(Subject subject) {
-		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
 				+ "\n"
 				+ "Se ha realizado la instalación del software necesario para la asignatura " + subject.getSubjectName() + ".\n"
 				+ "Si lo considera oportuno, póngase en contacto con el equipo de infraestructura para comprobar que el software se ha instalado de acuerdo a las necesidades de dicha asignatura.\n" 

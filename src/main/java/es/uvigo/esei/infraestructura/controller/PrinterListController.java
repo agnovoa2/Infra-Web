@@ -46,13 +46,13 @@ public class PrinterListController {
 		
 	public void doRemovePrinter(int inventoryNumber){
 
-		this.userGateway.getCurrent().getPrinters().remove(this.printerGateway.find(inventoryNumber));
-		this.userGateway.save();
+		userGateway.getCurrent().getPrinters().remove(printerGateway.find(inventoryNumber));
+		userGateway.save();
 	}
 	
 	public void doAddExistingPrinter(){
-		this.userGateway.getCurrent().getPrinters().add(this.printerGateway.find(getPrinter()));
-		this.userGateway.save();
+		userGateway.getCurrent().getPrinters().add(printerGateway.find(getPrinter()));
+		userGateway.save();
 	}
 
 	public int getPrinter() {
@@ -72,7 +72,7 @@ public class PrinterListController {
 	}
 
 	public List<Model> getAllModels() {
-		return this.modelGateway.getAll();
+		return modelGateway.getAll();
 	}
 
 	public String getUbication() {
@@ -108,23 +108,23 @@ public class PrinterListController {
 	}
 
 	public List<Printer> getNotProfessorPrinters() {
-		List<Printer> printers = this.printerGateway.getAll();
-		printers.removeAll(this.userGateway.getCurrent().getPrinters());
+		List<Printer> printers = printerGateway.getAll();
+		printers.removeAll(userGateway.getCurrent().getPrinters());
 		return printers;
 	}
 	
 	public List<Printer> getAllProfessorPrinters(){
-		return this.userGateway.getCurrent().getPrinters();
+		return userGateway.getCurrent().getPrinters();
 	}
 	
 	public void doAddPrinter() throws IOException {
 		try {
-			this.printerGateway.create(new Printer(getPrinter(), getUbication()));
-			this.printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
-			this.printerGateway.save();
+			printerGateway.create(new Printer(getPrinter(), getUbication()));
+			printerGateway.getCurrent().setModel(modelGateway.find(getModel()));
+			printerGateway.save();
 
-			this.userGateway.getCurrent().getPrinters().add(this.printerGateway.getCurrent());
-			this.userGateway.save();
+			userGateway.getCurrent().getPrinters().add(printerGateway.getCurrent());
+			userGateway.save();
 			success = true;
 			error = false;
 		} catch (SQLException e) {

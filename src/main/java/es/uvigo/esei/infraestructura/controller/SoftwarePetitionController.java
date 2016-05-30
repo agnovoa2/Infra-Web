@@ -51,7 +51,7 @@ public class SoftwarePetitionController {
 
 	@PostConstruct
 	void init() {
-		this.userGateway.find(currentUser.getName());
+		userGateway.find(currentUser.getName());
 	}
 
 	public String getCode() {
@@ -88,11 +88,11 @@ public class SoftwarePetitionController {
 
 	public boolean isProfessorSubject(String code) throws IOException {
 
-		return this.userGateway.getCurrent().getSubjects().contains(this.subjectGateway.findByCode(code));
+		return userGateway.getCurrent().getSubjects().contains(subjectGateway.findByCode(code));
 	}
 
 	public void redirectIfNotProfessorSubject() throws IOException {
-		if (!this.isProfessorSubject(this.getCode()))
+		if (!isProfessorSubject(getCode()))
 			redirectToProfessorSubjects();
 	}
 
@@ -102,46 +102,46 @@ public class SoftwarePetitionController {
 
 	public void doAddSoftware() throws IOException {
 		try {
-			this.softwareGateway.create(new Software(this.getSoftware(), this.getSoftwareType(), this.getDowloadURL()));
-			this.softwareGateway.save();
+			softwareGateway.create(new Software(getSoftware(), getSoftwareType(), getDowloadURL()));
+			softwareGateway.save();
 		} catch (SQLException e) {
 			context.redirect("softwarePetition.xhtml?code=" + code + "&error=true");
 		}
 	}
 
 	public List<Software> getAllSoftware() throws IOException {
-		return this.softwareGateway.getAll();
+		return softwareGateway.getAll();
 	}
 	
 	public List<Software> getAllPrograms() throws IOException {
-		return this.softwareGateway.getAllProgram();
+		return softwareGateway.getAllProgram();
 	}
 	
 	public List<Software> getAllOperativeSystems() throws IOException {
-		return this.softwareGateway.getAllOperativeSystem();
+		return softwareGateway.getAllOperativeSystem();
 	}
 
 	public boolean isSubjectSoftware(String softwareName) {
-		return this.subjectGateway.getCurrent().getSoftwares().contains(this.softwareGateway.find(softwareName));
+		return subjectGateway.getCurrent().getSoftwares().contains(softwareGateway.find(softwareName));
 	}
 
 	public void doAddSoftwareToSubject(String softwareName) {
-		this.subjectGateway.getCurrent().getSoftwares().add(this.softwareGateway.find(softwareName));
-		this.subjectGateway.save();
+		subjectGateway.getCurrent().getSoftwares().add(softwareGateway.find(softwareName));
+		subjectGateway.save();
 	}
 
 	public void doRemoveSoftwareFromSubject(String softwareName) {
-		this.subjectGateway.getCurrent().getSoftwares().remove(this.softwareGateway.find(softwareName));
-		this.subjectGateway.save();
+		subjectGateway.getCurrent().getSoftwares().remove(softwareGateway.find(softwareName));
+		subjectGateway.save();
 	}
 
 	public void doPetition() throws IOException {
 		if (!subjectGateway.getCurrent().getSoftwares().isEmpty()) {
-			this.subjectGateway.getCurrent().setPetitionState(1);
-			this.subjectGateway.getCurrent().setDescription(getDescription());
-			this.subjectGateway.save();
-			this.setTextMessage();
-			this.mail.sendMail(this.getTextMessage(), "[Infraestructura] Nueva petición de software");
+			subjectGateway.getCurrent().setPetitionState(1);
+			subjectGateway.getCurrent().setDescription(getDescription());
+			subjectGateway.save();
+			setTextMessage();
+			mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de software");
 			FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
 		}
 		else{
@@ -166,21 +166,21 @@ public class SoftwarePetitionController {
 		Date date = new Date();
 		dateFormat.format(date);
 
-		this.textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
 				+ "El profesor " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
 				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ new java.sql.Date(date.getTime()) + " la siguiente petición de software para la asignatura "
-				+ this.subjectGateway.getCurrent().getSubjectName() + " \n");
-		for (Software software : this.subjectGateway.getCurrent().getSoftwares()) {
-			this.textMessage += (software.getSoftwareName() + "\n");
+				+ subjectGateway.getCurrent().getSubjectName() + " \n");
+		for (Software software : subjectGateway.getCurrent().getSoftwares()) {
+			textMessage += (software.getSoftwareName() + "\n");
 		}
-		if (this.subjectGateway.getCurrent().getDescription() != null
-				&& !this.subjectGateway.getCurrent().getDescription().equals(""))
-			this.textMessage += ("\nDescripción opcional: " + this.subjectGateway.getCurrent().getDescription());
+		if (subjectGateway.getCurrent().getDescription() != null
+				&& !subjectGateway.getCurrent().getDescription().equals(""))
+			textMessage += ("\nDescripción opcional: " + subjectGateway.getCurrent().getDescription());
 	}
 
 	public String getTextMessage() {
-		return this.textMessage;
+		return textMessage;
 	}
 
 }

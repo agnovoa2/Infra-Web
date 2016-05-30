@@ -22,7 +22,7 @@ public class MaterialPetitionRowGatewayBean {
 
 	private MaterialPetitionRow current;
 
-	public MaterialPetitionRow find(String id) {
+	public MaterialPetitionRow find(int id) {
 		this.current = this.em.find(MaterialPetitionRow.class, id);
 		return this.current;
 	}

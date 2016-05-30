@@ -255,11 +255,11 @@ public class MaterialManagementController {
 	}
 
 	public void redirectIfNotMaterial() throws IOException {
-		if (this.material == null || this.material.equals("")) {
+		if (material == null || material.equals("")) {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-		} else if (this.material != null && !this.material.toLowerCase().equals("monitor")
-				&& !this.material.toLowerCase().equals("disco duro") && !this.material.toLowerCase().equals("ram")
-				&& !this.material.toLowerCase().equals("otros")) {
+		} else if (material != null && !material.toLowerCase().equals("monitor")
+				&& !material.toLowerCase().equals("disco duro") && !material.toLowerCase().equals("ram")
+				&& !material.toLowerCase().equals("otros")) {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 		}
 	}
