@@ -30,7 +30,7 @@ public class Subject {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "subjectName", length = 80, nullable = false, unique = true)
+	@Column(name = "subjectName", length = 80, nullable = false)
 	private String subjectName;
 
 	@Column(name = "code", length = 13, nullable = false, unique = true)

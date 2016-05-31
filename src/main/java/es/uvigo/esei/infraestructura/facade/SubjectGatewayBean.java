@@ -53,7 +53,7 @@ public class SubjectGatewayBean {
 	}
 
 	public void create(Subject subject) throws SQLException{
-		if (this.findByCode(subject.getCode()) == null) {
+		if (this.findByCode(subject.getCode()) == null) {			
 			this.em.persist(subject);
 			this.current = subject;
 		}
