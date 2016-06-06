@@ -49,7 +49,7 @@
 											<f:facet name="header">Promocionar a profesor</f:facet>
 											<h:commandButton class="btn btn-primary btn-success"
 												action="#{userManagement.promoteToProfessor(user.login)}"
-												value="Hacer profesor">
+												value="Hacer profesor" disabled="#{user.banned}">
 												<f:ajax render="@form users professorForm" />
 											</h:commandButton>
 										</h:column>
@@ -57,7 +57,7 @@
 											<f:facet name="header">Promocionar a becario</f:facet>
 											<h:commandButton class="btn btn-primary btn-success"
 												action="#{userManagement.promoteToIntern(user.login)}"
-												value="Hacer becario">
+												value="Hacer becario" disabled="#{user.banned}">
 												<f:ajax render="@form users internForm" />
 											</h:commandButton>
 										</h:column>

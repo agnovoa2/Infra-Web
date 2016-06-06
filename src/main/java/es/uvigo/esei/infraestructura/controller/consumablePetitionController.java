@@ -18,6 +18,7 @@ import com.itextpdf.text.DocumentException;
 import es.uvigo.esei.infraestructura.entities.Consumable;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
+import es.uvigo.esei.infraestructura.exception.EmptyPetitionException;
 import es.uvigo.esei.infraestructura.facade.ConsumableGatewayBean;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionRowGatewayBean;
@@ -41,19 +42,19 @@ public class ConsumablePetitionController {
 
 	@Inject
 	private ConsumableGatewayBean consumableGateway;
-	
+
 	@Inject
 	private ConsumablePetitionGatewayBean petitionGateway;
-	
+
 	@Inject
 	private ConsumablePetitionRowGatewayBean petitionRowGateway;
 
 	@Inject
 	private Mail mail;
-	
+
 	@Inject
 	private Report report;
-	
+
 	private int invnum;
 	private List<Consumable> printerConsumables;
 	private List<String> quantities;
@@ -63,14 +64,14 @@ public class ConsumablePetitionController {
 	private boolean success = false;
 
 	@PostConstruct
-	public void init(){
+	public void init() {
 		userGateway.find(currentUser.getName());
 	}
-	
-	public void initLists(){
+
+	public void initLists() {
 		printerConsumables = printerGateway.find(getInvnum()).getModel().getConsumables();
 		quantities = new LinkedList<String>();
-		for(int i = 0; i < printerConsumables.size(); i++){
+		for (int i = 0; i < printerConsumables.size(); i++) {
 			quantities.add("0");
 		}
 	}
@@ -97,50 +98,57 @@ public class ConsumablePetitionController {
 		dateFormat.format(date);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-		ConsumablePetition petition = new ConsumablePetition(printerGateway.getCurrent(),sqlDate, userGateway.getCurrent());
-		List<ConsumablePetitionRow> petitionRows= new LinkedList<ConsumablePetitionRow>();
+		ConsumablePetition petition = new ConsumablePetition(printerGateway.getCurrent(), sqlDate,
+				userGateway.getCurrent());
+		List<ConsumablePetitionRow> petitionRows = new LinkedList<ConsumablePetitionRow>();
 
 		for (int i = 0; i < printerConsumables.size(); i++) {
-			if(Integer.parseInt(quantities.get(i)) > 0){
-				ConsumablePetitionRow pr = new ConsumablePetitionRow(petition, 
-												 consumableGateway.find(printerConsumables.get(i).getConsumableName()),  
-												 Integer.parseInt(quantities.get(i)));
+			if (Integer.parseInt(quantities.get(i)) > 0) {
+				ConsumablePetitionRow pr = new ConsumablePetitionRow(petition,
+						consumableGateway.find(printerConsumables.get(i).getConsumableName()),
+						Integer.parseInt(quantities.get(i)));
 				consumableGateway.getCurrent().setOrdered(true);
 				consumableGateway.save();
 				petitionRows.add(pr);
 			}
 		}
-		petition.setPetitionRows(petitionRows);
-		setTextMessage(petition);
-		petitionGateway.create(petition);
-		petitionGateway.save();
-		
-		for (ConsumablePetitionRow petitionRow : petitionRows) {
-			petitionRowGateway.create(petitionRow);
-			petitionRowGateway.save();
-		}
-		
 		try {
-			setTextMessage(petition);
-			petitionGateway.create(petition);
-			petitionGateway.save();
-			
-			for (ConsumablePetitionRow petitionRow : petitionRows) {
-				petitionRowGateway.create(petitionRow);
-				petitionRowGateway.save();
+			if (petitionRows.isEmpty()) {
+				throw new EmptyPetitionException();
+			} else {
+				petition.setPetitionRows(petitionRows);
+				setTextMessage(petition);
+				petitionGateway.create(petition);
+				petitionGateway.save();
+
+				for (ConsumablePetitionRow petitionRow : petitionRows) {
+					petitionRowGateway.create(petitionRow);
+					petitionRowGateway.save();
+				}
+
+				setTextMessage(petition);
+				petitionGateway.create(petition);
+				petitionGateway.save();
+
+				for (ConsumablePetitionRow petitionRow : petitionRows) {
+					petitionRowGateway.create(petitionRow);
+					petitionRowGateway.save();
+				}
+
+				mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
+				report.doSolicitudePDF(petition);
+				error = false;
+				success = true;
+				message = "Petición realizada correctamente.";
 			}
-			
-			
-			mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
-			report.doSolicitudePDF(petition);
-			error = false;
-			success = true;
-			message = "Petición realizada correctamente.";
-			
 		} catch (DocumentException | IOException e) {
 			error = true;
 			success = false;
 			message = "Ha sucedido algún error al realizar la petición, por favor, vuelva a intentarlo";
+		} catch (EmptyPetitionException e) {
+			error = true;
+			success = false;
+			message = "No ha escogido ningún consumible para realizar su petición";
 		}
 	}
 
@@ -151,27 +159,28 @@ public class ConsumablePetitionController {
 	public void setQuantities(List<String> quantities) {
 		this.quantities = quantities;
 	}
-	
 
 	public void setTextMessage(ConsumablePetition petition) {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" 
-				+ "\n"
-				+ "El profesor " + userGateway.getCurrent().getName() + " "
-				+ userGateway.getCurrent().getFirstSurname() + " "
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n" + "El profesor "
+				+ userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname() + " "
 				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de " + petition.getPetitionDate()
-				+ " la siguiente petición de consumibles para la impresora de la marca " + printerGateway.getCurrent().getModel().getTradeMark() 
-				+ " modelo "+ printerGateway.getCurrent().getModel().getModelName()+ ".\n"
-				+ " \n");
+				+ " la siguiente petición de consumibles para la impresora de la marca "
+				+ printerGateway.getCurrent().getModel().getTradeMark() + " modelo "
+				+ printerGateway.getCurrent().getModel().getModelName() + ".\n" + " \n");
 		for (ConsumablePetitionRow petitionRow : petition.getPetitionRows()) {
-			if(petitionRow.getConsumable().getColour() != null)
-				textMessage += petitionRow.getConsumable().getColour() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() + "\n";
+			if (petitionRow.getConsumable().getColour() != null)
+				textMessage += petitionRow.getConsumable().getColour() + ": "
+						+ petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity()
+						+ "\n";
 			else
-				textMessage += petitionRow.getConsumable().getConsumableType().toString() + ": " + petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity() +"\n";
-			
+				textMessage += petitionRow.getConsumable().getConsumableType().toString() + ": "
+						+ petitionRow.getConsumable().getConsumableName() + " Cantidad: " + petitionRow.getQuantity()
+						+ "\n";
+
 		}
 	}
-	
-	public String getTextMessage(){
+
+	public String getTextMessage() {
 		return textMessage;
 	}
 
@@ -198,5 +207,5 @@ public class ConsumablePetitionController {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-	
+
 }

@@ -39,6 +39,18 @@
 					</div>
 				</h:panelGroup>
 			</h:panelGroup>
+			<h:panelGroup id="error">
+				<h:panelGroup rendered="#{consumablePetition.error}">
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-ban"></i> ¡Error!
+						</h4>
+						#{consumablePetition.message}
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-primary">
@@ -59,7 +71,9 @@
 								</ui:repeat>
 								<div class="box-footer">
 									<h:commandButton action="#{consumablePetition.doAddPetition()}"
-										class="btn btn-primary pull-right" value="Realizar petición" />
+										class="btn btn-primary pull-right" value="Realizar petición" >
+										<f:ajax render="success error" execute="@form"/>
+									</h:commandButton>
 								</div>
 							</div>
 						</o:form>

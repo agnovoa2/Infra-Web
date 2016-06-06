@@ -60,6 +60,7 @@ public class SoftwarePetitionController {
 
 	public void setCode(String code) {
 		this.code = code;
+		description = subjectGateway.findByCode(code).getDescription();
 	}
 
 	public String getSoftware() {

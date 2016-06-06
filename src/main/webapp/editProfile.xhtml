@@ -79,11 +79,11 @@
 									rendered="#{!editProfile.intern || editProfile.me}">
 									<div class="form-group">
 										<h:outputLabel value="Contraseña antigua: " />
-										<h:inputText id="oldPassword" class="form-control"
-											value="#{editProfile.oldPassword}"
+										<h:inputSecret id="oldPassword" class="form-control"
+											value="#{editProfile.oldPassword}" a:placeholer="Contraseña antigua"
 											validatorMessage="La contraseña debe de tener un mínimo de 6 caracteres">
 											<f:validateRegex pattern="^$|^[0-9A-Za-z-_./\s]{6,50}$" />
-										</h:inputText>
+										</h:inputSecret>
 										<h:message id="m4" for="oldPassword" style="color:red" />
 									</div>
 								</h:panelGroup>
@@ -110,7 +110,7 @@
 								</div>
 								<div class="box-footer">
 									<h:commandButton action="#{editProfile.doEdit()}"
-										value="Editar perfil" />
+										value="Editar perfil" class="btn btn-primary pull-right"/>
 								</div>
 							</div>
 						</o:form>

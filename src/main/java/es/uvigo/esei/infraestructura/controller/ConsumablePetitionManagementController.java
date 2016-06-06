@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import com.itextpdf.text.DocumentException;
 
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
-import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
 import es.uvigo.esei.infraestructura.util.Mail;
 import es.uvigo.esei.infraestructura.util.Report;
@@ -40,14 +39,8 @@ public class ConsumablePetitionManagementController {
 			setTextMessage();
 			mail.sendMail(textMessage, "[Infraestructura] petición de consumibles aceptada", consumablePetitionGateway.getCurrent().getUser().getEmail());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

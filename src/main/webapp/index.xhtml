@@ -296,8 +296,8 @@
 											</ui:repeat>
 										</h:column>
 										<h:column>
+											<f:facet name="header">Eliminar</f:facet>
 											<o:form>
-												<f:facet name="header">Eliminar petición</f:facet>
 												<h:commandLink
 													action="#{index.doRemoveConsumablePetition(consumablePetition.petitionNumber)}"
 													value="">
@@ -354,16 +354,18 @@
 										value="#{index.myMaterialPetitions}" class="table table-hover">
 										<h:column>
 											<f:facet name="header">Material</f:facet>
-											<ui:repeat var="materialRow" value="#{materialPetition.petitionRows}">
+											<ui:repeat var="materialRow"
+												value="#{materialPetition.petitionRows}">
 								            	#{materialRow.material.materialName}
 								            </ui:repeat>
 										</h:column>
 										<h:column>
-											<f:facet name="header">Cantidad</f:facet>    				
-								            <ui:repeat var="materialRow" value="#{materialPetition.petitionRows}">
+											<f:facet name="header">Cantidad</f:facet>
+											<ui:repeat var="materialRow"
+												value="#{materialPetition.petitionRows}">
 								            	#{materialRow.quantity}
 								            </ui:repeat>
-								    	</h:column>
+										</h:column>
 										<h:column>
 											<f:facet name="header">Eliminar petición</f:facet>
 											<o:form>

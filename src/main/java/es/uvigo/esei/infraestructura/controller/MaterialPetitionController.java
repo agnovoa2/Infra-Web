@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import es.uvigo.esei.infraestructura.entities.Material;
 import es.uvigo.esei.infraestructura.entities.MaterialPetition;
 import es.uvigo.esei.infraestructura.entities.MaterialPetitionRow;
+import es.uvigo.esei.infraestructura.exception.EmptyPetitionException;
 import es.uvigo.esei.infraestructura.facade.MaterialGatewayBean;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionRowGatewayBean;
@@ -48,6 +49,9 @@ public class MaterialPetitionController {
 	private MaterialPetition petition;
 	private List<MaterialPetitionRow> petitionRows = new ArrayList<MaterialPetitionRow>();
 	private String textMessage;
+	private String message;
+	private boolean error = false;
+	private boolean success = false;
 
 	@PostConstruct
 	public void init() {
@@ -89,32 +93,49 @@ public class MaterialPetitionController {
 	}
 
 	public void doMaterialPetition() {
+		boolean flag = false;
 		materialPetitionGateway.create(petition);
 		materialPetitionGateway.save();
 		for (MaterialPetitionRow materialPetitionRow : petitionRows) {
 			if (materialPetitionRow.getQuantity() > 0) {
 				materialPetitionRowGateway.create(materialPetitionRow);
 				materialGateway.find(materialPetitionRow.getMaterial().getId());
-				materialGateway.getCurrent().setQuantity(materialGateway.getCurrent().getQuantity() - materialPetitionRow.getQuantity());
+				materialGateway.getCurrent()
+						.setQuantity(materialGateway.getCurrent().getQuantity() - materialPetitionRow.getQuantity());
 				materialGateway.save();
 				materialPetitionRowGateway.save();
+				flag = true;
+				System.out.println("algo con más de 0");
 			}
 		}
-		materialPetitionGateway.save();
-		setTextMessage();
-		mail.sendMail(textMessage, "Nueva petición de material");
+		try {
+			if (!flag) {
+				throw new EmptyPetitionException();
+			} else {
+				materialPetitionGateway.save();
+				setTextMessage();
+				mail.sendMail(textMessage, "Nueva petición de material");
+				error = false;
+				success = true;
+				message = "Petición realizada con éxito";
+			}
+		} catch (EmptyPetitionException e) {
+			error = true;
+			success = false;
+			message = "No ha escogido ningún material para realizar su petición";
+		}
 	}
 
 	public void setTextMessage() {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
-				+ "El usuario " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
-				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
-				+ petition.getPetitionDate() + " la siguiente petición de materiales.\n" + " \n");
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n" + "El usuario "
+				+ userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname() + " "
+				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de " + petition.getPetitionDate()
+				+ " la siguiente petición de materiales.\n" + " \n");
 		for (MaterialPetitionRow materialPetitionRow : petitionRows) {
 			if (materialPetitionRow.getQuantity() > 0) {
 				textMessage += materialPetitionRow.getMaterial().getMaterial().toString() + ": "
-						+ materialPetitionRow.getMaterial().getMaterialName() + " Cantidad: " + materialPetitionRow.getQuantity()
-						+ "\n";
+						+ materialPetitionRow.getMaterial().getMaterialName() + " Cantidad: "
+						+ materialPetitionRow.getQuantity() + "\n";
 			}
 		}
 	}
@@ -145,6 +166,30 @@ public class MaterialPetitionController {
 
 	public void setPetitionRows(List<MaterialPetitionRow> petitionRows) {
 		this.petitionRows = petitionRows;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	public List<Material> getAllMaterial(String material) {
