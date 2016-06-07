@@ -34,7 +34,7 @@ public class ProfessorSubjectsController {
 		return currentUser.getName();
 	}
 	
-	public void removeSubjectFromProfessor(String code) throws IOException{
+	public void doRemoveSubjectFromProfessor(String code) throws IOException{
 		userGateway.getCurrent().getSubjects().remove(subjectGateway.findByCode(code));
 		userGateway.save();
 	}
@@ -49,7 +49,7 @@ public class ProfessorSubjectsController {
 		return subjectGateway.getCurrent().getPetitionState() > 1;
 	}
 	
-	public void assignSubjectToProfessor(String subject) throws IOException{
+	public void doAssignSubjectToProfessor(String subject) throws IOException{
 		userGateway.getCurrent().getSubjects().add(subjectGateway.find(subject));
 		userGateway.save();
 	}

@@ -48,7 +48,7 @@
 										<h:column>
 											<f:facet name="header">Promocionar a profesor</f:facet>
 											<h:commandButton class="btn btn-primary btn-success"
-												action="#{userManagement.promoteToProfessor(user.login)}"
+												action="#{userManagement.doPromoteToProfessor(user.login)}"
 												value="Hacer profesor" disabled="#{user.banned}">
 												<f:ajax render="@form users professorForm" />
 											</h:commandButton>
@@ -56,7 +56,7 @@
 										<h:column>
 											<f:facet name="header">Promocionar a becario</f:facet>
 											<h:commandButton class="btn btn-primary btn-success"
-												action="#{userManagement.promoteToIntern(user.login)}"
+												action="#{userManagement.doPromoteToIntern(user.login)}"
 												value="Hacer becario" disabled="#{user.banned}">
 												<f:ajax render="@form users internForm" />
 											</h:commandButton>
@@ -110,7 +110,7 @@
 										<h:column>
 											<f:facet name="header">Degradar profesor</f:facet>
 											<h:commandButton class="btn btn-primary btn-danger"
-												action="#{userManagement.degradeToStudent(user.login)}"
+												action="#{userManagemdoDegradeToStudentdent(user.login)}"
 												value="Ya no es profesor"
 												rendered="#{!userManagement.isMe(user.login)}">
 												<f:ajax render="@form users studentForm" />
@@ -143,7 +143,7 @@
 										<h:column>
 											<f:facet name="header">Degradar becario</f:facet>
 											<h:commandButton class="btn btn-primary btn-danger"
-												action="#{userManagement.degradeToStudent(user.login)}"
+												action="#{userManagemdoDegradeToStudentdent(user.login)}"
 												value="Ya no es becario"
 												disabled="#{userManagement.isMe(user.login)}">
 												<f:ajax render="@form users studentForm" />

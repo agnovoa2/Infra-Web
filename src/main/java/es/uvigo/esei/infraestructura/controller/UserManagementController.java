@@ -27,19 +27,19 @@ public class UserManagementController {
 		userGateway.save();
 	}
 	
-	public void promoteToProfessor(String login){
+	public void doPromoteToProfessor(String login){
 		userGateway.find(login);
 		userGateway.getCurrent().setRole(Role.PROFESSOR);
 		userGateway.save();
 	}
 	
-	public void promoteToIntern(String login){
+	public void doPromoteToIntern(String login){
 		userGateway.find(login);
 		userGateway.getCurrent().setRole(Role.INTERN);
 		userGateway.save();
 	}
 	
-	public void degradeToStudent(String login){
+	public void doDegradeToStudent(String login){
 		userGateway.find(login);
 		userGateway.getCurrent().setRole(Role.STUDENT);
 		userGateway.save();

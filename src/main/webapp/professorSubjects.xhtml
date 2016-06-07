@@ -52,7 +52,7 @@
 										<h:column>
 											<f:facet name="header">Eliminar asignatura</f:facet>
 											<h:commandLink
-												action="#{proffessorSubjects.removeSubjectFromProfessor(subject.code)}">
+												action="#{proffessorSubjects.doRemoveSubjectFromProfessor(subject.code)}">
 												<i class="fa fa-remove text-red text-center"></i>
 												<f:ajax render="@form subjects subjectsForm" />
 											</h:commandLink>
@@ -68,7 +68,7 @@
 										</h:column>
 										<h:outputLabel value="#{subject.subjectName}" />
 										<h:commandLink
-											action="#{proffessorSubjects.removeSubjectFromProfessor(subject.code)}"
+											action="#{proffessorSubjects.doRemoveSubjectFromProfessor(subject.code)}"
 											value="Ya no imparto esta asignatura">
 											<f:ajax render="@form subjects subjectsForm" />
 										</h:commandLink>
@@ -116,7 +116,7 @@
 										<h:column>
 											<f:facet name="header">Añadir a mis asignaturas</f:facet>    				
 								            <h:commandLink
-											action="#{proffessorSubjects.assignSubjectToProfessor(subject.subjectName)}">
+											action="#{proffessorSubjects.doAssignSubjectToProfessor(subject.subjectName)}">
 												<i class="fa fa-plus text-green"></i>
 												<f:ajax render="@form professorSubjects professorSubjectForm" />
 										</h:commandLink>
