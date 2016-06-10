@@ -134,58 +134,6 @@ public class ConsumableManagementController {
 		this.color = color;
 	}
 
-	public List<Consumable> getBlackConsumables() {
-		return consumableGateway.findAllBlackConsumables();
-	}
-
-	public List<Consumable> getPhotoBlackConsumables() {
-		return consumableGateway.findAllPhotoBlackConsumables();
-	}
-
-	public List<Consumable> getMagentaConsumables() {
-		return consumableGateway.findAllMagentaConsumables();
-	}
-
-	public List<Consumable> getLightMagentaConsumables() {
-		return consumableGateway.findAllLightMagentaConsumables();
-	}
-
-	public List<Consumable> getCyanConsumables() {
-		return consumableGateway.findAllCyanConsumables();
-	}
-
-	public List<Consumable> getLightCyanConsumables() {
-		return consumableGateway.findAllLightCyanConsumables();
-	}
-
-	public List<Consumable> getYellowConsumables() {
-		return consumableGateway.findAllYellowConsumables();
-	}
-
-	public List<Consumable> getTricolorConsumables() {
-		return consumableGateway.findAllTricolorConsumables();
-	}
-
-	public List<Consumable> getGarbageUnits() {
-		return consumableGateway.findAllGarbageUnitConsumables();
-	}
-
-	public List<Consumable> getDrumUnits() {
-		return consumableGateway.findAllDrumConsumables();
-	}
-
-	public List<Consumable> getTransferKitUnits() {
-		return consumableGateway.findAllTransferKitConsumables();
-	}
-
-	public List<Consumable> getBeltUnits() {
-		return consumableGateway.findAllBeltUnitConsumables();
-	}
-
-	public List<Consumable> getFuserUnits() {
-		return consumableGateway.findAllFuserConsumables();
-	}
-
 	public List<Consumable> getAllConsumable() {
 		return consumableGateway.findAllConsumables();
 	}

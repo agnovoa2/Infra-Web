@@ -27,8 +27,8 @@ public class MaterialPetitionManagementController {
 
 	private String textMessage;
 
-	public void doConfirmPetition(int id) {
-		materialPetitionGateway.find(id);
+	public void doConfirmPetition(int petitionNum) {
+		materialPetitionGateway.find(petitionNum);
 		materialPetitionGateway.getCurrent().setPetitionState(1);
 		materialPetitionGateway.save();
 		setTextMessage();

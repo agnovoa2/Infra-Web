@@ -1,6 +1,5 @@
 package es.uvigo.esei.infraestructura.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class ProfessorSubjectsController {
 		return currentUser.getName();
 	}
 	
-	public void doRemoveSubjectFromProfessor(String code) throws IOException{
+	public void doRemoveSubjectFromProfessor(String code){
 		userGateway.getCurrent().getSubjects().remove(subjectGateway.findByCode(code));
 		userGateway.save();
 	}
@@ -49,7 +48,7 @@ public class ProfessorSubjectsController {
 		return subjectGateway.getCurrent().getPetitionState() > 1;
 	}
 	
-	public void doAssignSubjectToProfessor(String subject) throws IOException{
+	public void doAssignSubjectToProfessor(String subject){
 		userGateway.getCurrent().getSubjects().add(subjectGateway.find(subject));
 		userGateway.save();
 	}

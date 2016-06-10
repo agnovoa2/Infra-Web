@@ -213,11 +213,14 @@
 										</h:column>
 										<h:column>
 											<f:facet name="header">Eliminar</f:facet>
-											<h:commandLink
+											<h:commandLink rendered="#{!consumable.ordered}"
 												action="#{consumableManagement.doRemoveConsumable(consumable.consumableName)}">
 												<i class="fa fa-remove text-red" />
 												<f:ajax render="@form" />
 											</h:commandLink>
+											<h:outputFormat rendered="#{consumable.ordered}">
+												<i class="fa fa-remove text-gray" />
+											</h:outputFormat>
 										</h:column>
 									</h:dataTable>
 								</div>

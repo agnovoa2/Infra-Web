@@ -65,7 +65,7 @@ public class IndexController {
 	private Mail mail;
 	String textMessage;
 	
-	public void doRemoveConsumablePetition(int id) {
+	public void doRemoveConsumablePetition(int id) throws IOException {
 		consumablePetitionGateway.find(id);
 		for (ConsumablePetitionRow petitionRow : consumablePetitionGateway.getCurrent().getPetitionRows()) {
 			consumablePetitionRowGateway.remove(petitionRow.getId());
@@ -74,9 +74,10 @@ public class IndexController {
 		consumablePetitionGateway.getCurrent().setPetitionRows(null);
 		consumablePetitionGateway.remove(id);
 		consumablePetitionGateway.save();
+		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
-	public void doRemovematerialPetition(int id) {
+	public void doRemovematerialPetition(int id) throws IOException {
 		materialPetitionGateway.find(id);
 		for (MaterialPetitionRow petitionRow : materialPetitionGateway.getCurrent().getPetitionRows()) {
 			materialGateway.find(petitionRow.getMaterial().getId());
@@ -89,6 +90,7 @@ public class IndexController {
 		materialPetitionGateway.getCurrent().setPetitionRows(null);
 		materialPetitionGateway.remove(id);
 		materialPetitionGateway.save();
+		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
 	public void doRemoveSoftwarePetition(String subjectName) throws IOException {

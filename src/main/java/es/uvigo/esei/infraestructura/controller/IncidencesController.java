@@ -284,20 +284,6 @@ public class IncidencesController {
 
 	public void doSendComputerToRepair() {
 		computerGateway.find(getComputerNum(), getLaboratory());
-		List<Incidence> incidences = computerGateway.getCurrent().getIncidences();
-		Incidence incidence = null;
-		if (incidences != null) {
-			for (int i = 0; i < incidences.size(); i++) {
-				incidence = incidences.get(i);
-				if (incidence.getState() == 0)
-					break;
-			}
-		}
-		if (incidence != null) {
-			incidenceGateway.find(incidence.getId());
-			incidenceGateway.getCurrent().setState(1);
-			incidenceGateway.save();
-		}
 		computerGateway.getCurrent().setState(State.UNDER_REPAIR);
 		computerGateway.save();
 	}
