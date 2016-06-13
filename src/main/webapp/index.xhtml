@@ -403,58 +403,8 @@
 						</div>
 					</div>
 				</h:panelGroup>
-				<h:panelGroup
-					rendered="#{index.myMaterialPetitions.size() > 0 and (loginController.professor or loginController.student)}">
-					<div class="col-md-12">
-						<div class="box box-success">
-							<div class="box-header with-border">
-								<h3 class="box-title">
-									<i class="fa fa-dropbox" /> Mis peticiones de materiales <span
-										class="label label-success">#{index.myMaterialPetitions.size()}</span>
-								</h3>
-								<div class="box-tools pull-right">
-									<button class="btn btn-box-tool" data-widget="collapse">
-										<i class="fa fa-minus"></i>
-									</button>
-								</div>
-							</div>
-							<div class="box-body">
-								<div class="box-body table-responsive no-padding">
-									<h:dataTable var="materialPetition"
-										value="#{index.myMaterialPetitions}" class="table table-hover">
-										<h:column>
-											<f:facet name="header">Material</f:facet>
-											<ui:repeat var="materialRow"
-												value="#{materialPetition.petitionRows}">
-								            	#{materialRow.material.materialName}
-								            </ui:repeat>
-										</h:column>
-										<h:column>
-											<f:facet name="header">Cantidad</f:facet>
-											<ui:repeat var="materialRow"
-												value="#{materialPetition.petitionRows}">
-								            	#{materialRow.quantity}
-								            </ui:repeat>
-										</h:column>
-										<h:column>
-											<f:facet name="header">Eliminar petición</f:facet>
-											<o:form>
-												<h:commandLink
-													action="#{index.doRemovematerialPetition(materialPetition.materialPetitionNumber)}"
-													value="">
-													<i class="fa fa-remove text-red"></i>
-												</h:commandLink>
-											</o:form>
-										</h:column>
-									</h:dataTable>
-								</div>
-							</div>
-						</div>
-					</div>
-				</h:panelGroup>
 				<!-- Fin del bloque de mis peticiones de materiales -->
-				<h:panelGroup
-					rendered="#{loginController.professor}">
+				<h:panelGroup rendered="#{loginController.professor}">
 					<div class="col-md-12">
 						<div class="box box-success">
 							<div class="box-header with-border">
@@ -469,49 +419,47 @@
 							</div>
 							<div class="box-body">
 								<h:dataTable var="softwarePetition"
-										value="#{index.mySoftwarePetitions}" class="table table-hover">
-										<h:column>
-											<f:facet name="header">Asignatura</f:facet>
+									value="#{index.mySoftwarePetitions}" class="table table-hover">
+									<h:column>
+										<f:facet name="header">Asignatura</f:facet>
 											#{softwarePetition.subjectName}
 										</h:column>
-										<h:column>
-											<f:facet name="header">Software</f:facet>
-											<ui:repeat var="software"
-												value="#{softwarePetition.softwares}">
+									<h:column>
+										<f:facet name="header">Software</f:facet>
+										<ui:repeat var="software"
+											value="#{softwarePetition.softwares}">
 								            	#{software.softwareName}
-								            	<br/>
-								            </ui:repeat>
-										</h:column>
-										<h:column>
-											<f:facet name="header">Descripción</f:facet>
+								            	<br />
+										</ui:repeat>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Descripción</f:facet>
 											#{softwarePetition.description}
 										</h:column>
-										<h:column>
-											<f:facet name="header">Estado</f:facet>
-											<h:outputText value="En espera" rendered="#{softwarePetition.petitionState == 1}"/>
-											<h:outputText value="Confirmada" rendered="#{softwarePetition.petitionState == 2}"/>
-										</h:column>
-										<h:column>
-											<f:facet name="header">Repetir petición</f:facet>
-											<o:form>
-												<h:commandLink
-													action="#{index.doRepeatSoftwarePetition(softwarePetition.subjectName)}"
-													value="" rendered="#{softwarePetition.petitionState == 2}">
-													<i class="fa fa-reply text-green"></i>
-												</h:commandLink>
-											</o:form>
-										</h:column>
-										<h:column>
-											<f:facet name="header">Eliminar petición</f:facet>
-											<o:form>
-												<h:commandLink
-													action="#{index.doRemoveSoftwarePetition(softwarePetition.subjectName)}"
-													value="">
-													<i class="fa fa-remove text-red"></i>
-												</h:commandLink>
-											</o:form>
-										</h:column>
-									</h:dataTable>
+									<h:column>
+										<f:facet name="header">Estado</f:facet>
+										<h:outputText value="En espera"
+											rendered="#{softwarePetition.petitionState == 1}" />
+										<h:outputText value="Confirmada"
+											rendered="#{softwarePetition.petitionState == 2}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">Repetir petición</f:facet>
+										<h:link class="fa fa-reply green-text"
+											outcome="softwarePetition?code=#{softwarePetition.code}"
+											rendered="#{softwarePetition.petitionState == 2}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">Eliminar petición</f:facet>
+										<o:form>
+											<h:commandLink
+												action="#{index.doRemoveSoftwarePetition(softwarePetition.subjectName)}"
+												value="">
+												<i class="fa fa-remove text-red"></i>
+											</h:commandLink>
+										</o:form>
+									</h:column>
+								</h:dataTable>
 							</div>
 						</div>
 					</div>

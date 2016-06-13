@@ -125,7 +125,7 @@ public class ConsumablePetitionController {
 					petitionRowGateway.create(petitionRow);
 					petitionRowGateway.save();
 				}
-
+/*
 				setTextMessage(petition);
 				petitionGateway.create(petition);
 				petitionGateway.save();
@@ -133,7 +133,7 @@ public class ConsumablePetitionController {
 				for (ConsumablePetitionRow petitionRow : petitionRows) {
 					petitionRowGateway.create(petitionRow);
 					petitionRowGateway.save();
-				}
+				}*/
 
 				mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
 				report.doSolicitudePDF(petition);

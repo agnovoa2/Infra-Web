@@ -136,10 +136,10 @@ public class SoftwarePetitionController {
 		subjectGateway.save();
 	}
 
-	public void doPetition() throws IOException {
+	public void doSoftwarePetition() throws IOException {
 		if (!subjectGateway.getCurrent().getSoftwares().isEmpty()) {
 			subjectGateway.getCurrent().setPetitionState(1);
-			subjectGateway.getCurrent().setDescription(getDescription());
+			subjectGateway.getCurrent().setDescription(	getDescription());
 			subjectGateway.save();
 			setTextMessage();
 			mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de software");

@@ -101,16 +101,6 @@ public class IndexController {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
-	public void doRepeatSoftwarePetition(String subjectName) throws IOException {
-		subjectGateway.find(subjectName);
-		subjectGateway.getCurrent().setPetitionState(1);
-		subjectGateway.getCurrent().setDescription(subjectGateway.getCurrent().getDescription());
-		subjectGateway.save();
-		setTextMessage();
-		mail.sendMail(textMessage, "[Infraestructura] Nueva petición de software");
-		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-	}
-
 	public void setTextMessage() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();

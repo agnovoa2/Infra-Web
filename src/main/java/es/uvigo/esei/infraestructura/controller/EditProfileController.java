@@ -37,6 +37,7 @@ public class EditProfileController {
 	private String secondSurname;
 	private String oldPassword;
 	private String newPassword;
+	private String ldap;
 
 	public void init() {
 		userGateway.find(getLogin());
@@ -150,5 +151,13 @@ public class EditProfileController {
 
 	public String getFullName() {
 		return getName() + " " + getFirstSurname() + " " + getSecondSurname();
+	}
+
+	public String getLdap() {
+		return ldap;
+	}
+
+	public void setLdap(String ldap) {
+		this.ldap = ldap;
 	}
 }
