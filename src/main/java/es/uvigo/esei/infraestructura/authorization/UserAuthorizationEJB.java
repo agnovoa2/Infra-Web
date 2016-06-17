@@ -1,29 +1,28 @@
-package es.uvigo.esei.infraestructura.ejb;
+package es.uvigo.esei.infraestructura.authorization;
+
+import static java.util.Optional.ofNullable;
 
 import java.security.Principal;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import es.uvigo.esei.infraestructura.entities.User;
-
-import static java.util.Optional.ofNullable;
+import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 
 @Stateless
 public class UserAuthorizationEJB {
 
-    @PersistenceContext
-    private EntityManager em;
+    @Inject
+    private UserGatewayBean userGateway;
 
     @Inject
     private Principal principal;
 
     @RolesAllowed({ "STUDENT", "INTERN", "PROFESSOR" })
     public User getCurrentUser() throws SecurityException {
-        return ofNullable(em.find(User.class, principal.getName()))
+        return ofNullable(userGateway.find(principal.getName()))
               .orElseThrow(SecurityException::new);
     }
 

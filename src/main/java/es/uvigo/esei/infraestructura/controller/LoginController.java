@@ -24,7 +24,7 @@ import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.authorization.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Configuration;
 import es.uvigo.esei.infraestructura.entities.Role;
 import es.uvigo.esei.infraestructura.entities.User;

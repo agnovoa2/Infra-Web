@@ -10,7 +10,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.authorization.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Role;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
 import es.uvigo.esei.infraestructura.util.PasswordUtil;

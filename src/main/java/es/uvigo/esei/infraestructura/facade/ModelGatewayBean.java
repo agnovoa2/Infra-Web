@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
-import es.uvigo.esei.infraestructura.ejb.UserAuthorizationEJB;
+import es.uvigo.esei.infraestructura.authorization.UserAuthorizationEJB;
 import es.uvigo.esei.infraestructura.entities.Model;
 
 @Stateful
