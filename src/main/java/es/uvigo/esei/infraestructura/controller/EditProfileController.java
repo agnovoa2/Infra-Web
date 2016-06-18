@@ -29,7 +29,7 @@ public class EditProfileController {
 	private UserGatewayBean userGateway;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	
+
 	private String login;
 	private String name;
 	private String mail;
@@ -57,8 +57,7 @@ public class EditProfileController {
 			if (getOldPassword() != null && !getOldPassword().equals("")) {
 				if (PasswordUtil.diggestPassword(getOldPassword()).equals(userGateway.getCurrent().getPassword())) {
 					userGateway.getCurrent().setPassword(getNewPassword());
-				}
-				else{
+				} else {
 					context.redirect("editProfile.xhtml?login=" + login + "&error=true");
 				}
 			}
@@ -68,7 +67,11 @@ public class EditProfileController {
 			}
 		}
 		userGateway.save();
-		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+		if (userGateway.find(currentUser.getName()).getRole().equals(Role.INTERN)) {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");
+		} else {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+		}
 	}
 
 	public void redirectIfCantEdit(String login) throws IOException {
@@ -89,10 +92,10 @@ public class EditProfileController {
 		return false;
 	}
 
-	public boolean isMe(){
+	public boolean isMe() {
 		return login.equals(currentUser.getName());
 	}
-	
+
 	public String getLogin() {
 		return login;
 	}

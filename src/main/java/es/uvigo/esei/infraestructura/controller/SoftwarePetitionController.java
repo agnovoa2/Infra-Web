@@ -60,7 +60,9 @@ public class SoftwarePetitionController {
 
 	public void setCode(String code) {
 		this.code = code;
-		description = subjectGateway.findByCode(code).getDescription();
+		if (subjectGateway.findByCode(code) != null) {
+			description = subjectGateway.findByCode(code).getDescription();
+		}
 	}
 
 	public String getSoftware() {
@@ -113,11 +115,11 @@ public class SoftwarePetitionController {
 	public List<Software> getAllSoftware() throws IOException {
 		return softwareGateway.getAll();
 	}
-	
+
 	public List<Software> getAllPrograms() throws IOException {
 		return softwareGateway.getAllProgram();
 	}
-	
+
 	public List<Software> getAllOperativeSystems() throws IOException {
 		return softwareGateway.getAllOperativeSystem();
 	}
@@ -139,14 +141,14 @@ public class SoftwarePetitionController {
 	public void doSoftwarePetition() throws IOException {
 		if (!subjectGateway.getCurrent().getSoftwares().isEmpty()) {
 			subjectGateway.getCurrent().setPetitionState(1);
-			subjectGateway.getCurrent().setDescription(	getDescription());
+			subjectGateway.getCurrent().setDescription(getDescription());
 			subjectGateway.save();
 			setTextMessage();
 			mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de software");
 			FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
-		}
-		else{
-			FacesContext.getCurrentInstance().getExternalContext().redirect("softwarePetition.xhtml?code=" + code + "&error=true");
+		} else {
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect("softwarePetition.xhtml?code=" + code + "&error=true");
 		}
 	}
 
@@ -157,7 +159,7 @@ public class SoftwarePetitionController {
 	public String getSubject() {
 		return subjectGateway.findByCode(code).getSubjectName();
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -167,9 +169,9 @@ public class SoftwarePetitionController {
 		Date date = new Date();
 		dateFormat.format(date);
 
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
-				+ "El profesor " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
-				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
+		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n" + "El profesor "
+				+ userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname() + " "
+				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ new java.sql.Date(date.getTime()) + " la siguiente petición de software para la asignatura "
 				+ subjectGateway.getCurrent().getSubjectName() + " \n");
 		for (Software software : subjectGateway.getCurrent().getSoftwares()) {

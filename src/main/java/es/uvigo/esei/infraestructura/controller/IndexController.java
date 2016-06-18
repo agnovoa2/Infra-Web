@@ -28,7 +28,6 @@ import es.uvigo.esei.infraestructura.facade.MaterialPetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionRowGatewayBean;
 import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
 
 @ViewScoped
 @ManagedBean(name = "index")
@@ -61,8 +60,6 @@ public class IndexController {
 	@Inject
 	private UserGatewayBean userGateway;
 
-	@Inject
-	private Mail mail;
 	String textMessage;
 	
 	public void doRemoveConsumablePetition(int id) throws IOException {
