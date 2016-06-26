@@ -2,7 +2,7 @@ package es.uvigo.esei.infraestructura.util;
 
 import java.util.Properties;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -16,8 +16,8 @@ import javax.mail.internet.MimeMessage;
 import es.uvigo.esei.infraestructura.facade.ConfigurationGatewayBean;
 
 @Default
-@Singleton
-public class Mail {
+@Stateless
+public class Email {
 
 	@Inject
 	private ConfigurationGatewayBean configurationGateway;
@@ -25,7 +25,7 @@ public class Mail {
 	private Properties props;
 	private Session session;
 
-	public void sendMail(String text, String subject, String destination) {
+	public void sendEmail(String text, String subject, String destination) {
 		if (configurationGateway.getCurrent() == null)
 			init();
 		try {
@@ -43,10 +43,10 @@ public class Mail {
 		}
 	}
 
-	public void sendMail(String text, String subject) {
+	public void sendEmail(String text, String subject) {
 		if (configurationGateway.getCurrent() == null)
 			init();
-		sendMail(text,subject,configurationGateway.getCurrent().getTargetMail());
+		sendEmail(text,subject,configurationGateway.getCurrent().getTargetMail());
 	}
 
 	private void init() {

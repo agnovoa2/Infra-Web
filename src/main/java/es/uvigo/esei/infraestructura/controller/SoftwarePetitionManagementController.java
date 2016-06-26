@@ -9,14 +9,14 @@ import javax.inject.Inject;
 import es.uvigo.esei.infraestructura.entities.Subject;
 import es.uvigo.esei.infraestructura.entities.User;
 import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 
 @ViewScoped
 @ManagedBean(name = "softwarePetitionManagement")
 public class SoftwarePetitionManagementController {
 	
 	@Inject
-	Mail mail;
+	Email mail;
 	
 	@Inject
 	SubjectGatewayBean subjectGateway;
@@ -40,7 +40,7 @@ public class SoftwarePetitionManagementController {
 		subjectGateway.save();
 		setText(subjectGateway.getCurrent());
 		for(User user: subjectGateway.getCurrent().getUsers()){
-			mail.sendMail(getText(), "[Infraestructura] Confirmada la petición de software para la asignatura" + subjectGateway.getCurrent().getSubjectName(), user.getEmail());
+			mail.sendEmail(getText(), "[Infraestructura] Confirmada la petición de software para la asignatura" + subjectGateway.getCurrent().getSubjectName(), user.getEmail());
 		}
 	}
 

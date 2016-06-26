@@ -7,7 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 
 import com.itextpdf.text.BaseColor;
@@ -23,7 +23,7 @@ import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 import es.uvigo.esei.infraestructura.entities.ConsumablePetitionRow;
 
 @Default
-@Singleton
+@Stateless 
 public class Report {
 	
 	private Document document;

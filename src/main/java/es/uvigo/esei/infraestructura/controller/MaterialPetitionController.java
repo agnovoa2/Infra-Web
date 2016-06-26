@@ -20,7 +20,7 @@ import es.uvigo.esei.infraestructura.facade.MaterialGatewayBean;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.MaterialPetitionRowGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 
 @ViewScoped
 @ManagedBean(name = "materialPetition")
@@ -42,7 +42,7 @@ public class MaterialPetitionController {
 	private MaterialPetitionRowGatewayBean materialPetitionRowGateway;
 
 	@Inject
-	private Mail mail;
+	private Email mail;
 
 	private int id;
 	private int quantity;
@@ -114,7 +114,7 @@ public class MaterialPetitionController {
 			} else {
 				materialPetitionGateway.save();
 				setTextMessage();
-				mail.sendMail(textMessage, "Nueva petición de material");
+				mail.sendEmail(textMessage, "Nueva petición de material");
 				error = false;
 				success = true;
 				message = "Petición realizada con éxito";

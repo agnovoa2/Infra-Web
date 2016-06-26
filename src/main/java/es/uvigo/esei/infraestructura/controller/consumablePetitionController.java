@@ -24,7 +24,7 @@ import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionRowGatewayBean;
 import es.uvigo.esei.infraestructura.facade.PrinterGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 import es.uvigo.esei.infraestructura.util.Report;
 
 @ViewScoped
@@ -50,7 +50,7 @@ public class ConsumablePetitionController {
 	private ConsumablePetitionRowGatewayBean petitionRowGateway;
 
 	@Inject
-	private Mail mail;
+	private Email mail;
 
 	@Inject
 	private Report report;
@@ -135,7 +135,7 @@ public class ConsumablePetitionController {
 					petitionRowGateway.save();
 				}*/
 
-				mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
+				mail.sendEmail(getTextMessage(), "[Infraestructura] Nueva petición de consumibles");
 				report.doSolicitudePDF(petition);
 				error = false;
 				success = true;

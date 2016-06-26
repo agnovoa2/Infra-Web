@@ -125,7 +125,7 @@ public class LoginController {
 		return userGateway.find(currentUser.getName()).getRole().toString();
 	}
 
-	public boolean ldapLogin(HttpServletRequest request) throws UserAlreadyExistsException {
+	private boolean ldapLogin(HttpServletRequest request) throws UserAlreadyExistsException {
 		try {
 			env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 			String security = "";

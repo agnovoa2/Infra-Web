@@ -19,7 +19,7 @@ import es.uvigo.esei.infraestructura.entities.Software;
 import es.uvigo.esei.infraestructura.facade.SoftwareGatewayBean;
 import es.uvigo.esei.infraestructura.facade.SubjectGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 
 @ViewScoped
 @ManagedBean(name = "softwarePetition")
@@ -38,7 +38,7 @@ public class SoftwarePetitionController {
 	private SubjectGatewayBean subjectGateway;
 
 	@Inject
-	private Mail mail;
+	private Email mail;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 
@@ -144,7 +144,7 @@ public class SoftwarePetitionController {
 			subjectGateway.getCurrent().setDescription(getDescription());
 			subjectGateway.save();
 			setTextMessage();
-			mail.sendMail(getTextMessage(), "[Infraestructura] Nueva petición de software");
+			mail.sendEmail(getTextMessage(), "[Infraestructura] Nueva petición de software");
 			FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
 		} else {
 			FacesContext.getCurrentInstance().getExternalContext()

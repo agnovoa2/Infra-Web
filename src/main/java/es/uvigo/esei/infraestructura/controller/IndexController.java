@@ -74,7 +74,7 @@ public class IndexController {
 		FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 	}
 
-	public void doRemovematerialPetition(int id) throws IOException {
+	public void doRemoveMaterialPetition(int id) throws IOException {
 		materialPetitionGateway.find(id);
 		for (MaterialPetitionRow petitionRow : materialPetitionGateway.getCurrent().getPetitionRows()) {
 			materialGateway.find(petitionRow.getMaterial().getId());

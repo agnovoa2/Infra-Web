@@ -12,7 +12,7 @@ import com.itextpdf.text.DocumentException;
 
 import es.uvigo.esei.infraestructura.entities.ConsumablePetition;
 import es.uvigo.esei.infraestructura.facade.ConsumablePetitionGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 import es.uvigo.esei.infraestructura.util.Report;
 
 @ViewScoped
@@ -23,7 +23,7 @@ public class ConsumablePetitionManagementController {
 	Report report;
 
 	@Inject
-	Mail mail;
+	Email mail;
 	
 	@Inject
 	ConsumablePetitionGatewayBean consumablePetitionGateway;
@@ -37,7 +37,7 @@ public class ConsumablePetitionManagementController {
 			consumablePetitionGateway.save();
 			report.doRetrievePDF(consumablePetitionGateway.getCurrent());
 			setTextMessage();
-			mail.sendMail(textMessage, "[Infraestructura] petición de consumibles aceptada", consumablePetitionGateway.getCurrent().getUser().getEmail());
+			mail.sendEmail(textMessage, "[Infraestructura] petición de consumibles aceptada", consumablePetitionGateway.getCurrent().getUser().getEmail());
 		} catch (MalformedURLException e) {
 		} catch (DocumentException e) {
 		} catch (IOException e) {

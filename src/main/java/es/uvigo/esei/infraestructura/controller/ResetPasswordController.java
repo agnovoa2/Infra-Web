@@ -7,17 +7,17 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 
 @ViewScoped
-@ManagedBean(name = "rememberPassword")
-public class RememberPasswordController {
+@ManagedBean(name = "resetPassword")
+public class ResetPasswordController {
 
 	@Inject
 	private UserGatewayBean userGateway;
 
 	@Inject
-	private Mail mail;
+	private Email mail;
 
 	private String login;
 	private String message;
@@ -32,7 +32,7 @@ public class RememberPasswordController {
 			userGateway.getCurrent().setPassword(password);
 			userGateway.save();
 			setTextMessage(password);
-			mail.sendMail(textMessage, "Restablecimiento de contraseña", userGateway.getCurrent().getEmail());
+			mail.sendEmail(textMessage, "Restablecimiento de contraseña", userGateway.getCurrent().getEmail());
 			success = true;
 			error = false;
 			message ="Se ha enviado un correo con la nueva contraseña.";

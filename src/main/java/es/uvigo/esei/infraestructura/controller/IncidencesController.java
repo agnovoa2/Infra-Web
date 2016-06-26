@@ -23,7 +23,7 @@ import es.uvigo.esei.infraestructura.exception.EmptyIncidenceException;
 import es.uvigo.esei.infraestructura.facade.ComputerGatewayBean;
 import es.uvigo.esei.infraestructura.facade.IncidenceGatewayBean;
 import es.uvigo.esei.infraestructura.facade.UserGatewayBean;
-import es.uvigo.esei.infraestructura.util.Mail;
+import es.uvigo.esei.infraestructura.util.Email;
 
 @ViewScoped
 @ManagedBean(name = "incidences")
@@ -42,7 +42,7 @@ public class IncidencesController {
 	private UserGatewayBean userGateway;
 
 	@Inject
-	private Mail mail;
+	private Email mail;
 
 	private ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 	
@@ -161,7 +161,7 @@ public class IncidencesController {
 			userGateway.save();
 			computerGateway.save();
 			setTextMessage();
-			mail.sendMail(textMessage, "[Infraestructura] Nueva incidencia en " + getLaboratory());
+			mail.sendEmail(textMessage, "[Infraestructura] Nueva incidencia en " + getLaboratory());
 			context.redirect("incidences.xhtml?lab="+laboratory+"&success=true");
 		} catch (EmptyIncidenceException e) {
 			error = true;
@@ -294,7 +294,7 @@ public class IncidencesController {
 				.getAllComputerUnsolvedIncidences(computerGateway.getCurrent())) {
 			incidence.setState(2);
 			setTextClose();
-			mail.sendMail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
+			mail.sendEmail(getTextMessage(), "[Infraestructura] Cierre de incidencia", incidence.getUser().getEmail());
 		}
 		incidenceGateway.save();
 		computerGateway.getCurrent().setState(State.OK);
