@@ -95,7 +95,24 @@ public class IncidencesController {
 			case "aula 3.2":
 				fillArray(1);
 				break;
-			// TODO faltan mirar los labs 37 38 39 30A 30B 31A
+			case "laboratorio 37":
+				fillArray(26);
+				break;
+			case "laboratorio 38":
+				fillArray(33);
+				break;
+			case "laboratorio 39":
+				fillArray(25);
+				break;
+			case "laboratorio 30a":
+				fillArray(29);
+				break;
+			case "laboratorio 31a":
+				fillArray(29);
+				break;
+			case "laboratorio 31b":
+				fillArray(25);
+				break;
 			}
 		}
 
@@ -245,7 +262,7 @@ public class IncidencesController {
 				&& !laboratory.toLowerCase().equals("aula 3.1")
 				&& !laboratory.toLowerCase().equals("aula 3.2")
 				&& !laboratory.toLowerCase().equals("laboratorio 30a")
-				&& !laboratory.toLowerCase().equals("laboratorio 30b")
+				&& !laboratory.toLowerCase().equals("laboratorio 31b")
 				&& !laboratory.toLowerCase().equals("laboratorio 31a")
 				&& !laboratory.toLowerCase().equals("laboratorio 37")
 				&& !laboratory.toLowerCase().equals("laboratorio 38")
@@ -255,7 +272,7 @@ public class IncidencesController {
 	}
 
 	public void setTextClose() {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n"
 				+ "Se ha solucionado la incidencia reportada sobre el ordenador "
 				+ computerGateway.getCurrent().getLabelNum() + " en " + getLaboratory() + "\n"
 				+ "Le agradecemos la molestia de reportar dicha incidencia \n"
@@ -268,7 +285,7 @@ public class IncidencesController {
 		Date date = new Date();
 		dateFormat.format(date);
 
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n"
 				+ "El usuario " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
 				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ new java.sql.Date(date.getTime()) + " la siguiente incidencia en el ordenador número " + labelNum

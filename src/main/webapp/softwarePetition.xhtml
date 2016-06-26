@@ -26,6 +26,18 @@
 				<i class="fa fa-tv" /> Petición de software para
 				#{softwarePetition.subject}
 			</h1>
+			<h:panelGroup id="error">
+				<h:panelGroup rendered="#{softwarePetition.error}">
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-ban"></i> !Error!
+						</h4>
+						#{softwarePetition.message}
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="box box-primary">
@@ -71,7 +83,9 @@
 									<div class="box-footer">
 										<h:commandButton class="btn btn-primary pull-right"
 											action="#{softwarePetition.doSoftwarePetition()}"
-											value="Realizar petición" />
+											value="Realizar petición">
+											<f:ajax render="softwares error" />
+										</h:commandButton>
 									</div>
 								</div>
 							</o:form>
@@ -111,7 +125,7 @@
 											class="btn btn-primary pull-right"
 											action="#{softwarePetition.doAddSoftware()}">
 											<f:ajax execute="name type url"
-												render="@form softwares petitionForm" />
+												render="@form softwares petitionForm error" />
 										</h:commandButton>
 									</div>
 								</div>

@@ -161,7 +161,7 @@ public class ConsumablePetitionController {
 	}
 
 	public void setTextMessage(ConsumablePetition petition) {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n" + "El profesor "
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n" + "El profesor "
 				+ userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname() + " "
 				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de " + petition.getPetitionDate()
 				+ " la siguiente petición de consumibles para la impresora de la marca "

@@ -63,7 +63,7 @@ public class MaterialPetitionManagementController {
 	}
 
 	public void setTextMessage() {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n"
 				+ "Su petición de material ha sido aprobada, por favor, pase por el departamento de infraestructura en horario de apertura.\n Un saludo.");
 	}
 }

@@ -48,6 +48,8 @@ public class SoftwarePetitionController {
 	private String code;
 	private String description;
 	private String textMessage;
+	private String message;
+	private boolean error = false;
 
 	@PostConstruct
 	void init() {
@@ -107,8 +109,10 @@ public class SoftwarePetitionController {
 		try {
 			softwareGateway.create(new Software(getSoftware(), getSoftwareType(), getDowloadURL()));
 			softwareGateway.save();
+			error = false;
 		} catch (SQLException e) {
-			context.redirect("softwarePetition.xhtml?code=" + code + "&error=true");
+			error = true;
+			message = "Ya existe ese software en la base de datos.";
 		}
 	}
 
@@ -145,10 +149,11 @@ public class SoftwarePetitionController {
 			subjectGateway.save();
 			setTextMessage();
 			mail.sendEmail(getTextMessage(), "[Infraestructura] Nueva petición de software");
-			FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("professorSubjects.xhtml?success=true");
+			error = false;
 		} else {
-			FacesContext.getCurrentInstance().getExternalContext()
-					.redirect("softwarePetition.xhtml?code=" + code + "&error=true");
+			error = true;
+			message = "No ha seleccionado ningun software para realizar la petición.";
 		}
 	}
 
@@ -169,7 +174,7 @@ public class SoftwarePetitionController {
 		Date date = new Date();
 		dateFormat.format(date);
 
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n" + "El profesor "
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n" + "El profesor "
 				+ userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname() + " "
 				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ new java.sql.Date(date.getTime()) + " la siguiente petición de software para la asignatura "
@@ -184,6 +189,22 @@ public class SoftwarePetitionController {
 
 	public String getTextMessage() {
 		return textMessage;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
 	}
 
 }

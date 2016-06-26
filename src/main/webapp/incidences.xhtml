@@ -16,6 +16,7 @@
 </f:metadata>
 <h:head>
 	<link rel="stylesheet" href="resources/bootstrap/css/7col.css" />
+	<link rel="stylesheet" href="resources/bootstrap/css/8col.css" />
 	<title>Infraestructura ESEI</title>
 </h:head>
 <h:body>
@@ -83,13 +84,13 @@
 										a:title="#{incidences.getPcLabel(num)}" />
 									<f:ajax render="manage manageForm incidence incidenceForm info" />
 								</h:commandLink>
-								<!-- libre acceso -->
+								<!-- libre acceso y lab 39-->
 								<h:panelGroup
-									rendered="#{incidences.laboratory == 'libre acceso'}">
+									rendered="#{incidences.laboratory == 'libre acceso' or incidences.laboratory == 'laboratorio 39'}">
 									<div class="row">
 										<div class="col-xs-12">
 											<ui:repeat var="num" value="#{incidences.auxArray}"
-												rendered="#{incidences.laboratory == 'libre acceso'}">
+												rendered="#{incidences.laboratory == 'libre acceso' or incidences.laboratory == 'laboratorio 39'}">
 												<div class="col-xs-2">
 													<h:commandLink tabindex="#{num.intValue()}"
 														action="#{incidences.doSelectComputer(num.intValue())}">
@@ -122,10 +123,73 @@
 										</div>
 									</div>
 								</h:panelGroup>
-								<!-- sotanos -->
+								<!-- sotanos y labs 31A 30A-->
 								<div class="row seven-cols">
 									<ui:repeat var="num" value="#{incidences.auxArray}"
-										rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' or incidences.laboratory == 's03' or incidences.laboratory == 's04' or incidences.laboratory == 's05' or incidences.laboratory == 's06'}">
+										rendered="#{incidences.laboratory == 's01' or incidences.laboratory == 's02' 
+											or incidences.laboratory == 's03' or incidences.laboratory == 's04' 
+											or incidences.laboratory == 's05' or incidences.laboratory == 's06'
+											or incidences.laboratory == 'laboratorio 31a' or incidences.laboratory == 'laboratorio 30a'}">
+										<div class="col-md-1">
+											<h:commandLink tabindex="#{num.intValue()}"
+												action="#{incidences.doSelectComputer(num.intValue())}">
+												<h:graphicImage value="resources/img/computer_no.png"
+													class="img-responsive" a:onclick="computerFocus($(this))"
+													rendered="#{incidences.isNoPc(num)}" />
+												<h:graphicImage value="resources/img/computer_ok.png"
+													class="img-responsive" rendered="#{incidences.isPcOk(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<h:graphicImage value="resources/img/computer_rep.png"
+													class="img-responsive"
+													rendered="#{incidences.isPcRepair(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<h:graphicImage value="resources/img/computer_warn.png"
+													class="img-responsive"
+													rendered="#{incidences.isHasIncidence(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<f:ajax
+													render="manage manageForm incidence incidenceForm info" />
+											</h:commandLink>
+										</div>
+									</ui:repeat>
+								</div>
+								<!-- labs 37-->
+								<div class="row five-cols">
+									<ui:repeat var="num" value="#{incidences.auxArray}"
+										rendered="#{incidences.laboratory == 'laboratorio 37'}">
+										<div class="col-md-1">
+											<h:commandLink tabindex="#{num.intValue()}"
+												action="#{incidences.doSelectComputer(num.intValue())}">
+												<h:graphicImage value="resources/img/computer_no.png"
+													class="img-responsive" a:onclick="computerFocus($(this))"
+													rendered="#{incidences.isNoPc(num)}" />
+												<h:graphicImage value="resources/img/computer_ok.png"
+													class="img-responsive" rendered="#{incidences.isPcOk(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<h:graphicImage value="resources/img/computer_rep.png"
+													class="img-responsive"
+													rendered="#{incidences.isPcRepair(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<h:graphicImage value="resources/img/computer_warn.png"
+													class="img-responsive"
+													rendered="#{incidences.isHasIncidence(num)}"
+													a:onclick="computerFocus($(this))" a:data-toggle="tooltip"
+													a:title="#{incidences.getPcLabel(num)}" />
+												<f:ajax
+													render="manage manageForm incidence incidenceForm info" />
+											</h:commandLink>
+										</div>
+									</ui:repeat>
+								</div>
+								<!-- labs 38 31B-->
+								<div class="row eight-cols">
+									<ui:repeat var="num" value="#{incidences.auxArray}"
+										rendered="#{incidences.laboratory == 'laboratorio 38' or incidences.laboratory == 'laboratorio 31b'}">
 										<div class="col-md-1">
 											<h:commandLink tabindex="#{num.intValue()}"
 												action="#{incidences.doSelectComputer(num.intValue())}">

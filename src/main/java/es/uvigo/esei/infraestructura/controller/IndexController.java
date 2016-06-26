@@ -103,7 +103,7 @@ public class IndexController {
 		Date date = new Date();
 		dateFormat.format(date);
 
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n"
 				+ "El profesor " + userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname()
 				+ " " + userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de "
 				+ new java.sql.Date(date.getTime()) + " la siguiente petición de software para la asignatura "

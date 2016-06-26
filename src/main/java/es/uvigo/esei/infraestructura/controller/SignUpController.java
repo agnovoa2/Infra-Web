@@ -99,17 +99,14 @@ public class SignUpController {
 			userGateway.create(new User(login,email,getPassword(), getName(), getFirstSurname(), getSecondSurname()));
 			userGateway.getCurrent().setBanned(true);
 			userGateway.save();
-			System.out.println("registrao");
 			context.redirect("login.xhtml?register=true");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (UserAlreadyExistsException e) {
-			System.out.println("ya existe mandingo");
 			message = "Ya existe ese usuario.";
 			error = true;
 		} catch (Exception e){
-			System.out.println("ya existe mail");
 			message = "Ya existe ese email.";
 			error = true;
 		}

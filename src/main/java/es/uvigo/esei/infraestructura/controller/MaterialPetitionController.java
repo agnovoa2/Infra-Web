@@ -105,7 +105,6 @@ public class MaterialPetitionController {
 				materialGateway.save();
 				materialPetitionRowGateway.save();
 				flag = true;
-				System.out.println("algo con más de 0");
 			}
 		}
 		try {
@@ -127,7 +126,7 @@ public class MaterialPetitionController {
 	}
 
 	public void setTextMessage() {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n" + "El usuario "
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n" + "El usuario "
 				+ userGateway.getCurrent().getName() + " " + userGateway.getCurrent().getFirstSurname() + " "
 				+ userGateway.getCurrent().getSecondSurname() + " ha realizado a fecha de " + petition.getPetitionDate()
 				+ " la siguiente petición de materiales.\n" + " \n");

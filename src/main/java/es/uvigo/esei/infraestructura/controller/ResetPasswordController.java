@@ -49,7 +49,6 @@ public class ResetPasswordController {
 		for (int i = 0; i < 6; i++) {
 			toRet += (char) (r.nextInt(26) + 'a');
 		}
-		System.out.println(toRet);
 		return toRet;
 	}
 
@@ -86,7 +85,7 @@ public class ResetPasswordController {
 	}
 
 	public void setTextMessage(String password) {
-		textMessage = ("Este es un mensaje autogenerado de la aplicación [Futuro nombre aqui]\n" + "\n"
+		textMessage = ("Este es un mensaje autogenerado de la aplicación InfraWEB\n" + "\n"
 				+ "La nueva contraseña es: " + password);
 	}
 }
