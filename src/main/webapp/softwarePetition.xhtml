@@ -84,7 +84,7 @@
 										<h:commandButton class="btn btn-primary pull-right"
 											action="#{softwarePetition.doSoftwarePetition()}"
 											value="Realizar petición">
-											<f:ajax render="softwares error" />
+											<f:ajax execute="@form" render="softwares error" />
 										</h:commandButton>
 									</div>
 								</div>

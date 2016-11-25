@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -54,7 +56,9 @@ public class Consumable {
 	@Column(length = 1000, nullable = false)
 	private String description;
 
-	@ManyToMany(mappedBy = "consumables")
+	@ManyToMany
+	@JoinTable(name = "CONS_MODEL", joinColumns = @JoinColumn(name = "consumableId", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "modelId", referencedColumnName = "id"))
 	private List<Model> models;
 
 	@OneToMany(mappedBy = "consumable")
