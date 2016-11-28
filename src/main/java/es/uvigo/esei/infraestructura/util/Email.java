@@ -1,11 +1,14 @@
 package es.uvigo.esei.infraestructura.util;
 
-import javax.annotation.Resource;
+import java.util.Properties;
+
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.mail.Message;
-import javax.mail.MessagingException;import javax.mail.Session;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -19,7 +22,7 @@ public class Email {
 	@Inject
 	private ConfigurationGatewayBean configurationGateway;
 	
-	@Resource(name = "java:jboss/mail/gmail")
+	private Properties props;
 	private Session session;
 
 	public void sendEmail(String text, String subject, String destination) {
@@ -46,7 +49,7 @@ public class Email {
 	}
 
 	private void init() {
-		configurationGateway.find();/*
+		configurationGateway.find();
 		props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 	    props.put("mail.smtp.socketFactory.port", "465");
@@ -60,6 +63,6 @@ public class Email {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(configurationGateway.getCurrent().getMail(), configurationGateway.getCurrent().getPasswordMail());
 			}
-		});*/
+		});
 	}
 }
